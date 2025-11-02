@@ -1769,10 +1769,15 @@ class BAD:
         print("Process end")
         print('Computational time OWA [s]: ',(end - start),"start=", start,"end=",end)   
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+
+        if not self.check_orness(w_Seed, w_Grow):
+            self.dlg.lineEdit_OWA.setVisible(True)
+            self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
+        else:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
     
     # function to check the orness of the two selected OWA weights
     def check_orness(self, w_Seed, w_Grow):
