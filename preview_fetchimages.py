@@ -84,12 +84,12 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
                 "evalscript": """
                 function setup() {
                 return {
-                    input: ["B04", "B03", "B02"],
+                    input: ["B02", "B03", "B04"],
                     output: { bands: 3 }
                 };
                 }
                 function evaluatePixel(sample) {
-                return [sample.B04, sample.B03, sample.B02];
+                return [2.5*sample.B04, 2.5*sample.B03, 2.5*sample.B02];
                 }
                 """
             }
