@@ -1501,6 +1501,12 @@ class BAD:
             w[-1]=1
 
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_AND.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_AND.isChecked():
+                w_Grow = w
               
             outputfile = self.dlg.lineEdit_OWA_AND.text()
             
@@ -1535,6 +1541,12 @@ class BAD:
             w[-1]=0.5
             w[-2]=0.5
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_almostAND.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_almostAND.isChecked():
+                w_Grow = w
             
             outputfile = self.dlg.lineEdit_OWA_almostAND.text()
 
@@ -1564,6 +1576,13 @@ class BAD:
             w = np.zeros(n_bands)
             w = np.ones(n_bands)/n_bands
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_AVERAGE.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_AVERAGE.isChecked():
+                w_Grow = w
+
             outputfile = self.dlg.lineEdit_OWA_AVERAGE.text()
 
             if not outputfile:
@@ -1593,6 +1612,13 @@ class BAD:
             w[0]=0.5
             w[1]=0.5
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_almostOR.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_almostOR.isChecked():
+                w_Grow = w
+
             outputfile = self.dlg.lineEdit_OWA_almostOR.text()
 
             if not outputfile:
@@ -1620,6 +1646,13 @@ class BAD:
             w = np.zeros(n_bands)
             w[0]=1
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_OR.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_OR.isChecked():
+                w_Grow = w
+
             outputfile = self.dlg.lineEdit_OWA_OR.text()
 
             if not outputfile:
@@ -1656,6 +1689,13 @@ class BAD:
             
             print("Weights OWA User Choice 1:", w)
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_UserChoice1.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_UserChoice1.isChecked():
+                w_Grow = w
+
             outputfile = self.dlg.lineEdit_OWA_UserChoice1.text()
 
             if not outputfile:
@@ -1692,6 +1732,13 @@ class BAD:
                     
             print("Weights OWA User Choice 2:", w)
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+
+            # Save weights to compute orness
+            if self.dlg.radioButton_OWA_S_UserChoice2.isChecked():
+                w_Seed = w
+            if self.dlg.radioButton_OWA_G_UserChoice2.isChecked():
+                w_Grow = w
+            
             outputfile = self.dlg.lineEdit_OWA_UserChoice2.text()
 
             if not outputfile:
@@ -1710,6 +1757,9 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
+        
+        if not self.check_orness(w_Seed, w_Grow):
+            self.dlg.lineEdit_OWA.setVisible(True)
 
         self.update_progress(100)
         self.hide_progress_bar()   
@@ -1721,6 +1771,17 @@ class BAD:
         self.ui = Ui_Message()
         self.ui.setupUi(self.window)
         self.window.show()
+    
+    # function to check the orness of the two selected OWA weights
+    def check_orness(self, w_Seed, w_Grow):
+
+        orness_Seed = np.sum(w_Seed*(len(w_Seed)-1))/(len(w_Seed)-1)
+        orness_Grow = np.sum(w_Grow*(len(w_Grow)-1))/(len(w_Grow)-1)
+        print("OWA orness seed and grow:", orness_Seed, orness_Grow)
+        if orness_Seed < orness_Grow:
+            return True
+        else:
+            return False
 ###################################################################################################
 ###################################################################################################
 ###################################################################################################

@@ -205,6 +205,8 @@ class OrderedWeigthAverage:
         Row=FinalBandMatix.shape[1]
         Column=FinalBandMatix.shape[2]
         self.Integrated_matrix=np.empty([Row,Column])
+        w_Seed = 0
+        w_Grow = 0
 
         #AND
         if index==1:
@@ -252,10 +254,7 @@ class OrderedWeigthAverage:
                 self.Integrated_matrix[i,j]=value
         self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
 
-        orness = np.sum(w*(len(w)-1))/(len(w)-1)
-        #self.lineEdit_OWA.setVisible(True)
-        print("OWA orness:", orness)
-
+        
 class WriteLayer:
     def __init__(self,index,path,Matrix,NameBands,Nband,Xsize,Ysize,filename,gt,proj):
     
