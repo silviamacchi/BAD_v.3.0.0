@@ -1760,6 +1760,8 @@ class BAD:
         
         if not self.check_orness(w_Seed, w_Grow):
             self.dlg.lineEdit_OWA.setVisible(True)
+            self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
+            
 
         self.update_progress(100)
         self.hide_progress_bar()   
