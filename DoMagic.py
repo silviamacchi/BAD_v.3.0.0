@@ -209,93 +209,53 @@ class OrderedWeigthAverage:
         #AND
         if index==1:
             self.filename="OWA_AND.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j]
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=min(vector)
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #almost AND
         if index==2:
             self.filename="OWA_almostAND.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j]
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=(np.sort(vector)[-1]+np.sort(vector)[-2])/2
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #AVERAGE
         if index==3:
             self.filename="OWA_AVERAGE.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j]
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=np.mean(vector)
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #almost OR:
         if index==4:
             self.filename="OWA_almostOR.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j]
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=(np.sort(vector)[0]+np.sort(vector)[1])/2
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #OR
         if index==5:      
             self.filename="OWA_OR.tif" 
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j]
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=max(vector)
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #UserChoice1
         if index==6:
             self.filename="OWA_UserChoice1.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j] 
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=np.dot(np.sort(vector),w)
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
 
         #UserChoice2
         if index==7:
             self.filename="OWA_UserChoice2.tif"
-            for i in range (Row):
-                for j in range (Column):
-                    vector=FinalBandMatix[:,i,j] 
-                    if (np.isnan(vector).any()):
-                        value=np.nan
-                    else:
-                        value=np.dot(np.sort(vector),w)
-                    self.Integrated_matrix[i,j]=value
-            self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+            self.get_value(Row,Column,FinalBandMatix,w)
+
+    def get_value(self,Row,Column,FinalBandMatix,w):
+        for i in range (Row):
+            for j in range (Column):
+                vector=FinalBandMatix[:,i,j] 
+                if (np.isnan(vector).any()):
+                    value=np.nan
+                else:
+                    value=np.dot(np.sort(vector),w)
+                self.Integrated_matrix[i,j]=value
+        self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
+
+        orness = np.sum(w*(len(w)-1))/(len(w)-1)
+        #self.lineEdit_OWA.setVisible(True)
+        print("OWA orness:", orness)
+
 class WriteLayer:
     def __init__(self,index,path,Matrix,NameBands,Nband,Xsize,Ysize,filename,gt,proj):
     

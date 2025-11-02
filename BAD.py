@@ -1411,6 +1411,8 @@ class BAD:
         Xsize=self.FinalBandMatix.shape[2]
         Ysize=self.FinalBandMatix.shape[1]
 
+        self.dlg.Nband = int(Nband) # save Nband for OWA use in parameters window
+
         MD_outputfile = self.dlg.lineEdit_MD.text()
         
         if not MD_outputfile:
@@ -1444,60 +1446,7 @@ class BAD:
 ###################################################################################################
 ###################################################################################################
 #  This part of the script contains the code about OWA computation
-
-    def add_spinbox1(self):
-
-        count = self.dlg.count_max1
-        n_bands = self.FinalBandMatix.shape[0]
-        if count==0 and n_bands>2:
-            self.dlg.doubleSpinBox_OWA_max12.setVisible(True)
-            self.dlg.count_max1 = count + 1
-        if count==1 and n_bands>4:
-            self.dlg.doubleSpinBox_OWA_max13.setVisible(True)
-            self.dlg.count_max1 = count + 1
-        if (count + 1 > 2) or (n_bands<=4 and count==1) or (n_bands<=2 and count==0):
-            self.dlg.pushButton_OWA_max1.setEnabled(False)
-
-    def add_spinbox2(self):
-
-        count = self.dlg.count_max2
-        n_bands = self.FinalBandMatix.shape[0]
-        if count==0 and n_bands>2:
-            self.dlg.doubleSpinBox_OWA_max22.setVisible(True)
-            self.dlg.count_max2 = count + 1
-        if count==1 and n_bands>4:
-            self.dlg.doubleSpinBox_OWA_max23.setVisible(True)
-            self.dlg.count_max2 = count + 1
-        if (count + 1 > 2) or (n_bands<=4 and count==1) or (n_bands<=2 and count==0):
-            self.dlg.pushButton_OWA_max2.setEnabled(False)
-
-    def add_spinbox3(self):
-
-        count = self.dlg.count_min1
-        n_bands = self.FinalBandMatix.shape[0]
-
-        if count==0 and n_bands>3:
-            self.dlg.doubleSpinBox_OWA_min12.setVisible(True)
-            self.dlg.count_min1 = count + 1
-        if count==1 and n_bands>5:
-            self.dlg.doubleSpinBox_OWA_min13.setVisible(True)
-            self.dlg.count_min1 = count + 1
-        if (count + 1 > 2) or (n_bands<=5 and count==1) or (n_bands<=3 and count==0):
-            self.dlg.pushButton_OWA_min1.setEnabled(False)
-
-    def add_spinbox4(self):
-
-        count = self.dlg.count_min2
-        n_bands = self.FinalBandMatix.shape[0]
-
-        if count==0 and n_bands>3:
-            self.dlg.doubleSpinBox_OWA_min22.setVisible(True)
-            self.dlg.count_min2 = count + 1
-        if count==1 and n_bands>5:
-            self.dlg.doubleSpinBox_OWA_min23.setVisible(True)
-            self.dlg.count_min2 = count + 1
-        if (count + 1 > 2) or (n_bands<=5 and count==1) or (n_bands<=3 and count==0):
-            self.dlg.pushButton_OWA_min2.setEnabled(False)
+   
 
 #  The process is executed when the button "COMPUTE OWA" is clicked
     def ComputeOWA(self):   
@@ -1546,7 +1495,12 @@ class BAD:
             self.dlg.radioButton_OWA_G_AND.isChecked():
 
             OWA_index=1
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix)
+            n_bands=self.FinalBandMatix.shape[0]
+            
+            w = np.zeros(n_bands)
+            w[-1]=1
+
+            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
               
             outputfile = self.dlg.lineEdit_OWA_AND.text()
             
@@ -1575,7 +1529,12 @@ class BAD:
             self.dlg.radioButton_OWA_G_almostAND.isChecked():
 
             OWA_index=2
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix)
+            n_bands=self.FinalBandMatix.shape[0]
+            
+            w = np.zeros(n_bands)
+            w[-1]=0.5
+            w[-2]=0.5
+            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             
             outputfile = self.dlg.lineEdit_OWA_almostAND.text()
 
@@ -1600,7 +1559,11 @@ class BAD:
         if self.dlg.checkBox_OWA_AVERAGE.isChecked() or self.dlg.radioButton_OWA_S_AVERAGE.isChecked() or \
             self.dlg.radioButton_OWA_G_AVERAGE.isChecked():
             OWA_index=3
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix)
+            n_bands=self.FinalBandMatix.shape[0]
+            
+            w = np.zeros(n_bands)
+            w = np.ones(n_bands)/n_bands
+            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             outputfile = self.dlg.lineEdit_OWA_AVERAGE.text()
 
             if not outputfile:
@@ -1624,7 +1587,12 @@ class BAD:
         if self.dlg.checkBox_OWA_almostOR.isChecked() or self.dlg.radioButton_OWA_S_almostOR.isChecked() or \
             self.dlg.radioButton_OWA_G_almostOR.isChecked():
             OWA_index=4
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix)
+            n_bands=self.FinalBandMatix.shape[0]
+            
+            w = np.zeros(n_bands)
+            w[0]=0.5
+            w[1]=0.5
+            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             outputfile = self.dlg.lineEdit_OWA_almostOR.text()
 
             if not outputfile:
@@ -1648,7 +1616,10 @@ class BAD:
         if self.dlg.checkBox_OWA_OR.isChecked() or self.dlg.radioButton_OWA_S_OR.isChecked() or \
             self.dlg.radioButton_OWA_G_OR.isChecked():
             OWA_index=5
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix)
+            n_bands=self.FinalBandMatix.shape[0]
+            w = np.zeros(n_bands)
+            w[0]=1
+            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             outputfile = self.dlg.lineEdit_OWA_OR.text()
 
             if not outputfile:
@@ -1673,22 +1644,16 @@ class BAD:
         if self.dlg.checkBox_OWA_UserChoice1.isChecked() or self.dlg.radioButton_OWA_S_UserChoice1.isChecked() or \
             self.dlg.radioButton_OWA_G_UserChoice1.isChecked():
             OWA_index=6
-
-            ## Get user weights
             n_bands=self.FinalBandMatix.shape[0]
+            
             w = np.zeros(n_bands)
-            w[0] = self.dlg.doubleSpinBox_OWA_max11.value()
-            if n_bands>2:
-                w[1] = self.dlg.doubleSpinBox_OWA_max12.value()
-            if n_bands>4:
-                w[2] = self.dlg.doubleSpinBox_OWA_max13.value()
-            if n_bands>1:
-                w[-1] = self.dlg.doubleSpinBox_OWA_min11.value()
-            if n_bands>3:
-                w[-2] = self.dlg.doubleSpinBox_OWA_min12.value()
-            if n_bands>5:
-                w[-3] = self.dlg.doubleSpinBox_OWA_min13.value()
-            w = w / w.sum()
+            a = int(self.dlg.lineEdit_OWA_a_UC1.text())
+            b = int(self.dlg.lineEdit_OWA_b_UC1.text())
+            slope =1 if b==a else 1/(b-a) #slope of the linear function
+            for i in range(n_bands): #i starts from 0 to n_bands-1
+                if i >= a and i < b: 
+                    w[i] = slope 
+            
             print("Weights OWA User Choice 1:", w)
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             outputfile = self.dlg.lineEdit_OWA_UserChoice1.text()
@@ -1716,20 +1681,15 @@ class BAD:
             self.dlg.radioButton_OWA_G_UserChoice2.isChecked():
             OWA_index=7
             n_bands=self.FinalBandMatix.shape[0]
-
+ 
             w = np.zeros(n_bands)
-            w[0] = self.dlg.doubleSpinBox_OWA_max21.value()
-            if n_bands>2:
-                w[1] = self.dlg.doubleSpinBox_OWA_max22.value()
-            if n_bands>4:
-                w[2] = self.dlg.doubleSpinBox_OWA_max23.value()
-            if n_bands>1:
-                w[-1] = self.dlg.doubleSpinBox_OWA_min21.value()
-            if n_bands>3:
-                w[-2] = self.dlg.doubleSpinBox_OWA_min22.value()
-            if n_bands>5:
-                w[-3] = self.dlg.doubleSpinBox_OWA_min23.value()
-            w = w / w.sum()
+            a = int(self.dlg.lineEdit_OWA_a_UC2.text())
+            b = int(self.dlg.lineEdit_OWA_b_UC2.text())
+            slope =1 if b==a else 1/(b-a) #slope of the linear function
+            for i in range(n_bands):
+                if i >= a and i < b:
+                    w[i] = slope
+                    
             print("Weights OWA User Choice 2:", w)
             OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
             outputfile = self.dlg.lineEdit_OWA_UserChoice2.text()
@@ -2511,26 +2471,18 @@ class BAD:
             self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
             self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
             
+            # save NBand for OWA use in parameters window
+            self.dlg.Nband=None
             #self.dlg.pushButton_Error.clicked.connect(self.test)
             self.dlg.toolButton_Feature.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_Feature))
             self.dlg.toolButton_MD.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_MD))
             
-            self.dlg.doubleSpinBox_OWA_max12.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_max22.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_max13.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_max23.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_min12.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_min22.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_min13.setVisible(False)
-            self.dlg.doubleSpinBox_OWA_min23.setVisible(False)
-            self.dlg.pushButton_OWA_max1.clicked.connect(self.add_spinbox1)
-            self.dlg.pushButton_OWA_max2.clicked.connect(self.add_spinbox2)
-            self.dlg.pushButton_OWA_min1.clicked.connect(self.add_spinbox3)
-            self.dlg.pushButton_OWA_min2.clicked.connect(self.add_spinbox4)
-            self.dlg.count_max1=0
-            self.dlg.count_max2=0
-            self.dlg.count_min1=0
-            self.dlg.count_min2=0
+            self.dlg.lineEdit_OWA.setVisible(False)
+            #set parameters for OWA user selection only in Read mode
+            self.dlg.lineEdit_OWA_a_UC1.setReadOnly(True)
+            self.dlg.lineEdit_OWA_a_UC2.setReadOnly(True)
+            self.dlg.lineEdit_OWA_b_UC1.setReadOnly(True)   
+            self.dlg.lineEdit_OWA_b_UC2.setReadOnly(True)
 
             self.dlg.toolButton_OWA_AND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AND))
             self.dlg.toolButton_OWA_almostAND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_almostAND))

@@ -28,6 +28,7 @@ from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 from .preview_window import PreviewWindow
 from .preview_fetchimages import PreviewFetchImages
+from .owa_parameters_window import OwaParametersWindow
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -48,6 +49,10 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         self.Preview_FI_pre.clicked.connect(self.open_preview_fetchimages_pre)
         self.Preview_FI_post.clicked.connect(self.open_preview_fetchimages_post)
+
+        self.pushButton_parameters_UC1.clicked.connect(self.open_owa_parameters_UC1_window)
+        self.pushButton_parameters_UC2.clicked.connect(self.open_owa_parameters_UC2_window)
+
 
     def open_preview_window(self):
         self.preview_dialog = PreviewWindow(self)
@@ -78,5 +83,25 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
             # Open preview with the selected image name
             self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, time=time, user=user, password=password)
             self.preview_dialog.show()
+
+    def open_owa_parameters_UC1_window(self):
+        if not self.Nband:
+            self.Nband = 7  # Default value if Nband is not computed
+        self.preview_dialog = OwaParametersWindow(int(self.Nband))
+        self.pushButton_parameters_UC1.setEnabled(False)
+        if self.preview_dialog.exec_():
+            self.lineEdit_OWA_a_UC1.setText(str(self.preview_dialog.result[0]))
+            self.lineEdit_OWA_b_UC1.setText(str(self.preview_dialog.result[1]))
+            self.pushButton_parameters_UC1.setEnabled(True)
+
+    def open_owa_parameters_UC2_window(self):
+        if not self.Nband:
+            self.Nband = 7  # Default value if Nband is not computed
+        self.preview_dialog = OwaParametersWindow(int(self.Nband))
+        self.pushButton_parameters_UC2.setEnabled(False)
+        if self.preview_dialog.exec_():
+            self.lineEdit_OWA_a_UC2.setText(str(self.preview_dialog.result[0]))
+            self.lineEdit_OWA_b_UC2.setText(str(self.preview_dialog.result[1]))
+            self.pushButton_parameters_UC2.setEnabled(True)
 
  

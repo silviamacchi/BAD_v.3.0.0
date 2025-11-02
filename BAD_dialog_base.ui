@@ -182,7 +182,7 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>5</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -2424,7 +2424,7 @@
           <string notr="true">background-color: rgb(252, 252, 252);</string>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_1">
           <property name="geometry">
@@ -3469,8 +3469,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>98</width>
-            <height>28</height>
+            <width>951</width>
+            <height>418</height>
            </rect>
           </property>
           <attribute name="label">
@@ -3607,10 +3607,102 @@
               </item>
              </layout>
             </item>
-            <item row="1" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_85">
+            <item row="0" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_82">
               <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B1">
+               <spacer name="horizontalSpacer_150">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>260</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_101">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                  <underline>false</underline>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>K</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_151">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>120</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_104">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Xo</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_156">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>30</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item row="11" column="0">
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="6" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_90">
+              <item>
+               <widget class="QCheckBox" name="checkBox_FAP_B8A">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3623,20 +3715,17 @@
                 <property name="checked">
                  <bool>false</bool>
                 </property>
-                <property name="tristate">
-                 <bool>false</bool>
-                </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_105">
+               <widget class="QLabel" name="label_110">
                 <property name="text">
-                 <string>Post Aereosol</string>
+                 <string>Post RedEdge (band8A)</string>
                 </property>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_157">
+               <spacer name="horizontalSpacer_167">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -3645,14 +3734,14 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>70</width>
+                  <width>40</width>
                   <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_K">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_K">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3686,7 +3775,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_158">
+               <spacer name="horizontalSpacer_168">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -3702,10 +3791,10 @@
                </spacer>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_x">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_x">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>85</horstretch>
+                  <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
@@ -3731,10 +3820,10 @@
               </item>
              </layout>
             </item>
-            <item row="5" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_89">
+            <item row="8" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_92">
               <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B5">
+               <widget class="QCheckBox" name="checkBox_FAP_B10">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3750,14 +3839,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_109">
+               <widget class="QLabel" name="label_112">
                 <property name="text">
-                 <string>Post RedEdge (band5)</string>
+                 <string>Post SWIR Cirrus</string>
                 </property>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_165">
+               <spacer name="horizontalSpacer_171">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -3766,14 +3855,14 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>60</width>
+                  <width>45</width>
                   <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_K">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B10_K">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3807,7 +3896,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_166">
+               <spacer name="horizontalSpacer_172">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -3823,7 +3912,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_x">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B10_x">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3979,10 +4068,10 @@
               </item>
              </layout>
             </item>
-            <item row="8" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_92">
+            <item row="10" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_94">
               <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B10">
+               <widget class="QCheckBox" name="checkBox_FAP_B12">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -3998,14 +4087,30 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_112">
+               <widget class="QLabel" name="label_114">
                 <property name="text">
-                 <string>Post SWIR Cirrus</string>
+                 <string>Post SWIR (band12)</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B10_K">
+               <spacer name="horizontalSpacer_175">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>45</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_K">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -4039,10 +4144,526 @@
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B10_x">
+               <spacer name="horizontalSpacer_176">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_x">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>85</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="9" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_93">
+              <item>
+               <widget class="QCheckBox" name="checkBox_FAP_B11">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_113">
+                <property name="text">
+                 <string>Post SWIR (band11)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_173">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>45</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_K">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>86</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-999.999000000000024</double>
+                </property>
+                <property name="maximum">
+                 <double>999.999000000000024</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+                <property name="stepType">
+                 <enum>QAbstractSpinBox::DefaultStepType</enum>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_174">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_x">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>85</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="3" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_87">
+              <item>
+               <widget class="QCheckBox" name="checkBox_FAP_B3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_107">
+                <property name="text">
+                 <string>Post Green</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_161">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>123</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_K">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>86</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-999.999000000000024</double>
+                </property>
+                <property name="maximum">
+                 <double>999.999000000000024</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+                <property name="stepType">
+                 <enum>QAbstractSpinBox::DefaultStepType</enum>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_162">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_x">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>85</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>85</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="5" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_89">
+              <item>
+               <widget class="QCheckBox" name="checkBox_FAP_B5">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_109">
+                <property name="text">
+                 <string>Post RedEdge (band5)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_165">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>60</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_K">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>86</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-999.999000000000024</double>
+                </property>
+                <property name="maximum">
+                 <double>999.999000000000024</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+                <property name="stepType">
+                 <enum>QAbstractSpinBox::DefaultStepType</enum>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_166">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_x">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>85</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-100.000000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="13" column="0">
+             <spacer name="verticalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>180</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_85">
+              <item>
+               <widget class="QCheckBox" name="checkBox_FAP_B1">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+                <property name="tristate">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_105">
+                <property name="text">
+                 <string>Post Aereosol</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_157">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>70</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_K">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>86</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="decimals">
+                 <number>5</number>
+                </property>
+                <property name="minimum">
+                 <double>-999.999000000000024</double>
+                </property>
+                <property name="maximum">
+                 <double>999.999000000000024</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.000010000000000</double>
+                </property>
+                <property name="stepType">
+                 <enum>QAbstractSpinBox::DefaultStepType</enum>
+                </property>
+                <property name="value">
+                 <double>0.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_158">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_x">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>85</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
@@ -4189,601 +4810,12 @@
               </item>
              </layout>
             </item>
-            <item row="0" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_82">
-              <item>
-               <spacer name="horizontalSpacer_150">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>260</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_101">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                  <underline>false</underline>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>K</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_151">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_104">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Xo</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_156">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>30</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item row="6" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_90">
-              <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B8A">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_110">
-                <property name="text">
-                 <string>Post RedEdge (band8A)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_167">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_K">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>86</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-999.999000000000024</double>
-                </property>
-                <property name="maximum">
-                 <double>999.999000000000024</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-                <property name="stepType">
-                 <enum>QAbstractSpinBox::DefaultStepType</enum>
-                </property>
-                <property name="value">
-                 <double>0.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_168">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_x">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>85</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-100.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="10" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_94">
-              <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B12">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_114">
-                <property name="text">
-                 <string>Post SWIR (band12)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_175">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>45</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_K">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>86</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-999.999000000000024</double>
-                </property>
-                <property name="maximum">
-                 <double>999.999000000000024</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-                <property name="stepType">
-                 <enum>QAbstractSpinBox::DefaultStepType</enum>
-                </property>
-                <property name="value">
-                 <double>0.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_176">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_x">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>85</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-100.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
             <item row="12" column="0">
              <widget class="QPushButton" name="pushButton_Features_AP_reset">
               <property name="text">
                <string>Reset</string>
               </property>
              </widget>
-            </item>
-            <item row="9" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_93">
-              <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B11">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_113">
-                <property name="text">
-                 <string>Post SWIR (band11)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_173">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>45</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_K">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>86</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-999.999000000000024</double>
-                </property>
-                <property name="maximum">
-                 <double>999.999000000000024</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-                <property name="stepType">
-                 <enum>QAbstractSpinBox::DefaultStepType</enum>
-                </property>
-                <property name="value">
-                 <double>0.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_174">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_x">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>85</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-100.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="11" column="0">
-             <spacer name="verticalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="3" column="0">
-             <layout class="QHBoxLayout" name="horizontalLayout_87">
-              <item>
-               <widget class="QCheckBox" name="checkBox_FAP_B3">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_107">
-                <property name="text">
-                 <string>Post Green</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_161">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>123</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_K">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>86</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-999.999000000000024</double>
-                </property>
-                <property name="maximum">
-                 <double>999.999000000000024</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-                <property name="stepType">
-                 <enum>QAbstractSpinBox::DefaultStepType</enum>
-                </property>
-                <property name="value">
-                 <double>0.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_162">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_x">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>85</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>85</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="decimals">
-                 <number>5</number>
-                </property>
-                <property name="minimum">
-                 <double>-100.000000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.000010000000000</double>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="13" column="0">
-             <spacer name="verticalSpacer_12">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>180</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </widget>
@@ -6086,178 +6118,72 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_16">
-         <item row="8" column="2">
-          <widget class="QLabel" name="label_45">
-           <property name="text">
-            <string>UserChoice2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="3" rowspan="3">
+         <item row="7" column="3" rowspan="2">
           <layout class="QGridLayout" name="gridLayout_30">
-           <item row="1" column="0">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max11">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_46">
+            <widget class="QPushButton" name="pushButton_parameters_UC1">
              <property name="text">
-              <string>Max</string>
+              <string>Compute parameters</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="6">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min12">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
+           <item row="0" column="3">
+            <widget class="QLineEdit" name="lineEdit_OWA_a_UC1">
+             <property name="enabled">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="2" column="7">
-            <widget class="QPushButton" name="pushButton_OWA_min2">
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_parameters_UC2">
              <property name="text">
-              <string>+</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="8">
-            <widget class="QLabel" name="label_47">
-             <property name="text">
-              <string>Min</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="5">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min23">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
+              <string>Compute parameters</string>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max12">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max23">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pushButton_OWA_max1">
+            <widget class="QLabel" name="label_76">
              <property name="text">
-              <string>+</string>
+              <string>a = </string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="6">
+            <widget class="QLineEdit" name="lineEdit_OWA_b_UC2">
+             <property name="enabled">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item row="1" column="5">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min13">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="7">
-            <widget class="QPushButton" name="pushButton_OWA_min1">
+            <widget class="QLabel" name="label_80">
              <property name="text">
-              <string>+</string>
+              <string>b =</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="6">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min22">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
+           <item row="0" column="6">
+            <widget class="QLineEdit" name="lineEdit_OWA_b_UC1">
+             <property name="enabled">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QPushButton" name="pushButton_OWA_max2">
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_51">
              <property name="text">
-              <string>+</string>
+              <string>a = </string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max21">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
+           <item row="0" column="5">
+            <widget class="QLabel" name="label_79">
+             <property name="text">
+              <string>b = </string>
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max22">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="8">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min21">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="8">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_min11">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_OWA_max13">
-             <property name="decimals">
-              <number>4</number>
-             </property>
-             <property name="singleStep">
-              <double>0.100000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="4" rowspan="2">
+           <item row="0" column="1">
             <spacer name="horizontalSpacer_17">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -6270,7 +6196,21 @@
              </property>
             </spacer>
            </item>
+           <item row="1" column="3">
+            <widget class="QLineEdit" name="lineEdit_OWA_a_UC2">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
           </layout>
+         </item>
+         <item row="8" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_UserChoice2">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </item>
          <item row="1" column="7" rowspan="8">
           <widget class="QFrame" name="frame_OWA_G">
@@ -6358,17 +6298,37 @@
            </layout>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_8">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_almostOR">
            <property name="text">
-            <string>LAYER</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4" rowspan="9">
+          <spacer name="horizontalSpacer_11">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="2">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>OR</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_OR">
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
@@ -6379,10 +6339,10 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label">
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>AND</string>
+            <string>almost AND</string>
            </property>
           </widget>
          </item>
@@ -6399,71 +6359,10 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_9">
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>OPERATOR</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="7">
-          <widget class="QLabel" name="label_7">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>GROW</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QLabel" name="label_14">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>SEED</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_UserChoice2">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_UserChoice1">
-           <property name="text">
-            <string/>
+            <string>AND</string>
            </property>
           </widget>
          </item>
@@ -6550,6 +6449,54 @@
            </layout>
           </widget>
          </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_8">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>LAYER</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLabel" name="label_14">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>SEED</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>OPERATOR</string>
+           </property>
+          </widget>
+         </item>
          <item row="7" column="2">
           <widget class="QLabel" name="label_44">
            <property name="text">
@@ -6570,15 +6517,69 @@
            </property>
           </spacer>
          </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_3">
+         <item row="7" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_UserChoice1">
            <property name="text">
-            <string>almost AND</string>
+            <string/>
            </property>
           </widget>
          </item>
-         <item row="0" column="4" rowspan="9">
-          <spacer name="horizontalSpacer_11">
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_AND">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="autoRepeat">
+            <bool>false</bool>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="checkBox_OWA_AVERAGE">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="2">
+          <widget class="QLabel" name="label_45">
+           <property name="text">
+            <string>UserChoice2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="7">
+          <widget class="QLabel" name="label_7">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>GROW</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>almost OR</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" rowspan="9">
+          <spacer name="horizontalSpacer_14">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -6603,68 +6604,30 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="2">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>OR</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>almost OR</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_AND">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="autoRepeat">
-            <bool>false</bool>
-           </property>
-           <property name="tristate">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" rowspan="9">
-          <spacer name="horizontalSpacer_14">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_OR">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_almostOR">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="checkBox_OWA_AVERAGE">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_OWA">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Orness bond is not satisfied. Please select a correct operators for seed and grow</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_16">
