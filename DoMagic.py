@@ -32,11 +32,11 @@ import pandas as pd
 from pyproj import CRS, Transformer
 import json
 
+
 # Initialize Qt resources from file resources.py
 from .resources import *
-
 class SentinelSearch:
-    def __init__(self,aoi,Start_date,End_date,Cloud,Limit_num):
+    def __init__(self,aoi,Start_date,End_date,Cloud,Limit_num,order):
         
         catalogue_odata_url = "https://catalogue.dataspace.copernicus.eu/odata/v1"
         collection_name = "SENTINEL-2"
@@ -44,7 +44,7 @@ class SentinelSearch:
         search_period_start = f"{Start_date}T00:00:00.000Z"
         search_period_end = f"{End_date}T00:00:00.000Z"
 
-        search_query = f"{catalogue_odata_url}/Products?$filter=Collection/Name eq '{collection_name}' and Attributes/OData.CSC.StringAttribute/any(att:att/Name eq 'productType' and att/OData.CSC.StringAttribute/Value eq '{product_type}') and Attributes/OData.CSC.DoubleAttribute/any(att:att/Name eq 'cloudCover' and att/OData.CSC.DoubleAttribute/Value le {Cloud}) and OData.CSC.Intersects(area=geography'SRID=4326;{aoi}') and ContentDate/Start gt {search_period_start} and ContentDate/Start lt {search_period_end}&$top={Limit_num}&$orderby=ContentDate/Start asc"
+        search_query = f"{catalogue_odata_url}/Products?$filter=Collection/Name eq '{collection_name}' and Attributes/OData.CSC.StringAttribute/any(att:att/Name eq 'productType' and att/OData.CSC.StringAttribute/Value eq '{product_type}') and Attributes/OData.CSC.DoubleAttribute/any(att:att/Name eq 'cloudCover' and att/OData.CSC.DoubleAttribute/Value le {Cloud}) and OData.CSC.Intersects(area=geography'SRID=4326;{aoi}') and ContentDate/Start gt {search_period_start} and ContentDate/Start lt {search_period_end}&$top={Limit_num}&$orderby=ContentDate/Start {order}"
 
         print(f"""\n{search_query.replace(' ', "%20")}\n""")
         response = requests.get(search_query).json()
@@ -75,7 +75,7 @@ def transform_bbox_to_utm(bbox):
         
         return utm_crs_url, utm_bbox_list
 
-def Downloadsh(BBOX,date,output_name,username,password):
+def Downloadsh(BBOX,date,date_start,date_end,output_name,cloud,username,password,choice):
     token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
     token_data = {
         "grant_type": "client_credentials",
@@ -104,7 +104,6 @@ def Downloadsh(BBOX,date,output_name,username,password):
         ]
     }
     }
-
     function evaluatePixel(samples) {
     return [
         samples.B01, samples.B02, samples.B03, samples.B04, samples.B05, samples.B06,
@@ -113,41 +112,82 @@ def Downloadsh(BBOX,date,output_name,username,password):
     ];
     }
     """
-    request_payload = {
-        "input": {
-            "bounds": {
-                "bbox": UTM_BBOX,
-                "properties": {
-                    "crs": UTM_CRS_URL
-                }
+    if choice==1:
+        request_payload = {
+            "input": {
+                "bounds": {
+                    "bbox": UTM_BBOX,
+                    "properties": {
+                        "crs": UTM_CRS_URL
+                    }
+                },
+                "data": [
+                    {
+                        "type": "sentinel-2-l2a",
+                        "dataFilter": {
+                            "timeRange": {
+                                "from": f"{date}T00:00:00Z",
+                                "to": f"{date}T23:59:59Z",
+                            }
+                        },
+                        "maxCloudCoverage": cloud,
+                        "processing": {"harmonizeValues": "false"},
+                    }
+                ],
             },
-            "data": [
-                {
-                    "type": "sentinel-2-l2a",
-                    "dataFilter": {
-                        "timeRange": {
-                            "from": f"{date}T00:00:00Z",
-                            "to": f"{date}T23:59:59Z"
+            "output": {
+                "resx": 10,  
+                "resy": 10,  
+                "crs": UTM_CRS_URL,
+                "responses": [
+                    {
+                        "identifier": "default",
+                        "format": {
+                            "type": "image/tiff"
                         }
                     }
-                }
-            ]
-        },
-        "output": {
-            "resx": 10,  
-            "resy": 10,  
-            "crs": UTM_CRS_URL,
-            "responses": [
-                {
-                    "identifier": "default",
-                    "format": {
-                        "type": "image/tiff"
+                ]
+            },
+            "evalscript": EVALSCRIPT
+        }
+    else:
+        request_payload = {
+            "input": {
+                "bounds": {
+                    "bbox": UTM_BBOX,
+                    "properties": {
+                        "crs": UTM_CRS_URL
                     }
-                }
-            ]
-        },
-        "evalscript": EVALSCRIPT
-    }
+                },
+                "data": [
+                    {
+                        "type": "sentinel-2-l2a",
+                        "dataFilter": {
+                            "timeRange": {
+                                "from": f"{date_start}T00:00:00Z",
+                                "to": f"{date_end}T23:59:59Z",
+                            }
+                        },
+                        "mosaickingOrder": "leastCC",
+                        "processing": {"harmonizeValues": "false"},
+                    }
+                ],
+            },
+            "output": {
+                "resx": 10,  
+                "resy": 10,  
+                "crs": UTM_CRS_URL,
+                "responses": [
+                    {
+                        "identifier": "default",
+                        "format": {
+                            "type": "image/tiff"
+                        }
+                    }
+                ]
+            },
+            "evalscript": EVALSCRIPT
+        }
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {access_token}"
