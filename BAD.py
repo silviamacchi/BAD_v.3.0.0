@@ -801,26 +801,36 @@ class BAD:
 
         Cloud=self.dlg.horizontalSlider_cloud_post.value()
         Limit_num=self.dlg.spinBox_FI_limit_post.value()
-        self.dlg.download_images_post.setRowCount(0)  
+        self.dlg.download_images_post.setRowCount(0) 
 
         self.List_post=SentinelSearch(self.aoi,Start_date,End_date,Cloud,Limit_num,"asc").result
+        
+        self.update_progress(70)
+        d=dict()
         for index, row in self.List_post.iterrows():
-            row_position = self.dlg.download_images_post.rowCount()
-            self.dlg.download_images_post.insertRow(row_position)
-            self.dlg.download_images_post.setItem(row_position, 0, QTableWidgetItem(row['Name']))
             date=row['Name'][11:19]
             date_formatted = f"{date[:4]}-{date[4:6]}-{date[6:]}"
-            self.dlg.download_images_post.setItem(row_position, 1, QTableWidgetItem(date_formatted))
             time_im=row['Name'][20:26]
             time_formatted = f"{time_im[:2]}:{time_im[2:4]}:{time_im[4:]}"
-            self.dlg.download_images_post.setItem(row_position, 2, QTableWidgetItem(time_formatted))
-            self.dlg.download_images_post.setItem(row_position, 3, QTableWidgetItem(row['Name'][38:44]))
-            poly_coords = row['GeoFootprint']['coordinates'][0]
-            footprint = Polygon(poly_coords)
-            intersection = footprint.intersection(aoi_pol)
+            key = f"{date_formatted} {time_formatted}"
+            if key in d:
+                d[key].append(row['Name'])
+            else:
+                d[key] = [row['Name']]
+        for key, names in d.items():
+            row_position = self.dlg.download_images_post.rowCount()
+            self.dlg.download_images_post.insertRow(row_position)
+            self.dlg.download_images_post.setItem(row_position, 0, QTableWidgetItem(key.split()[0]))
+            self.dlg.download_images_post.setItem(row_position, 1, QTableWidgetItem(key.split()[1]))
+            totFootprint=None
+            for name in names:
+                List_post_row = self.List_post[self.List_post['Name'] == name].iloc[0]
+                poly_coords = List_post_row['GeoFootprint']['coordinates'][0]
+                footprint = Polygon(poly_coords)
+                totFootprint = footprint if totFootprint is None else totFootprint.union(footprint)
+            intersection = totFootprint.intersection(aoi_pol)
             coverage_percentage = (intersection.area / aoi_pol.area) * 100
-            print("Coverage percentage:", coverage_percentage)
-            self.dlg.download_images_post.setItem(row_position, 4, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
+            self.dlg.download_images_post.setItem(row_position, 2, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -839,13 +849,15 @@ class BAD:
         self.dlg.pushButton_FI_download_pre.setEnabled(False)
 
         selected_row = self.dlg.download_images_pre.currentRow()
-        #product_identifier = self.List_pre.loc[selected_row, 'Id']
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
-        date=self.dlg.download_images_pre.item(selected_row, 1).text()
+        if self.dlg.last_pre==0:
+            date=None
+        else:
+            date=self.dlg.download_images_pre.item(selected_row, 0).text()
         date_start=self.dlg.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
         date_end=self.dlg.dateEdit_End_pre.date().toString("yyyy-MM-dd")
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
@@ -853,7 +865,7 @@ class BAD:
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password, self.last_pre)
+        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password, self.dlg.last_pre)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -873,7 +885,6 @@ class BAD:
         self.dlg.comboBox_PreRaster.setVisible(True)
         self.dlg.lineEditPreFire.setVisible(False)
         self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        
         self.dlg.comboBox_PreRaster.addItems(["Pre-fire Sentinel-2 Image"])
 
 
@@ -886,13 +897,15 @@ class BAD:
         self.dlg.pushButton_FI_download_post.setEnabled(False)
 
         selected_row = self.dlg.download_images_post.currentRow()
-        #product_identifier = self.List_post.loc[selected_row, 'Id']
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
-        date=self.dlg.download_images_post.item(selected_row, 1).text()
+        if self.dlg.last_post==0:
+            date=None
+        else:
+            date=self.dlg.download_images_post.item(selected_row, 0).text()
         date_start=self.dlg.dateEdit_Start_post.date().toString("yyyy-MM-dd")
         date_end=self.dlg.dateEdit_End_post.date().toString("yyyy-MM-dd")
         cloud=self.dlg.horizontalSlider_cloud_post.value()
@@ -900,7 +913,7 @@ class BAD:
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password)
+        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password, self.dlg.last_post)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():

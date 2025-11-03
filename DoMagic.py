@@ -75,7 +75,7 @@ def transform_bbox_to_utm(bbox):
         
         return utm_crs_url, utm_bbox_list
 
-def Downloadsh(BBOX,date,date_start,date_end,output_name,cloud,username,password,choice):
+def Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password,choice):
     token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
     token_data = {
         "grant_type": "client_credentials",
@@ -105,11 +105,10 @@ def Downloadsh(BBOX,date,date_start,date_end,output_name,cloud,username,password
     }
     }
     function evaluatePixel(samples) {
-    return [
-        samples.B01, samples.B02, samples.B03, samples.B04, samples.B05, samples.B06,
-        samples.B07, samples.B08, samples.B8A, samples.B09, samples.B11, samples.B12,
-        samples.SCL
-    ];
+        return [
+            samples.B01, samples.B02, samples.B03, samples.B04, samples.B05, samples.B06,
+            samples.B07, samples.B08, samples.B8A, samples.B09, samples.B11, samples.B12, samples.SCL
+        ];
     }
     """
     if choice==1:
@@ -150,7 +149,7 @@ def Downloadsh(BBOX,date,date_start,date_end,output_name,cloud,username,password
             },
             "evalscript": EVALSCRIPT
         }
-    else:
+    if choice==0:
         request_payload = {
             "input": {
                 "bounds": {
@@ -169,7 +168,6 @@ def Downloadsh(BBOX,date,date_start,date_end,output_name,cloud,username,password
                             }
                         },
                         "mosaickingOrder": "leastCC",
-                        "processing": {"harmonizeValues": "false"},
                     }
                 ],
             },

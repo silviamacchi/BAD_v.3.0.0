@@ -74,8 +74,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.last_post=1
         selected_row = self.download_images_post.currentRow()
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date=self.download_images_post.item(selected_row, 1).text()  
-        time=self.download_images_post.item(selected_row, 2).text()  
+        date=self.download_images_post.item(selected_row, 0).text()  
+        time=self.download_images_post.item(selected_row, 1).text()  
         user=self.lineEdit_User.text()
         password=self.lineEdit_Password.text()
 
@@ -100,8 +100,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         self.last_post=0
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date_start=self.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
-        date_end=self.dateEdit_End_pre.date().toString("yyyy-MM-dd")
+        date_start=self.dateEdit_Start_post.date().toString("yyyy-MM-dd")
+        date_end=self.dateEdit_End_post.date().toString("yyyy-MM-dd")
         user=self.lineEdit_User.text()
         password=self.lineEdit_Password.text()
 

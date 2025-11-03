@@ -880,7 +880,6 @@
            <attribute name="verticalHeaderDefaultSectionSize">
             <number>21</number>
            </attribute>
-
            <column>
             <property name="text">
              <string>Date</string>
@@ -996,11 +995,6 @@
            </attribute>
            <column>
             <property name="text">
-             <string>Name</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
              <string>Date</string>
             </property>
            </column>
@@ -1011,12 +1005,7 @@
            </column>
            <column>
             <property name="text">
-             <string>Tile number</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Intercept AOI</string>
+             <string>Intercept AOI with desired cloud %</string>
             </property>
            </column>
           </widget>
