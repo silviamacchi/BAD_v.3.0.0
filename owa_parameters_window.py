@@ -56,10 +56,10 @@ class PlotCanvas(FigureCanvas):
     def plot(self, highlight_index=None):
         self.ax.clear()
         self.fig.subplots_adjust(
-            left=0.15,    # Spazio a sinistra (per etichette Y)
+            left=0.17,    # Spazio a sinistra (per etichette Y)
             right=0.95,  # Spazio a destra
-            bottom=0.20, # Spazio in basso (per etichette X)
-            top=0.77,    # Spazio in alto (per il titolo)
+            bottom=0.23, # Spazio in basso (per etichette X)
+            top=0.85,    # Spazio in alto (per il titolo)
             wspace=0.2, 
             hspace=0.2
         )
