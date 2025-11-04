@@ -78,7 +78,7 @@ class PlotCanvas(FigureCanvas):
         self.ax.set_xticks(range(self.n_features + 1))
         self.ax.set_ylabel("Weight")
         self.ax.set_yticks([0, 0.5, 1])
-        self.ax.set_title("a = " + str(self.p1[0]) + " first feature considered,\n b = " + str(self.p2[0]) + " last feature considered")
+        self.ax.set_title("Parameters: a = " + str(self.p1[0]) + ", b = " + str(self.p2[0]))
         self.draw()
     
     def on_click(self, event):
