@@ -1,7 +1,7 @@
 import os
 import requests
 from qgis.PyQt import uic, QtWidgets
-from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout,QSizePolicy
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
@@ -11,10 +11,15 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class OwaParametersWindow(QtWidgets.QDialog, FORM_CLASS):
     def __init__(self, n_features, parent=None):
+        
         super(OwaParametersWindow, self).__init__(parent)
         self.setupUi(self)
         
         self.canvas = PlotCanvas(n_features, self.plotWidget)
+        self.canvas.setSizePolicy(
+            QSizePolicy.Policy.Maximum,  # Orizzontale
+            QSizePolicy.Policy.Maximum   # Verticale
+        )
         layout = QVBoxLayout(self.plotWidget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.canvas)
@@ -30,7 +35,10 @@ class OwaParametersWindow(QtWidgets.QDialog, FORM_CLASS):
 
 class PlotCanvas(FigureCanvas):
     def __init__(self, n_features, parent=None):
-        self.fig, self.ax = plt.subplots()
+        fig_width_inches = 5
+        fig_height_inches = 4
+        self.fig, self.ax = plt.subplots(figsize=(fig_width_inches, fig_height_inches))
+        #self.fig, self.ax = plt.subplots()
         super().__init__(self.fig)
         self.setParent(parent)
 
@@ -51,6 +59,14 @@ class PlotCanvas(FigureCanvas):
 
     def plot(self, highlight_index=None):
         self.ax.clear()
+        self.fig.subplots_adjust(
+            left=0.15,    # Spazio a sinistra (per etichette Y)
+            right=0.95,  # Spazio a destra
+            bottom=0.20, # Spazio in basso (per etichette X)
+            top=0.77,    # Spazio in alto (per il titolo)
+            wspace=0.2, 
+            hspace=0.2
+        )
         x = [self.p0[0], self.p1[0], self.p2[0], self.p3[0]]
         y = [self.p0[1], self.p1[1], self.p2[1], self.p3[1]]
         
@@ -66,10 +82,9 @@ class PlotCanvas(FigureCanvas):
         self.ax.set_xticks(range(self.n_features + 1))
         self.ax.set_ylabel("Weight")
         self.ax.set_yticks([0, 0.5, 1])
-        self.ax.set_title("a = " + str(self.p1[0]) + " first feature considered, b = " + str(self.p2[0]) + " last feature considered")
+        self.ax.set_title("a = " + str(self.p1[0]) + " first feature considered,\n b = " + str(self.p2[0]) + " last feature considered")
         self.draw()
-
-
+    
     def on_click(self, event):
         if event.inaxes != self.ax:
             return
