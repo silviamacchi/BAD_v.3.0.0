@@ -16,10 +16,6 @@ class OwaParametersWindow(QtWidgets.QDialog, FORM_CLASS):
         self.setupUi(self)
         
         self.canvas = PlotCanvas(n_features, self.plotWidget)
-        self.canvas.setSizePolicy(
-            QSizePolicy.Policy.Maximum,  # Orizzontale
-            QSizePolicy.Policy.Maximum   # Verticale
-        )
         layout = QVBoxLayout(self.plotWidget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.canvas)
