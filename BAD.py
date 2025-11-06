@@ -855,17 +855,17 @@ class BAD:
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
         if self.dlg.last_pre==0:
-            date=None
+            date=[]
+            for row in range(self.dlg.download_images_pre.rowCount()):
+                date.append(self.dlg.download_images_pre.item(row, 0).text())
         else:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
-        date_start=self.dlg.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
-        date_end=self.dlg.dateEdit_End_pre.date().toString("yyyy-MM-dd")
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
         output_name = self.dlg.lineEdit_FI_result_pre.text()
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password, self.dlg.last_pre)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -891,7 +891,7 @@ class BAD:
 # The process is executed when the button "Download Post-fire" is clicked 
     def download_sentinel_post(self):
 
-        self.show_progress_bar("Downloading Pre-fire Sentinel-2 images")
+        self.show_progress_bar("Downloading Post-fire Sentinel-2 images")
         self.update_progress(5)
         start = time.process_time()
         self.dlg.pushButton_FI_download_post.setEnabled(False)
@@ -903,17 +903,17 @@ class BAD:
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
         if self.dlg.last_post==0:
-            date=None
+            date=[]
+            for row in range(self.dlg.download_images_post.rowCount()):
+                date.append(self.dlg.download_images_post.item(row, 0).text())
         else:
             date=self.dlg.download_images_post.item(selected_row, 0).text()
-        date_start=self.dlg.dateEdit_Start_post.date().toString("yyyy-MM-dd")
-        date_end=self.dlg.dateEdit_End_post.date().toString("yyyy-MM-dd")
         cloud=self.dlg.horizontalSlider_cloud_post.value()
         output_name = self.dlg.lineEdit_FI_result_post.text()
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,date_start,date_end,cloud,output_name,username,password, self.dlg.last_post)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
