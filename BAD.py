@@ -1540,13 +1540,11 @@ class BAD:
         if self.dlg.checkBox_OWA_AND.isChecked() or self.dlg.radioButton_OWA_S_AND.isChecked() or \
             self.dlg.radioButton_OWA_G_AND.isChecked():
 
-            OWA_index=1
             n_bands=self.FinalBandMatix.shape[0]
-            
             w = np.zeros(n_bands)
             w[-1]=1
 
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_AND.isChecked():
@@ -1555,6 +1553,7 @@ class BAD:
                 w_Grow = w
               
             outputfile = self.dlg.lineEdit_OWA_AND.text()
+            filename="OWA_AND.tif"
             
             # if the outputfile path is not specified the plugin uses the same path of one of the two input
             # files, in particular the seed layer path
@@ -1570,7 +1569,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_AND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_AND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
             
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_AND.output_path, "OWA_AND")
@@ -1580,13 +1579,12 @@ class BAD:
         if self.dlg.checkBox_OWA_almostAND.isChecked() or self.dlg.radioButton_OWA_S_almostAND.isChecked() or \
             self.dlg.radioButton_OWA_G_almostAND.isChecked():
 
-            OWA_index=2
             n_bands=self.FinalBandMatix.shape[0]
             
             w = np.zeros(n_bands)
             w[-1]=0.5
             w[-2]=0.5
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_almostAND.isChecked():
@@ -1595,6 +1593,7 @@ class BAD:
                 w_Grow = w
             
             outputfile = self.dlg.lineEdit_OWA_almostAND.text()
+            filename="OWA_almostAND.tif"
 
             if not outputfile:
                 path_index=0
@@ -1607,7 +1606,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_almostAND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_almostAND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_almostAND.output_path, "OWA_almostAND")
@@ -1616,12 +1615,10 @@ class BAD:
         
         if self.dlg.checkBox_OWA_AVERAGE.isChecked() or self.dlg.radioButton_OWA_S_AVERAGE.isChecked() or \
             self.dlg.radioButton_OWA_G_AVERAGE.isChecked():
-            OWA_index=3
             n_bands=self.FinalBandMatix.shape[0]
-            
-            w = np.zeros(n_bands)
+
             w = np.ones(n_bands)/n_bands
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_AVERAGE.isChecked():
@@ -1630,6 +1627,7 @@ class BAD:
                 w_Grow = w
 
             outputfile = self.dlg.lineEdit_OWA_AVERAGE.text()
+            filename="OWA_AVERAGE.tif"
 
             if not outputfile:
                 path_index=0
@@ -1642,7 +1640,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_AVERAGE = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_AVERAGE = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_AVERAGE.output_path, "OWA_AVERAGE")
@@ -1651,13 +1649,12 @@ class BAD:
                    
         if self.dlg.checkBox_OWA_almostOR.isChecked() or self.dlg.radioButton_OWA_S_almostOR.isChecked() or \
             self.dlg.radioButton_OWA_G_almostOR.isChecked():
-            OWA_index=4
             n_bands=self.FinalBandMatix.shape[0]
             
             w = np.zeros(n_bands)
             w[0]=0.5
             w[1]=0.5
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_almostOR.isChecked():
@@ -1666,6 +1663,7 @@ class BAD:
                 w_Grow = w
 
             outputfile = self.dlg.lineEdit_OWA_almostOR.text()
+            filename="OWA_almostOR.tif"
 
             if not outputfile:
                 path_index=0
@@ -1678,7 +1676,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_almostOR = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_almostOR = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_almostOR.output_path, "OWA_almostOR")
@@ -1687,11 +1685,10 @@ class BAD:
         
         if self.dlg.checkBox_OWA_OR.isChecked() or self.dlg.radioButton_OWA_S_OR.isChecked() or \
             self.dlg.radioButton_OWA_G_OR.isChecked():
-            OWA_index=5
             n_bands=self.FinalBandMatix.shape[0]
             w = np.zeros(n_bands)
             w[0]=1
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_OR.isChecked():
@@ -1700,6 +1697,7 @@ class BAD:
                 w_Grow = w
 
             outputfile = self.dlg.lineEdit_OWA_OR.text()
+            filename="OWA_OR.tif"
 
             if not outputfile:
                 path_index=0
@@ -1712,7 +1710,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_OR = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_OR = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
     
             if self.dlg.checkBox_OWA_display.isChecked():
@@ -1722,7 +1720,6 @@ class BAD:
 
         if self.dlg.checkBox_OWA_UserChoice1.isChecked() or self.dlg.radioButton_OWA_S_UserChoice1.isChecked() or \
             self.dlg.radioButton_OWA_G_UserChoice1.isChecked():
-            OWA_index=6
             n_bands=self.FinalBandMatix.shape[0]
             
             w = np.zeros(n_bands)
@@ -1734,7 +1731,7 @@ class BAD:
                     w[i] = slope 
             
             print("Weights OWA User Choice 1:", w)
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_UserChoice1.isChecked():
@@ -1743,6 +1740,7 @@ class BAD:
                 w_Grow = w
 
             outputfile = self.dlg.lineEdit_OWA_UserChoice1.text()
+            filename="OWA_UserChoice1.tif"
 
             if not outputfile:
                 path_index=0
@@ -1755,7 +1753,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_UserChoice1 = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_UserChoice1 = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
     
             if self.dlg.checkBox_OWA_display.isChecked():
@@ -1765,7 +1763,6 @@ class BAD:
 
         if self.dlg.checkBox_OWA_UserChoice2.isChecked() or self.dlg.radioButton_OWA_S_UserChoice2.isChecked() or \
             self.dlg.radioButton_OWA_G_UserChoice2.isChecked():
-            OWA_index=7
             n_bands=self.FinalBandMatix.shape[0]
  
             w = np.zeros(n_bands)
@@ -1777,7 +1774,7 @@ class BAD:
                     w[i] = slope
                     
             print("Weights OWA User Choice 2:", w)
-            OWA=OrderedWeigthAverage(OWA_index,self.FinalBandMatix,w=w)
+            OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
 
             # Save weights to compute orness
             if self.dlg.radioButton_OWA_S_UserChoice2.isChecked():
@@ -1786,6 +1783,7 @@ class BAD:
                 w_Grow = w
             
             outputfile = self.dlg.lineEdit_OWA_UserChoice2.text()
+            filename="OWA_UserChoice2.tif"
 
             if not outputfile:
                 path_index=0
@@ -1798,7 +1796,7 @@ class BAD:
             Nband=1
             Xsize=OWA.Integrated_matrix.shape[1]
             Ysize=OWA.Integrated_matrix.shape[0]
-            self.OWA_UserChoice2 = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,OWA.filename,self.GeoTrans,self.proj)
+            self.OWA_UserChoice2 = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
     
             if self.dlg.checkBox_OWA_display.isChecked():

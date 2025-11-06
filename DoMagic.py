@@ -416,48 +416,12 @@ class MembershipFunction:
         self.MD=1/(1+np.exp(-K*(Matrix/10000-x)))
         
 class OrderedWeigthAverage:
-    def __init__(self,index,FinalBandMatix,w=None):
+    def __init__(self,FinalBandMatix,w=None):
         
         Row=FinalBandMatix.shape[1]
         Column=FinalBandMatix.shape[2]
         self.Integrated_matrix=np.empty([Row,Column])
-        w_Seed = 0
-        w_Grow = 0
-
-        #AND
-        if index==1:
-            self.filename="OWA_AND.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #almost AND
-        if index==2:
-            self.filename="OWA_almostAND.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #AVERAGE
-        if index==3:
-            self.filename="OWA_AVERAGE.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #almost OR:
-        if index==4:
-            self.filename="OWA_almostOR.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #OR
-        if index==5:      
-            self.filename="OWA_OR.tif" 
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #UserChoice1
-        if index==6:
-            self.filename="OWA_UserChoice1.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
-
-        #UserChoice2
-        if index==7:
-            self.filename="OWA_UserChoice2.tif"
-            self.get_value(Row,Column,FinalBandMatix,w)
+        self.get_value(Row,Column,FinalBandMatix,w)
 
     def get_value(self,Row,Column,FinalBandMatix,w):
         for i in range (Row):
@@ -468,7 +432,6 @@ class OrderedWeigthAverage:
                 else:
                     value=np.dot(np.sort(vector),w)
                 self.Integrated_matrix[i,j]=value
-        self.Integrated_matrix=np.nan_to_num(self.Integrated_matrix,nan=999)
 
         
 class WriteLayer:
