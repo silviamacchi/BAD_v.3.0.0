@@ -22,7 +22,6 @@
  ***************************************************************************/
 """
 
-import sys
 import os
 from osgeo import gdal
 import numpy as np
@@ -90,7 +89,7 @@ def calculate_ndvi(red_band, nir_band):
     
     ndvi[~np.isfinite(ndvi)] = -2.0 
     return ndvi
-def calculate_nbr(nir_band, swir_band):
+def calculate_nbr(swir_band,nir_band):
 
     np.seterr(divide='ignore', invalid='ignore')
 
@@ -105,7 +104,8 @@ def calculate_nbr(nir_band, swir_band):
     nbr[~np.isfinite(nbr)] = -2.0 
     return nbr
 
-def create_max_ndvi_composite(raster_file_list, output_file_path, red_band_idx, nir_band_idx, pre=True):
+#Creates the composite based on the maximum NDVI/NBR values
+def create_composite(raster_file_list, output_file_path, pre=True):
 
     if not raster_file_list:
         print("Errore: La lista dei raster di input è vuota.")
@@ -126,19 +126,17 @@ def create_max_ndvi_composite(raster_file_list, output_file_path, red_band_idx, 
         
         # Determina il tipo di dati per l'output (es. GDT_UInt16)
         output_dtype = ds_first.GetRasterBand(1).DataType
-
-        # Calcola il primo NDVI
-        red_data = ds_first.GetRasterBand(red_band_idx).ReadAsArray().astype(np.float32)
-        nir_data = ds_first.GetRasterBand(nir_band_idx).ReadAsArray().astype(np.float32)
         
-        # 'max_ndvi_grid' conterrà l'NDVI più alto trovato finora per ogni pixel
+        # If pre is True, calculate NDVI; else calculate NBR
         if pre:
-            max_ndvi_grid = calculate_ndvi(red_data, nir_data)
+            red_data = ds_first.GetRasterBand(4).ReadAsArray().astype(np.float32)
+            nir_data = ds_first.GetRasterBand(8).ReadAsArray().astype(np.float32)
+            reference_grid = calculate_ndvi(red_data, nir_data)
         else:
-            max_ndvi_grid = calculate_nbr(nir_data, red_data)
-        
-        # 'output_bands_data' conterrà i dati dei pixel del raster con l'NDVI più alto
-        # Converti il tipo di dato GDAL (es. 3) nel tipo NumPy (es. np.uint16)
+            nir_data = ds_first.GetRasterBand(8).ReadAsArray().astype(np.float32)
+            swir_data = ds_first.GetRasterBand(12).ReadAsArray().astype(np.float32)
+            reference_grid = calculate_nbr(swir_data, nir_data)
+
         numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
         output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
         
@@ -166,36 +164,30 @@ def create_max_ndvi_composite(raster_file_list, output_file_path, red_band_idx, 
                 ds = None
                 continue
             
-            # Calcola l'NDVI per il raster corrente
-            red_data = ds.GetRasterBand(red_band_idx).ReadAsArray().astype(np.float32)
-            nir_data = ds.GetRasterBand(nir_band_idx).ReadAsArray().astype(np.float32)
             if pre:
-                current_ndvi = calculate_ndvi(red_data, nir_data)
+                red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
+                nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
+                current_value = calculate_ndvi(red_data, nir_data)
+                update_mask = current_value > reference_grid
             else:
-                current_ndvi = calculate_nbr(nir_data, red_data)
-            
+                nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
+                swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
+                current_value = calculate_nbr(swir_data, nir_data)
+                update_mask = current_value < reference_grid
 
-            # Crea una maschera booleana dove il nuovo NDVI è maggiore del massimo
-            update_mask = current_ndvi > max_ndvi_grid
-            
             # Se non ci sono pixel da aggiornare, passa al file successivo
             if not np.any(update_mask):
-                print(f"  Nessun pixel con NDVI maggiore trovato.")
                 ds = None
                 continue
-
-            print(f"  Aggiornamento dei pixel basato su NDVI...")
             
-            # Aggiorna il grid dell'NDVI massimo
-            max_ndvi_grid[update_mask] = current_ndvi[update_mask]
+            # Aggiorna il grid al valore massimoNDVI/minimoNBR
+            reference_grid[update_mask] = current_value[update_mask]
             
             # Aggiorna i dati delle bande di output usando la maschera
             for b in range(1, band_count + 1):
                 current_band_data = ds.GetRasterBand(b).ReadAsArray()
-                # Dove update_mask è True, prendi il nuovo valore da current_band_data
                 output_bands_data[b-1][update_mask] = current_band_data[update_mask]
-
-            ds = None # Chiudi il file
+            ds = None 
 
         except Exception as e:
             print(f"  Errore durante l'elaborazione di {raster_path}: {e}. Salto.")
@@ -203,7 +195,7 @@ def create_max_ndvi_composite(raster_file_list, output_file_path, red_band_idx, 
 
     # --- 3. Scrittura del file di output ---
     try:
-        print(f"\nScrittura del composito finale in: {output_file_path}")
+        print(f"\nWriting final raster: {output_file_path}")
         driver = gdal.GetDriverByName("GTiff")
         out_ds = driver.Create(output_file_path, x_size, y_size, band_count, output_dtype,
                                options=['COMPRESS=LZW', 'TILED=YES'])
@@ -395,7 +387,7 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
 
             except requests.exceptions.RequestException as e:
                 print(f"Connection error: {e}")
-        create_max_ndvi_composite(list_outputs, output_name, 4, 8, pre)
+        create_composite(list_outputs, output_name, pre)
         for file in list_outputs:
             os.remove(file)
     return None

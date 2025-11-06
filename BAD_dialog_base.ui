@@ -932,7 +932,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Mosaicking Pre</string>
+            <string>Compute Mosaicking Pre</string>
            </property>
           </widget>
          </item>
@@ -945,7 +945,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Mosaicking Post</string>
+            <string>Compute Mosaicking Post</string>
            </property>
           </widget>
          </item>
@@ -3524,8 +3524,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>951</width>
-            <height>418</height>
+            <width>939</width>
+            <height>358</height>
            </rect>
           </property>
           <attribute name="label">
@@ -3684,7 +3684,6 @@
                <widget class="QLabel" name="label_101">
                 <property name="font">
                  <font>
-                  <weight>75</weight>
                   <bold>true</bold>
                   <underline>false</underline>
                  </font>
@@ -3714,7 +3713,6 @@
                <widget class="QLabel" name="label_104">
                 <property name="font">
                  <font>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -5199,8 +5197,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>939</width>
-            <height>358</height>
+            <width>98</width>
+            <height>28</height>
            </rect>
           </property>
           <attribute name="label">
@@ -6824,7 +6822,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6844,7 +6841,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6858,7 +6854,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6932,7 +6927,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6984,7 +6978,6 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>

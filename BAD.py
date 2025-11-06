@@ -234,6 +234,8 @@ class BAD:
         self.dlg.lineEdit_User.clear()
         self.dlg.lineEdit_Password.clear()
         self.dlg.checkBox_FI_display.setCheckState(False)
+        self.dlg.pushButton_FI_download_pre.setEnabled(False)
+        self.dlg.pushButton_FI_download_post.setEnabled(False)
 
 # Pre-Processing tab:
     def select_pre_fire_raster(self):
@@ -839,6 +841,15 @@ class BAD:
         print('Computational time Search Post-fire [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
         self.window = QtWidgets.QDialog()
+    
+    #Connects download button to mosaicking
+    def open_preview_mosaic_pre(self):
+        self.dlg.last_pre=0
+        self.dlg.pushButton_FI_download_pre.setEnabled(True)
+
+    def open_preview_mosaic_post(self):
+        self.dlg.last_post=0
+        self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
     def download_sentinel_pre(self):
@@ -849,17 +860,15 @@ class BAD:
         self.dlg.pushButton_FI_download_pre.setEnabled(False)
 
         selected_row = self.dlg.download_images_pre.currentRow()
-        North=self.dlg.lineEdit_North.text()
-        South=self.dlg.lineEdit_South.text()
-        East=self.dlg.lineEdit_East.text()
-        West=self.dlg.lineEdit_West.text()
-        BBOX = [float(West), float(South), float(East), float(North)]
+        BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
+        # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_pre==0:
             date=[]
             for row in range(self.dlg.download_images_pre.rowCount()):
                 date.append(self.dlg.download_images_pre.item(row, 0).text())
         else:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
+
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
         output_name = self.dlg.lineEdit_FI_result_pre.text()
         username = self.dlg.lineEdit_User.text()
@@ -871,7 +880,6 @@ class BAD:
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Pre-fire Sentinel-2 Image")
 
-        self.dlg.pushButton_FI_download_pre.setEnabled(True)
         self.hide_progress_bar()
         end = time.process_time()
         print("Process end")
@@ -897,11 +905,8 @@ class BAD:
         self.dlg.pushButton_FI_download_post.setEnabled(False)
 
         selected_row = self.dlg.download_images_post.currentRow()
-        North=self.dlg.lineEdit_North.text()
-        South=self.dlg.lineEdit_South.text()
-        East=self.dlg.lineEdit_East.text()
-        West=self.dlg.lineEdit_West.text()
-        BBOX = [float(West), float(South), float(East), float(North)]
+        BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
+        # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_post==0:
             date=[]
             for row in range(self.dlg.download_images_post.rowCount()):
@@ -918,8 +923,7 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
-        
-        self.dlg.pushButton_FI_download_post.setEnabled(True)
+
         self.hide_progress_bar()
         end = time.process_time()
         print("Process end")
@@ -2556,7 +2560,11 @@ class BAD:
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
             self.dlg.pushButton_FI_download_pre.clicked.connect(self.download_sentinel_pre)
             self.dlg.pushButton_FI_download_post.clicked.connect(self.download_sentinel_post)
-            
+            self.dlg.Preview_FI_pre_mos.clicked.connect(self.open_preview_mosaic_pre)
+            self.dlg.Preview_FI_post_mos.clicked.connect(self.open_preview_mosaic_post)
+            self.dlg.pushButton_FI_download_pre.setEnabled(False)
+            self.dlg.pushButton_FI_download_post.setEnabled(False)
+
             self.dlg.toolButton_FI_result_pre.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_FI_result_pre))
             self.dlg.toolButton_FI_result_post.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_FI_result_post))
             

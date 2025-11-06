@@ -27,7 +27,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 from .preview_window import PreviewWindow
-from .preview_fetchimages import PreviewFetchImages, composite
+from .preview_fetchimages import PreviewFetchImages
 from .owa_parameters_window import OwaParametersWindow
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
@@ -49,8 +49,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         self.Preview_FI_pre.clicked.connect(self.open_preview_fetchimages_pre)
         self.Preview_FI_post.clicked.connect(self.open_preview_fetchimages_post)
-        self.Preview_FI_pre_mos.clicked.connect(self.open_preview_mosaic_pre)
-        self.Preview_FI_post_mos.clicked.connect(self.open_preview_mosaic_post)
 
         self.pushButton_parameters_UC1.clicked.connect(self.open_owa_parameters_UC1_window)
         self.pushButton_parameters_UC2.clicked.connect(self.open_owa_parameters_UC2_window)
@@ -61,8 +59,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.preview_dialog.show()
 
     def open_preview_fetchimages_pre(self):
-
         self.last_pre=1
+        self.pushButton_FI_download_pre.setEnabled(True)
         selected_row = self.download_images_pre.currentRow()
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
         date=self.download_images_pre.item(selected_row, 0).text()  
@@ -77,6 +75,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
     def open_preview_fetchimages_post(self):
 
         self.last_post=1
+        self.pushButton_FI_download_post.setEnabled(True)
         selected_row = self.download_images_post.currentRow()
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
         date=self.download_images_post.item(selected_row, 0).text()  
@@ -86,32 +85,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
 
         # Open preview with the selected image 
         self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, cloud=self.horizontalSlider_cloud_post.value(), time=time, user=user, password=password)
-        self.preview_dialog.show()
-
-    def open_preview_mosaic_pre(self):
-
-        self.last_pre=0
-        bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date_start=self.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
-        date_end=self.dateEdit_End_pre.date().toString("yyyy-MM-dd")
-        user=self.lineEdit_User.text()
-        password=self.lineEdit_Password.text()
-
-        # Open preview with the selected image name
-        self.preview_dialog = composite(bbox=bbox, date_start=date_start, date_end=date_end, cloud=self.horizontalSlider_cloud_pre.value(), user=user, password=password)
-        self.preview_dialog.show()
-
-    def open_preview_mosaic_post(self):
-        
-        self.last_post=0
-        bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date_start=self.dateEdit_Start_post.date().toString("yyyy-MM-dd")
-        date_end=self.dateEdit_End_post.date().toString("yyyy-MM-dd")
-        user=self.lineEdit_User.text()
-        password=self.lineEdit_Password.text()
-
-        # Open preview with the selected image name
-        self.preview_dialog = composite(bbox=bbox, date_start=date_start, date_end=date_end, cloud=self.horizontalSlider_cloud_post.value(), user=user, password=password)
         self.preview_dialog.show()
 
     def open_owa_parameters_UC1_window(self):
