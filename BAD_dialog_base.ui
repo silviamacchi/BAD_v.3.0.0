@@ -284,7 +284,7 @@
       <attribute name="title">
        <string>FETCH IMAGES</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
        <item>
         <widget class="QLabel" name="label_38">
          <property name="text">
@@ -758,11 +758,24 @@
         </layout>
        </item>
        <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <layout class="QGridLayout" name="gridLayout_99">
          <item row="1" column="0">
           <widget class="QLabel" name="label_306">
            <property name="text">
-            <string>User</string>
+            <string>Client ID</string>
            </property>
           </widget>
          </item>
@@ -774,7 +787,16 @@
             </font>
            </property>
            <property name="text">
-            <string>Login: </string>
+            <string>Login Copernicus Dataspace [How to get AOuth client credentials](https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Overview/Authentication.html)</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::MarkdownText</enum>
+           </property>
+           <property name="openExternalLinks">
+            <bool>true</bool>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse</set>
            </property>
           </widget>
          </item>
@@ -787,7 +809,7 @@
          <item row="1" column="2">
           <widget class="QLabel" name="label_311">
            <property name="text">
-            <string>Password</string>
+            <string>Client secret</string>
            </property>
           </widget>
          </item>

@@ -55,6 +55,24 @@ class SentinelSearch:
         else:
             self.result = pd.DataFrame({'Name': ["No available data for the given dates. Please select a different time period."]})
             print(self.result['Name'])
+
+def get_sorted_col0_values(table_widget):
+    row_count = table_widget.rowCount()
+    
+    data_to_sort = []
+    for row in range(row_count):
+        item_col0 = table_widget.item(row, 0).text()
+        item_col2 = table_widget.item(row, 2).text().replace("%","")
+
+        value_col2_for_sort = float(item_col2) if item_col2 else float('inf') 
+
+        # Conserva la tupla: (valore_ordinamento, valore_estratto)
+        data_to_sort.append((value_col2_for_sort, item_col0))
+
+    sorted_data = sorted(data_to_sort)
+    result_list = [item[1] for item in sorted_data]
+    
+    return result_list
             
 def transform_bbox_to_utm(bbox):
         lon_center = (bbox[0] + bbox[2]) / 2
@@ -112,38 +130,44 @@ def create_composite(raster_file_list, output_file_path, pre=True):
         return
 
     try:
-        print(f"Inizializzazione con il primo raster: {raster_file_list[0]}")
+        print(f"Initializing first raster: {raster_file_list[0]}")
         ds_first = gdal.Open(raster_file_list[0], gdal.GA_ReadOnly)
+        ds_second = gdal.Open(raster_file_list[1], gdal.GA_ReadOnly)
         if ds_first is None:
-            raise Exception(f"Impossibile aprire il file: {raster_file_list[0]}")
+            raise Exception(f"Unable to open file: {raster_file_list[0]}")
 
-        # Ottieni metadati
+        scl_data = ds_first.GetRasterBand(13).ReadAsArray()
+        cloud_mask = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+
+        valid_mask = ~cloud_mask
+        # Get metadata
         x_size = ds_first.RasterXSize
         y_size = ds_first.RasterYSize
-        band_count = ds_first.RasterCount
         geotransform = ds_first.GetGeoTransform()
         projection = ds_first.GetProjection()
-        
+        band_count = ds_first.RasterCount
+
         # Determina il tipo di dati per l'output (es. GDT_UInt16)
         output_dtype = ds_first.GetRasterBand(1).DataType
+        numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
+        output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
+        for b in range(1, band_count + 1):
+            output_bands_data[b-1] = ds_second.GetRasterBand(b).ReadAsArray()
+        for b in range(1, band_count + 1):
+            current_band_data = ds_first.GetRasterBand(b).ReadAsArray()
+            output_bands_data[b-1][valid_mask] = current_band_data[valid_mask]
+        ds_first = None
         
         # If pre is True, calculate NDVI; else calculate NBR
         if pre:
-            red_data = ds_first.GetRasterBand(4).ReadAsArray().astype(np.float32)
-            nir_data = ds_first.GetRasterBand(8).ReadAsArray().astype(np.float32)
+            red_data = output_bands_data[3].astype(np.float32)
+            nir_data = output_bands_data[7].astype(np.float32)
             reference_grid = calculate_ndvi(red_data, nir_data)
         else:
-            nir_data = ds_first.GetRasterBand(8).ReadAsArray().astype(np.float32)
-            swir_data = ds_first.GetRasterBand(12).ReadAsArray().astype(np.float32)
+            nir_data = output_bands_data[7].astype(np.float32)
+            swir_data = output_bands_data[11].astype(np.float32)
             reference_grid = calculate_nbr(swir_data, nir_data)
-
-        numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
-        output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
         
-        for b in range(1, band_count + 1):
-            output_bands_data[b-1] = ds_first.GetRasterBand(b).ReadAsArray()
-        
-        ds_first = None  # Chiudi il file
 
     except Exception as e:
         print(f"Errore fatale durante l'elaborazione del primo file: {e}")
@@ -163,17 +187,20 @@ def create_composite(raster_file_list, output_file_path, pre=True):
                 print(f"  Attenzione: {raster_path} ha metadati non corrispondenti. Salto.")
                 ds = None
                 continue
-            
+
+            scl_data = ds.GetRasterBand(13).ReadAsArray()
+            cloud_shadow_mask = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+
             if pre:
                 red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
                 nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
                 current_value = calculate_ndvi(red_data, nir_data)
-                update_mask = current_value > reference_grid
+                update_mask = (current_value >= reference_grid) & (~cloud_shadow_mask)
             else:
                 nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
                 swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
                 current_value = calculate_nbr(swir_data, nir_data)
-                update_mask = current_value < reference_grid
+                update_mask = (current_value <= reference_grid) & (~cloud_shadow_mask)
 
             # Se non ci sono pixel da aggiornare, passa al file successivo
             if not np.any(update_mask):
@@ -192,7 +219,7 @@ def create_composite(raster_file_list, output_file_path, pre=True):
         except Exception as e:
             print(f"  Errore durante l'elaborazione di {raster_path}: {e}. Salto.")
             continue
-
+    ds_second = None
     # --- 3. Scrittura del file di output ---
     try:
         print(f"\nWriting final raster: {output_file_path}")

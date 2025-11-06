@@ -236,6 +236,10 @@ class BAD:
         self.dlg.checkBox_FI_display.setCheckState(False)
         self.dlg.pushButton_FI_download_pre.setEnabled(False)
         self.dlg.pushButton_FI_download_post.setEnabled(False)
+        self.dlg.Preview_FI_pre.setEnabled(False)
+        self.dlg.Preview_FI_post.setEnabled(False)
+        self.dlg.Preview_FI_pre_mos.setEnabled(False)
+        self.dlg.Preview_FI_post_mos.setEnabled(False)
 
 # Pre-Processing tab:
     def select_pre_fire_raster(self):
@@ -729,7 +733,7 @@ class BAD:
         print("Search Pre-fire button clicked, wait until the process end")
         self.show_progress_bar("Searching Pre-fire Sentinel-2 images")
         self.update_progress(5)
-        start = time.process_time()        
+        start = time.process_time()       
         
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
@@ -774,6 +778,10 @@ class BAD:
             coverage_percentage = (intersection.area / aoi_pol.area) * 100
             self.dlg.download_images_pre.setItem(row_position, 2, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
 
+        self.dlg.Preview_FI_pre.setEnabled(True)
+        if len(d.keys())>1:
+            self.dlg.Preview_FI_pre_mos.setEnabled(True) 
+
         self.update_progress(100)
         self.hide_progress_bar()
         end = time.process_time()
@@ -789,8 +797,8 @@ class BAD:
         print("Search Post-fire button clicked, wait until the process end")
         self.show_progress_bar("Searching Post-fire Sentinel-2 images")
         self.update_progress(5)
-        start = time.process_time()        
-        
+        start = time.process_time()  
+  
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
@@ -833,6 +841,10 @@ class BAD:
             intersection = totFootprint.intersection(aoi_pol)
             coverage_percentage = (intersection.area / aoi_pol.area) * 100
             self.dlg.download_images_post.setItem(row_position, 2, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
+        
+        self.dlg.Preview_FI_post.setEnabled(True)
+        if len(d.keys())>1:
+            self.dlg.Preview_FI_post_mos.setEnabled(True)
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -863,9 +875,7 @@ class BAD:
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_pre==0:
-            date=[]
-            for row in range(self.dlg.download_images_pre.rowCount()):
-                date.append(self.dlg.download_images_pre.item(row, 0).text())
+            date = get_sorted_col0_values(self.dlg.download_images_pre)
         else:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
 
@@ -908,9 +918,7 @@ class BAD:
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_post==0:
-            date=[]
-            for row in range(self.dlg.download_images_post.rowCount()):
-                date.append(self.dlg.download_images_post.item(row, 0).text())
+            date = get_sorted_col0_values(self.dlg.download_images_post)
         else:
             date=self.dlg.download_images_post.item(selected_row, 0).text()
         cloud=self.dlg.horizontalSlider_cloud_post.value()
@@ -2562,6 +2570,10 @@ class BAD:
             self.dlg.Preview_FI_post_mos.clicked.connect(self.open_preview_mosaic_post)
             self.dlg.pushButton_FI_download_pre.setEnabled(False)
             self.dlg.pushButton_FI_download_post.setEnabled(False)
+            self.dlg.Preview_FI_pre.setEnabled(False)
+            self.dlg.Preview_FI_post.setEnabled(False)
+            self.dlg.Preview_FI_pre_mos.setEnabled(False)
+            self.dlg.Preview_FI_post_mos.setEnabled(False)
 
             self.dlg.toolButton_FI_result_pre.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_FI_result_pre))
             self.dlg.toolButton_FI_result_post.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_FI_result_post))
