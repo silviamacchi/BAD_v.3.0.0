@@ -33,6 +33,8 @@ from PyQt5.QtWidgets import (
 )
 import requests
 import json
+from shapely.geometry import Polygon
+from shapely import wkt
 
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt import uic
@@ -732,27 +734,44 @@ class BAD:
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
+        aoi_pol = wkt.loads(self.aoi)
 
         Start_date=self.dlg.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_pre.date().toString("yyyy-MM-dd")
 
-        Cloud=self.dlg.horizontalSlider_cloud.value()
-        Limit_num=self.dlg.spinBox_FI_limit.value()
+        Cloud=self.dlg.horizontalSlider_cloud_pre.value()
+        Limit_num=self.dlg.spinBox_FI_limit_pre.value()
         self.dlg.download_images_pre.setRowCount(0) 
 
-        self.List_pre=SentinelSearch(self.aoi,Start_date,End_date,Cloud,Limit_num).result
+        self.List_pre=SentinelSearch(self.aoi,Start_date,End_date,Cloud,Limit_num,"desc").result
+
         self.update_progress(70)
+        d=dict()
         for index, row in self.List_pre.iterrows():
-            row_position = self.dlg.download_images_pre.rowCount()
-            self.dlg.download_images_pre.insertRow(row_position)
-            self.dlg.download_images_pre.setItem(row_position, 0, QTableWidgetItem(row['Name']))
             date=row['Name'][11:19]
             date_formatted = f"{date[:4]}-{date[4:6]}-{date[6:]}"
-            self.dlg.download_images_pre.setItem(row_position, 1, QTableWidgetItem(date_formatted))
             time_im=row['Name'][20:26]
             time_formatted = f"{time_im[:2]}:{time_im[2:4]}:{time_im[4:]}"
-            self.dlg.download_images_pre.setItem(row_position, 2, QTableWidgetItem(time_formatted))
-            self.dlg.download_images_pre.setItem(row_position, 3, QTableWidgetItem(row['Name'][38:44]))
+            key = f"{date_formatted} {time_formatted}"
+            if key in d:
+                d[key].append(row['Name'])
+            else:
+                d[key] = [row['Name']]
+        for key, names in d.items():
+            row_position = self.dlg.download_images_pre.rowCount()
+            self.dlg.download_images_pre.insertRow(row_position)
+            self.dlg.download_images_pre.setItem(row_position, 0, QTableWidgetItem(key.split()[0]))
+            self.dlg.download_images_pre.setItem(row_position, 1, QTableWidgetItem(key.split()[1]))
+            totFootprint=None
+            for name in names:
+                List_pre_row = self.List_pre[self.List_pre['Name'] == name].iloc[0]
+                poly_coords = List_pre_row['GeoFootprint']['coordinates'][0]
+                footprint = Polygon(poly_coords)
+                totFootprint = footprint if totFootprint is None else totFootprint.union(footprint)
+            intersection = totFootprint.intersection(aoi_pol)
+            coverage_percentage = (intersection.area / aoi_pol.area) * 100
+            self.dlg.download_images_pre.setItem(row_position, 2, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
+
         self.update_progress(100)
         self.hide_progress_bar()
         end = time.process_time()
@@ -775,26 +794,43 @@ class BAD:
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
+        aoi_pol = wkt.loads(self.aoi)
 
         Start_date=self.dlg.dateEdit_Start_post.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_post.date().toString("yyyy-MM-dd")
 
-        Cloud=self.dlg.horizontalSlider_cloud.value()
-        Limit_num=self.dlg.spinBox_FI_limit.value()
-        self.dlg.download_images_post.setRowCount(0)  
+        Cloud=self.dlg.horizontalSlider_cloud_post.value()
+        Limit_num=self.dlg.spinBox_FI_limit_post.value()
+        self.dlg.download_images_post.setRowCount(0) 
 
-        self.List_post=SentinelSearch(self.aoi,Start_date,End_date,Cloud,Limit_num).result
+        self.List_post=SentinelSearch(self.aoi,Start_date,End_date,Cloud,Limit_num,"asc").result
+        
+        self.update_progress(70)
+        d=dict()
         for index, row in self.List_post.iterrows():
-            row_position = self.dlg.download_images_post.rowCount()
-            self.dlg.download_images_post.insertRow(row_position)
-            self.dlg.download_images_post.setItem(row_position, 0, QTableWidgetItem(row['Name']))
             date=row['Name'][11:19]
             date_formatted = f"{date[:4]}-{date[4:6]}-{date[6:]}"
-            self.dlg.download_images_post.setItem(row_position, 1, QTableWidgetItem(date_formatted))
             time_im=row['Name'][20:26]
             time_formatted = f"{time_im[:2]}:{time_im[2:4]}:{time_im[4:]}"
-            self.dlg.download_images_post.setItem(row_position, 2, QTableWidgetItem(time_formatted))
-            self.dlg.download_images_post.setItem(row_position, 3, QTableWidgetItem(row['Name'][38:44]))
+            key = f"{date_formatted} {time_formatted}"
+            if key in d:
+                d[key].append(row['Name'])
+            else:
+                d[key] = [row['Name']]
+        for key, names in d.items():
+            row_position = self.dlg.download_images_post.rowCount()
+            self.dlg.download_images_post.insertRow(row_position)
+            self.dlg.download_images_post.setItem(row_position, 0, QTableWidgetItem(key.split()[0]))
+            self.dlg.download_images_post.setItem(row_position, 1, QTableWidgetItem(key.split()[1]))
+            totFootprint=None
+            for name in names:
+                List_post_row = self.List_post[self.List_post['Name'] == name].iloc[0]
+                poly_coords = List_post_row['GeoFootprint']['coordinates'][0]
+                footprint = Polygon(poly_coords)
+                totFootprint = footprint if totFootprint is None else totFootprint.union(footprint)
+            intersection = totFootprint.intersection(aoi_pol)
+            coverage_percentage = (intersection.area / aoi_pol.area) * 100
+            self.dlg.download_images_post.setItem(row_position, 2, QTableWidgetItem(f"{coverage_percentage:.2f}%"))
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -813,18 +849,23 @@ class BAD:
         self.dlg.pushButton_FI_download_pre.setEnabled(False)
 
         selected_row = self.dlg.download_images_pre.currentRow()
-        #product_identifier = self.List_pre.loc[selected_row, 'Id']
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
-        date=self.dlg.download_images_pre.item(selected_row, 1).text()
+        if self.dlg.last_pre==0:
+            date=[]
+            for row in range(self.dlg.download_images_pre.rowCount()):
+                date.append(self.dlg.download_images_pre.item(row, 0).text())
+        else:
+            date=self.dlg.download_images_pre.item(selected_row, 0).text()
+        cloud=self.dlg.horizontalSlider_cloud_pre.value()
         output_name = self.dlg.lineEdit_FI_result_pre.text()
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,output_name,username,password)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -844,31 +885,35 @@ class BAD:
         self.dlg.comboBox_PreRaster.setVisible(True)
         self.dlg.lineEditPreFire.setVisible(False)
         self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        
         self.dlg.comboBox_PreRaster.addItems(["Pre-fire Sentinel-2 Image"])
 
 
 # The process is executed when the button "Download Post-fire" is clicked 
     def download_sentinel_post(self):
 
-        self.show_progress_bar("Downloading Pre-fire Sentinel-2 images")
+        self.show_progress_bar("Downloading Post-fire Sentinel-2 images")
         self.update_progress(5)
         start = time.process_time()
         self.dlg.pushButton_FI_download_post.setEnabled(False)
 
         selected_row = self.dlg.download_images_post.currentRow()
-        #product_identifier = self.List_post.loc[selected_row, 'Id']
         North=self.dlg.lineEdit_North.text()
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
         BBOX = [float(West), float(South), float(East), float(North)]
-        date=self.dlg.download_images_post.item(selected_row, 1).text()
+        if self.dlg.last_post==0:
+            date=[]
+            for row in range(self.dlg.download_images_post.rowCount()):
+                date.append(self.dlg.download_images_post.item(row, 0).text())
+        else:
+            date=self.dlg.download_images_post.item(selected_row, 0).text()
+        cloud=self.dlg.horizontalSlider_cloud_post.value()
         output_name = self.dlg.lineEdit_FI_result_post.text()
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,output_name,username,password)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -966,10 +1011,7 @@ class BAD:
         else:
             Band9=np.nan 
 
-        if self.dlg.checkBox_input_B10.isChecked():
-            Band10=self.dlg.spinBox_input_B10.value()
-        else:
-            Band10=np.nan
+        Band10=np.nan
 
         if self.dlg.checkBox_input_B11.isChecked():
             Band11=self.dlg.spinBox_input_B11.value()
@@ -2031,7 +2073,6 @@ class BAD:
         Class_Matrix = self.Class_matrix
         Burned_Matrix = self.Burned_matrix
         Class_Burned = Class_Matrix*Burned_Matrix
-        Class_Burned = np.where(Class_Burned>10,99,Class_Burned)
 
         NameBandsList='RG severity class'
         Nband=1        
@@ -2099,9 +2140,13 @@ class BAD:
             height = rg_raster_ds.RasterYSize
 
             rg_band = rg_raster_ds.GetRasterBand(1)
+
             reference_band = reference_raster_ds.GetRasterBand(1)
 
-            rg_data = rg_band.ReadAsArray(0, 0, width, height).astype(int)
+            rg_data = rg_band.ReadAsArray(0, 0, width, height)
+            Mask = np.isnan(rg_data)  # True dove ci sono NaN
+            rg_data[Mask] = 999
+            rg_data = rg_data.astype(int)
             reference_data = reference_band.ReadAsArray(0, 0, width, height).astype(int)
 
             # Class Mapping
@@ -2222,9 +2267,13 @@ class BAD:
             height = rg_raster_ds.RasterYSize
 
             rg_band = rg_raster_ds.GetRasterBand(1)
+
             reference_band = reference_raster_ds.GetRasterBand(1)
 
-            rg_data = rg_band.ReadAsArray(0, 0, width, height).astype(int)
+            rg_data = rg_band.ReadAsArray(0, 0, width, height)
+            Mask = np.isnan(rg_data)
+            rg_data[Mask] = 999
+            rg_data = rg_data.astype(int)
             reference_data = reference_band.ReadAsArray(0, 0, width, height).astype(int)
             agreement_map = self.create_agreement_map(rg_data, reference_data)
             save_path, _ = QFileDialog.getSaveFileName(self.dlg, "Save Agreement Map", "", "GeoTIFF (*.tif)")

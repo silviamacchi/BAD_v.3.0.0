@@ -22,7 +22,8 @@
  ***************************************************************************/
 """
 
-
+import sys
+import os
 from osgeo import gdal
 import numpy as np
 
@@ -32,11 +33,11 @@ import pandas as pd
 from pyproj import CRS, Transformer
 import json
 
+
 # Initialize Qt resources from file resources.py
 from .resources import *
-
 class SentinelSearch:
-    def __init__(self,aoi,Start_date,End_date,Cloud,Limit_num):
+    def __init__(self,aoi,Start_date,End_date,Cloud,Limit_num,order):
         
         catalogue_odata_url = "https://catalogue.dataspace.copernicus.eu/odata/v1"
         collection_name = "SENTINEL-2"
@@ -44,7 +45,7 @@ class SentinelSearch:
         search_period_start = f"{Start_date}T00:00:00.000Z"
         search_period_end = f"{End_date}T00:00:00.000Z"
 
-        search_query = f"{catalogue_odata_url}/Products?$filter=Collection/Name eq '{collection_name}' and Attributes/OData.CSC.StringAttribute/any(att:att/Name eq 'productType' and att/OData.CSC.StringAttribute/Value eq '{product_type}') and Attributes/OData.CSC.DoubleAttribute/any(att:att/Name eq 'cloudCover' and att/OData.CSC.DoubleAttribute/Value le {Cloud}) and OData.CSC.Intersects(area=geography'SRID=4326;{aoi}') and ContentDate/Start gt {search_period_start} and ContentDate/Start lt {search_period_end}&$top={Limit_num}&$orderby=ContentDate/Start asc"
+        search_query = f"{catalogue_odata_url}/Products?$filter=Collection/Name eq '{collection_name}' and Attributes/OData.CSC.StringAttribute/any(att:att/Name eq 'productType' and att/OData.CSC.StringAttribute/Value eq '{product_type}') and Attributes/OData.CSC.DoubleAttribute/any(att:att/Name eq 'cloudCover' and att/OData.CSC.DoubleAttribute/Value le {Cloud}) and OData.CSC.Intersects(area=geography'SRID=4326;{aoi}') and ContentDate/Start gt {search_period_start} and ContentDate/Start lt {search_period_end}&$top={Limit_num}&$orderby=ContentDate/Start {order}"
 
         print(f"""\n{search_query.replace(' ', "%20")}\n""")
         response = requests.get(search_query).json()
@@ -75,7 +76,157 @@ def transform_bbox_to_utm(bbox):
         
         return utm_crs_url, utm_bbox_list
 
-def Downloadsh(BBOX,date,output_name,username,password):
+def calculate_ndvi(red_band, nir_band):
+
+    np.seterr(divide='ignore', invalid='ignore')
+    
+    denominator = nir_band + red_band
+    ndvi = np.divide(nir_band - red_band, 
+                     denominator, 
+                     out=np.full_like(denominator, -2.0), 
+                     where=denominator != 0)
+
+    np.seterr(divide='warn', invalid='warn')
+    
+    ndvi[~np.isfinite(ndvi)] = -2.0 
+    return ndvi
+def calculate_nbr(nir_band, swir_band):
+
+    np.seterr(divide='ignore', invalid='ignore')
+
+    denominator = nir_band + swir_band
+    nbr = np.divide(nir_band - swir_band, 
+                    denominator, 
+                    out=np.full_like(denominator, -2.0), 
+                    where=denominator != 0)
+
+    np.seterr(divide='warn', invalid='warn')
+
+    nbr[~np.isfinite(nbr)] = -2.0 
+    return nbr
+
+def create_max_ndvi_composite(raster_file_list, output_file_path, red_band_idx, nir_band_idx, pre=True):
+
+    if not raster_file_list:
+        print("Errore: La lista dei raster di input è vuota.")
+        return
+
+    try:
+        print(f"Inizializzazione con il primo raster: {raster_file_list[0]}")
+        ds_first = gdal.Open(raster_file_list[0], gdal.GA_ReadOnly)
+        if ds_first is None:
+            raise Exception(f"Impossibile aprire il file: {raster_file_list[0]}")
+
+        # Ottieni metadati
+        x_size = ds_first.RasterXSize
+        y_size = ds_first.RasterYSize
+        band_count = ds_first.RasterCount
+        geotransform = ds_first.GetGeoTransform()
+        projection = ds_first.GetProjection()
+        
+        # Determina il tipo di dati per l'output (es. GDT_UInt16)
+        output_dtype = ds_first.GetRasterBand(1).DataType
+
+        # Calcola il primo NDVI
+        red_data = ds_first.GetRasterBand(red_band_idx).ReadAsArray().astype(np.float32)
+        nir_data = ds_first.GetRasterBand(nir_band_idx).ReadAsArray().astype(np.float32)
+        
+        # 'max_ndvi_grid' conterrà l'NDVI più alto trovato finora per ogni pixel
+        if pre:
+            max_ndvi_grid = calculate_ndvi(red_data, nir_data)
+        else:
+            max_ndvi_grid = calculate_nbr(nir_data, red_data)
+        
+        # 'output_bands_data' conterrà i dati dei pixel del raster con l'NDVI più alto
+        # Converti il tipo di dato GDAL (es. 3) nel tipo NumPy (es. np.uint16)
+        numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
+        output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
+        
+        for b in range(1, band_count + 1):
+            output_bands_data[b-1] = ds_first.GetRasterBand(b).ReadAsArray()
+        
+        ds_first = None  # Chiudi il file
+
+    except Exception as e:
+        print(f"Errore fatale durante l'elaborazione del primo file: {e}")
+        return
+
+    # --- 2. Iterazione sui raster rimanenti ---
+    for raster_path in raster_file_list[1:]:
+        try:
+            print(f"Elaborazione di: {raster_path}")
+            ds = gdal.Open(raster_path, gdal.GA_ReadOnly)
+            if ds is None:
+                print(f"  Attenzione: Impossibile aprire {raster_path}. Salto.")
+                continue
+
+            # Controllo di coerenza (fondamentale!)
+            if ds.RasterXSize != x_size or ds.RasterYSize != y_size or ds.RasterCount != band_count:
+                print(f"  Attenzione: {raster_path} ha metadati non corrispondenti. Salto.")
+                ds = None
+                continue
+            
+            # Calcola l'NDVI per il raster corrente
+            red_data = ds.GetRasterBand(red_band_idx).ReadAsArray().astype(np.float32)
+            nir_data = ds.GetRasterBand(nir_band_idx).ReadAsArray().astype(np.float32)
+            if pre:
+                current_ndvi = calculate_ndvi(red_data, nir_data)
+            else:
+                current_ndvi = calculate_nbr(nir_data, red_data)
+            
+
+            # Crea una maschera booleana dove il nuovo NDVI è maggiore del massimo
+            update_mask = current_ndvi > max_ndvi_grid
+            
+            # Se non ci sono pixel da aggiornare, passa al file successivo
+            if not np.any(update_mask):
+                print(f"  Nessun pixel con NDVI maggiore trovato.")
+                ds = None
+                continue
+
+            print(f"  Aggiornamento dei pixel basato su NDVI...")
+            
+            # Aggiorna il grid dell'NDVI massimo
+            max_ndvi_grid[update_mask] = current_ndvi[update_mask]
+            
+            # Aggiorna i dati delle bande di output usando la maschera
+            for b in range(1, band_count + 1):
+                current_band_data = ds.GetRasterBand(b).ReadAsArray()
+                # Dove update_mask è True, prendi il nuovo valore da current_band_data
+                output_bands_data[b-1][update_mask] = current_band_data[update_mask]
+
+            ds = None # Chiudi il file
+
+        except Exception as e:
+            print(f"  Errore durante l'elaborazione di {raster_path}: {e}. Salto.")
+            continue
+
+    # --- 3. Scrittura del file di output ---
+    try:
+        print(f"\nScrittura del composito finale in: {output_file_path}")
+        driver = gdal.GetDriverByName("GTiff")
+        out_ds = driver.Create(output_file_path, x_size, y_size, band_count, output_dtype,
+                               options=['COMPRESS=LZW', 'TILED=YES'])
+        
+        if out_ds is None:
+            raise Exception("Impossibile creare il file di output GEOFiff.")
+
+        out_ds.SetGeoTransform(geotransform)
+        out_ds.SetProjection(projection)
+
+        for b in range(1, band_count + 1):
+            out_band = out_ds.GetRasterBand(b)
+            # Scrivi i dati dall'array NumPy in memoria
+            out_band.WriteArray(output_bands_data[b-1])
+            out_band.FlushCache()
+        
+        out_ds = None # Chiudi e salva definitivamente il file
+        print("--- Processo Completato con Successo ---")
+
+    except Exception as e:
+        print(f"Errore fatale durante la scrittura del file di output: {e}")
+
+def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
     token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
     token_data = {
         "grant_type": "client_credentials",
@@ -104,77 +255,150 @@ def Downloadsh(BBOX,date,output_name,username,password):
         ]
     }
     }
-
     function evaluatePixel(samples) {
-    return [
-        samples.B01, samples.B02, samples.B03, samples.B04, samples.B05, samples.B06,
-        samples.B07, samples.B08, samples.B8A, samples.B09, samples.B11, samples.B12,
-        samples.SCL
-    ];
+        return [
+            samples.B01, samples.B02, samples.B03, samples.B04, samples.B05, samples.B06,
+            samples.B07, samples.B08, samples.B8A, samples.B09, samples.B11, samples.B12, samples.SCL
+        ];
     }
     """
-    request_payload = {
-        "input": {
-            "bounds": {
-                "bbox": UTM_BBOX,
-                "properties": {
-                    "crs": UTM_CRS_URL
-                }
+    if choice==1:
+        request_payload = {
+            "input": {
+                "bounds": {
+                    "bbox": UTM_BBOX,
+                    "properties": {
+                        "crs": UTM_CRS_URL
+                    }
+                },
+                "data": [
+                    {
+                        "type": "sentinel-2-l2a",
+                        "dataFilter": {
+                            "timeRange": {
+                                "from": f"{date}T00:00:00Z",
+                                "to": f"{date}T23:59:59Z",
+                            }
+                        },
+                        "maxCloudCoverage": cloud,
+                        "processing": {"harmonizeValues": "false"},
+                    }
+                ],
             },
-            "data": [
-                {
-                    "type": "sentinel-2-l2a",
-                    "dataFilter": {
-                        "timeRange": {
-                            "from": f"{date}T00:00:00Z",
-                            "to": f"{date}T23:59:59Z"
+            "output": {
+                "resx": 10,  
+                "resy": 10,  
+                "crs": UTM_CRS_URL,
+                "responses": [
+                    {
+                        "identifier": "default",
+                        "format": {
+                            "type": "image/tiff"
                         }
                     }
-                }
-            ]
-        },
-        "output": {
-            "resx": 10,  
-            "resy": 10,  
-            "crs": UTM_CRS_URL,
-            "responses": [
-                {
-                    "identifier": "default",
-                    "format": {
-                        "type": "image/tiff"
+                ]
+            },
+            "evalscript": EVALSCRIPT
+        }
+    if choice==0:
+        request_payload=[]
+        for date_item in date:
+            request_payload.append({
+                "input": {
+                    "bounds": {
+                    "bbox": UTM_BBOX,
+                    "properties": {
+                        "crs": UTM_CRS_URL
                     }
-                }
-            ]
-        },
-        "evalscript": EVALSCRIPT
-    }
+                },
+                "data": [
+                    {
+                        "type": "sentinel-2-l2a",
+                        "dataFilter": {
+                            "timeRange": {
+                                "from": f"{date_item}T00:00:00Z",
+                                "to": f"{date_item}T23:59:59Z",
+                            }
+                        },
+                        "maxCloudCoverage": cloud,
+                    }
+                ],
+            },
+            "output": {
+                "resx": 10,  
+                "resy": 10,  
+                "crs": UTM_CRS_URL,
+                "responses": [
+                    {
+                        "identifier": "default",
+                        "format": {
+                            "type": "image/tiff"
+                        }
+                    }
+                ]
+            },
+            "evalscript": EVALSCRIPT
+            })
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {access_token}"
     }
-    try:
-        response = requests.post(
-            PROCESS_API_URL,
-            headers=headers,
-            json=request_payload,
-            stream=True 
-        )
-        response.raise_for_status()
-
-        with open(output_name, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-
-    except requests.exceptions.HTTPError as e:
-        print(f"Error HTTP: {e}")
+    if choice==1:
         try:
-            error_details = response.json()
-            print(f"Error (Sentinel Hub): {json.dumps(error_details, indent=2)}")
-        except Exception:
-            print("No details about the error.")
+            response = requests.post(
+                PROCESS_API_URL,
+                headers=headers,
+                json=request_payload,
+                stream=True 
+            )
+            response.raise_for_status()
 
-    except requests.exceptions.RequestException as e:
-        print(f"Connection error: {e}")
+            with open(output_name, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+        except requests.exceptions.HTTPError as e:
+            print(f"Error HTTP: {e}")
+            try:
+                error_details = response.json()
+                print(f"Error (Sentinel Hub): {json.dumps(error_details, indent=2)}")
+            except Exception:
+                print("No details about the error.")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Connection error: {e}")
+    if choice==0:
+        list_outputs=[]
+        for idx, payload in enumerate(request_payload):
+            try:
+                response = requests.post(
+                    PROCESS_API_URL,
+                    headers=headers,
+                    json=payload,
+                    stream=True 
+                )
+                response.raise_for_status()
+
+                output_file = f"{output_name.split('.tif')[0]}_{idx+1}.tif"
+                with open(output_file, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                list_outputs.append(output_file)
+
+            except requests.exceptions.HTTPError as e:
+                print(f"Error HTTP: {e}")
+                try:
+                    error_details = response.json()
+                    print(f"Error (Sentinel Hub): {json.dumps(error_details, indent=2)}")
+                except Exception:
+                    print("No details about the error.")
+
+            except requests.exceptions.RequestException as e:
+                print(f"Connection error: {e}")
+        create_max_ndvi_composite(list_outputs, output_name, 4, 8, pre)
+        for file in list_outputs:
+            os.remove(file)
+    return None
 class ReadingData:
     def __init__(self,First_path,Second_path):
 
@@ -291,10 +515,15 @@ class WriteLayer:
 class RegionGrowing:
     def __init__(self,Seed_threshold,Grow_threshold,Seed_matrix,Grow_matrix):
 
-        Mask=np.where(Seed_matrix==999,999,0)     
-        Seed_binary = np.where(Seed_matrix<Seed_threshold,0,1)+Mask
-        Grow_binary = np.where(Grow_matrix<Grow_threshold,0,1)+Mask
-        
+        Mask = np.isnan(Seed_matrix)  # True dove ci sono NaN
+
+        Seed_binary = np.where(Seed_matrix < Seed_threshold, 0, 1)
+        Grow_binary = np.where(Grow_matrix < Grow_threshold, 0, 1)
+
+        # Imposta a NaN dove c'è Mask
+        Seed_binary[Mask] = 999
+        Grow_binary[Mask] = 999
+
         self.Raster=np.array([Seed_binary,Grow_binary])
 
         RasterPP=self.Raster.copy()
@@ -361,6 +590,7 @@ class RegionGrowing:
             N=np.count_nonzero(RasterPP[0])
             
         self.Result_matrix=RasterPP[0]
+        self.Result_matrix=np.where(self.Result_matrix==999,np.nan,self.Result_matrix)
 
 class Classification:
     def __init__(self,Matrix,LowerLevelList,UpperLevelList):
@@ -374,4 +604,4 @@ class Classification:
         M_MH = np.where((Matrix>=LowerLevelList[5])&(Matrix<=UpperLevelList[5]),6,0)
         M_H = np.where((Matrix>=LowerLevelList[6])&(Matrix<=UpperLevelList[6]),7,0)
         Matrix_class = M_ERH + M_ERL + M_U + M_L + M_ML + M_MH + M_H
-        self.Final_Matrix = np.where(Matrix_class==0,99,Matrix_class)
+        self.Final_Matrix = np.where(Matrix_class==0,np.nan,Matrix_class)
