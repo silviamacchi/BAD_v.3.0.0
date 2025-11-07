@@ -26,9 +26,37 @@
    <string>Layer_Preview</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
+   <item row="3" column="0">
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="0" alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="leftButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>&lt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" alignment="Qt::AlignRight">
+      <widget class="QPushButton" name="rightButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
       <widget class="QPushButton" name="btnClose">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -73,6 +101,13 @@
          </disabled>
         </palette>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -108,50 +143,6 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="0">
-       <widget class="QGraphicsView" name="graphicsView">
-        <property name="minimumSize">
-         <size>
-          <width>550</width>
-          <height>250</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_RGB">
-          <property name="text">
-           <string>RGB visualization</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_NBR">
-          <property name="text">
-           <string>NBR visualization</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item row="1" column="0">
        <widget class="QLineEdit" name="lineEdit">
         <property name="palette">
@@ -208,6 +199,64 @@
          <bool>true</bool>
         </property>
        </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QGraphicsView" name="graphicsView">
+        <property name="minimumSize">
+         <size>
+          <width>550</width>
+          <height>250</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_imageDate">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>   Image date: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_RGB">
+          <property name="text">
+           <string>RGB visualization</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_NBR">
+          <property name="text">
+           <string>NBR visualization</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

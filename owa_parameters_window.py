@@ -56,7 +56,7 @@ class PlotCanvas(FigureCanvas):
     def plot(self, highlight_index=None):
         self.ax.clear()
         self.fig.subplots_adjust(
-            left=0.17,    # Spazio a sinistra (per etichette Y)
+            left=0.15,    # Spazio a sinistra (per etichette Y)
             right=0.95,  # Spazio a destra
             bottom=0.23, # Spazio in basso (per etichette X)
             top=0.85,    # Spazio in alto (per il titolo)
@@ -74,7 +74,7 @@ class PlotCanvas(FigureCanvas):
         self.ax.plot(x, y, linestyle='-', markersize=8)
         self.ax.set_xlim(0, self.n_features+1)
         self.ax.set_ylim(-0.5, 1.5)
-        self.ax.set_xlabel("Feature Index")
+        self.ax.set_xlabel("n. of features with non-zero evidence, necessary (a) and sufficient (b) ")
         self.ax.set_xticks(range(self.n_features + 1))
         self.ax.set_ylabel("Weight")
         self.ax.set_yticks([0, 0.5, 1])

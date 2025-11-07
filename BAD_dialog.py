@@ -59,18 +59,25 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.preview_dialog.show()
 
     def open_preview_fetchimages_pre(self):
+        image_list = []
+        for row in range(self.download_images_pre.rowCount()):
+            date = self.download_images_pre.item(row, 0).text()
+            time = self.download_images_pre.item(row, 1).text()
+            image_list.append((date, time))
+
         self.last_pre=1
         self.pushButton_FI_download_pre.setEnabled(True)
-        selected_row = self.download_images_pre.currentRow()
+        selected_index = self.download_images_pre.currentRow()
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date=self.download_images_pre.item(selected_row, 0).text()  
-        time=self.download_images_pre.item(selected_row, 1).text()  
+        #date=self.download_images_pre.item(selected_row, 0).text()  
+        #time=self.download_images_pre.item(selected_row, 1).text()  
         user=self.lineEdit_User.text()
         password=self.lineEdit_Password.text()
 
         # Open preview with the selected image 
-        self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, cloud=self.horizontalSlider_cloud_pre.value(), time=time, user=user, password=password)
-        self.preview_dialog.show()
+        self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, image_list=image_list, current_index=selected_index, cloud=self.horizontalSlider_cloud_pre.value(), user=user, password=password, parent=self.download_images_pre)
+        self.preview_dialog.exec()
+
 
     def open_preview_fetchimages_post(self):
 

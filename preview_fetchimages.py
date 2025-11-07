@@ -10,7 +10,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'preview_fetchimages.ui'))
 
 class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
-    def __init__(self, bbox, date, cloud, time=None, user=None, password=None, parent=None):
+    def __init__(self, bbox, date,  image_list, current_index, cloud, user=None, password=None, parent=None):
         super(PreviewFetchImages, self).__init__(parent)
         self.setupUi(self)
         
@@ -18,6 +18,13 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
         self.graphicsView.setScene(self.preview_scene)
         
         self.lineEdit.setVisible(False)
+
+        self.image_list = image_list
+        self.current_index = current_index
+        date, time = self.image_list[self.current_index]
+
+        self.leftButton.clicked.connect(lambda: self.go_left(bbox, date, cloud, user, password))
+        self.rightButton.clicked.connect(lambda: self.go_right(bbox, date, cloud, user, password))
 
         self.pixmap = self.get_sentinel_preview(
             client_id=user,
@@ -36,11 +43,27 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
             self.lineEdit.setVisible(True)
             self.lineEdit.setStyleSheet("color: red; font-weight: bold;")
             print("Not possible to get the image.")
+            self.leftButton.setEnabled(False)
+            self.rightButton.setEnabled(False)
     
         self.btnClose.clicked.connect(self.close)
 
     def get_sentinel_preview(self, client_id, client_secret, bbox, date, cloud, width=512, height=512):
-            
+
+        # left right buttons
+        if self.current_index == 0:
+            self.leftButton.setEnabled(False)
+            self.rightButton.setEnabled(True)
+        elif self.current_index == len(self.image_list) - 1:
+            self.rightButton.setEnabled(False)
+            self.leftButton.setEnabled(True)
+        else:
+            self.leftButton.setEnabled(True)
+            self.rightButton.setEnabled(True) 
+
+        # display image date
+        self.label_imageDate.setText(f"Image date: {date}")
+
         # Step 1: access token
         token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
         token_data = {
@@ -153,6 +176,24 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
         self.pixmap = self.get_sentinel_preview(user, password, bbox, date, cloud)
         if self.pixmap:
             self.draw_scene()
+            self.parent().selectRow(self.current_index)
         else:
             print("Impossible to get the image.")
+
+    def go_left(self, bbox, date, cloud, user, password):
+        if self.current_index > 0:
+            self.current_index -= 1
+            date, time = self.image_list[self.current_index]
+            self.update_preview(bbox, date, cloud, user, password)
+        else:
+            self.leftButton.setEnabled(False)
+
+
+    def go_right(self, bbox, date, cloud, user, password):
+        if self.current_index < len(self.image_list) - 1:
+            self.current_index += 1
+            date, time = self.image_list[self.current_index]
+            self.update_preview(bbox, date, cloud, user, password)    
+        else:
+            self.rightButton.setEnabled(False)
 
