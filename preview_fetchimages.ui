@@ -190,7 +190,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Please provide a user name, password and select an image</string>
+         <string>Please provide a valid Client ID and Client secret</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

@@ -21,7 +21,7 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
 
         self.image_list = image_list
         self.current_index = current_index
-        date, time = self.image_list[self.current_index]
+        date = self.image_list[self.current_index]
 
         self.leftButton.clicked.connect(lambda: self.go_left(bbox, date, cloud, user, password))
         self.rightButton.clicked.connect(lambda: self.go_right(bbox, date, cloud, user, password))
@@ -183,7 +183,7 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
     def go_left(self, bbox, date, cloud, user, password):
         if self.current_index > 0:
             self.current_index -= 1
-            date, time = self.image_list[self.current_index]
+            date = self.image_list[self.current_index]
             self.update_preview(bbox, date, cloud, user, password)
         else:
             self.leftButton.setEnabled(False)
@@ -192,7 +192,7 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
     def go_right(self, bbox, date, cloud, user, password):
         if self.current_index < len(self.image_list) - 1:
             self.current_index += 1
-            date, time = self.image_list[self.current_index]
+            date = self.image_list[self.current_index]
             self.update_preview(bbox, date, cloud, user, password)    
         else:
             self.rightButton.setEnabled(False)

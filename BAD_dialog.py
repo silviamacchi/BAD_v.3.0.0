@@ -62,37 +62,38 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         image_list = []
         for row in range(self.download_images_pre.rowCount()):
             date = self.download_images_pre.item(row, 0).text()
-            time = self.download_images_pre.item(row, 1).text()
-            image_list.append((date, time))
+            #time = self.download_images_pre.item(row, 1).text()
+            image_list.append(date)
 
         self.last_pre=1
         self.pushButton_FI_download_pre.setEnabled(True)
-        selected_index = self.download_images_pre.currentRow()
+        selected_index = self.download_images_pre.currentRow() if self.download_images_pre.currentRow() >= 0 else 0
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        #date=self.download_images_pre.item(selected_row, 0).text()  
-        #time=self.download_images_pre.item(selected_row, 1).text()  
         user=self.lineEdit_User.text()
         password=self.lineEdit_Password.text()
 
         # Open preview with the selected image 
         self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, image_list=image_list, current_index=selected_index, cloud=self.horizontalSlider_cloud_pre.value(), user=user, password=password, parent=self.download_images_pre)
-        self.preview_dialog.exec()
+        self.preview_dialog.exec_()
 
 
     def open_preview_fetchimages_post(self):
+        image_list = []
+        for row in range(self.download_images_post.rowCount()):
+            date = self.download_images_post.item(row, 0).text()
+            #time = self.download_images_post.item(row, 1).text()
+            image_list.append(date)
 
         self.last_post=1
         self.pushButton_FI_download_post.setEnabled(True)
-        selected_row = self.download_images_post.currentRow()
+        selected_index = self.download_images_post.currentRow() if self.download_images_post.currentRow()>=0 else 0
         bbox=[float(self.lineEdit_West.text()), float(self.lineEdit_South.text()), float(self.lineEdit_East.text()), float(self.lineEdit_North.text())]
-        date=self.download_images_post.item(selected_row, 0).text()  
-        time=self.download_images_post.item(selected_row, 1).text()  
         user=self.lineEdit_User.text()
         password=self.lineEdit_Password.text()
 
         # Open preview with the selected image 
-        self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, cloud=self.horizontalSlider_cloud_post.value(), time=time, user=user, password=password)
-        self.preview_dialog.show()
+        self.preview_dialog = PreviewFetchImages(bbox=bbox, date=date, image_list=image_list, current_index=selected_index, cloud=self.horizontalSlider_cloud_post.value(), user=user, password=password, parent=self.download_images_post)
+        self.preview_dialog.exec_()
 
     def open_owa_parameters_UC1_window(self):
         if not self.Nband:
