@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>993</width>
+    <width>1030</width>
     <height>832</height>
    </rect>
   </property>
@@ -182,7 +182,7 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -227,7 +227,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>920</width>
+               <width>957</width>
                <height>1612</height>
               </rect>
              </property>
@@ -286,314 +286,104 @@
       <attribute name="title">
        <string>FETCH IMAGES</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0,0,0,0,0,0,0,0">
        <item>
         <widget class="QLabel" name="label_38">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Sentinel-2 L2A input</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_183">
-         <item>
-          <widget class="QLabel" name="label_52">
-           <property name="text">
-            <string>AOI</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_340">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_North">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>38.8163</string>
-           </property>
-           <property name="placeholderText">
-            <string>north</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_East">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>23.4044</string>
-           </property>
-           <property name="placeholderText">
-            <string>east</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_South">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>38.7035</string>
-           </property>
-           <property name="placeholderText">
-            <string>south</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_West">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>23.2162</string>
-           </property>
-           <property name="placeholderText">
-            <string>west</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QGridLayout" name="gridLayout_9">
-         <item row="1" column="8">
-          <widget class="QLabel" name="label_77">
-           <property name="text">
-            <string>Limit</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="4">
-          <widget class="QLabel" name="label_76">
-           <property name="text">
-            <string>Ending date</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="5">
-          <spacer name="horizontalSpacer_28">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="8">
-          <widget class="QSpinBox" name="spinBox_FI_limit_post">
-           <property name="maximum">
-            <number>20</number>
-           </property>
-           <property name="value">
-            <number>10</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="4">
-          <widget class="QDateEdit" name="dateEdit_End_post">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="date">
-            <date>
-             <year>2021</year>
-             <month>8</month>
-             <day>31</day>
-            </date>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_51">
-           <property name="text">
-            <string>Starting date</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="6">
-          <widget class="QLabel" name="label_78">
-           <property name="text">
-            <string>Cloud coverage</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="4">
-          <widget class="QDateEdit" name="dateEdit_End_pre">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="dateTime">
-            <datetime>
-             <hour>0</hour>
-             <minute>0</minute>
-             <second>0</second>
-             <year>2021</year>
-             <month>7</month>
-             <day>31</day>
-            </datetime>
-           </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="date">
-            <date>
-             <year>2021</year>
-             <month>7</month>
-             <day>31</day>
-            </date>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="6">
-          <layout class="QVBoxLayout" name="verticalLayout_post">
-           <item>
-            <widget class="QSlider" name="horizontalSlider_cloud_post">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>15</height>
-              </size>
-             </property>
+         <item row="0" column="2" colspan="5">
+          <layout class="QGridLayout" name="gridLayout_10">
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEdit_South">
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>150</width>
                <height>16777215</height>
               </size>
              </property>
-             <property name="mouseTracking">
-              <bool>false</bool>
+             <property name="text">
+              <string>38.7035</string>
              </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="sliderPosition">
-              <number>10</number>
-             </property>
-             <property name="tracking">
-              <bool>true</bool>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::TicksBelow</enum>
-             </property>
-             <property name="tickInterval">
-              <number>10</number>
+             <property name="placeholderText">
+              <string>south</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_751">
-             <property name="font">
-              <font>
-               <pointsize>6</pointsize>
-               <weight>50</weight>
-               <bold>false</bold>
-              </font>
+           <item row="0" column="3">
+            <widget class="QLineEdit" name="lineEdit_West">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
              </property>
              <property name="text">
-              <string>0                    10                   20                     30                  40                  50                  60                   70                   80                  90                 100</string>
+              <string>23.2162</string>
+             </property>
+             <property name="placeholderText">
+              <string>west</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLineEdit" name="lineEdit_East">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>23.4044</string>
+             </property>
+             <property name="placeholderText">
+              <string>east</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QComboBox" name="comboBox_AOI_layer"/>
+           </item>
+           <item row="0" column="5">
+            <widget class="QLineEdit" name="lineEdit_AOI"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLineEdit" name="lineEdit_North">
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>38.8163</string>
+             </property>
+             <property name="placeholderText">
+              <string>north</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
-         <item row="3" column="1">
-          <spacer name="horizontalSpacer_27">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+         <item row="2" column="7" colspan="2" alignment="Qt::AlignRight">
+          <widget class="QLabel" name="label_77">
+           <property name="text">
+            <string>Limit   </string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
-         <item row="3" column="7">
-          <spacer name="horizontalSpacer_23">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="3">
+         <item row="4" column="3">
           <spacer name="horizontalSpacer_24">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -606,43 +396,33 @@
            </property>
           </spacer>
          </item>
-         <item row="2" column="2">
-          <widget class="QDateEdit" name="dateEdit_Start_pre">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+         <item row="4" column="1">
+          <spacer name="horizontalSpacer_27">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="maximumSize">
+           <property name="sizeHint" stdset="0">
             <size>
-             <width>150</width>
-             <height>16777215</height>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
+          </spacer>
+         </item>
+         <item row="4" column="7">
+          <spacer name="horizontalSpacer_23">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
            </property>
-           <property name="date">
-            <date>
-             <year>2021</year>
-             <month>7</month>
-             <day>15</day>
-            </date>
-           </property>
-          </widget>
+          </spacer>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_73">
-           <property name="text">
-            <string>Post-fire</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
           <widget class="QLabel" name="label_72">
            <property name="text">
             <string>Pre-fire</string>
@@ -652,36 +432,7 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="2">
-          <widget class="QDateEdit" name="dateEdit_Start_post">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="displayFormat">
-            <string>dd/MM/yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="date">
-            <date>
-             <year>2021</year>
-             <month>8</month>
-             <day>15</day>
-            </date>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="6">
+         <item row="3" column="6">
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
             <widget class="QSlider" name="horizontalSlider_cloud_pre">
@@ -742,13 +493,272 @@
            </item>
           </layout>
          </item>
-         <item row="2" column="8">
+         <item row="4" column="2">
+          <widget class="QDateEdit" name="dateEdit_Start_post">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+           <property name="date">
+            <date>
+             <year>2021</year>
+             <month>8</month>
+             <day>15</day>
+            </date>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="6">
+          <widget class="QLabel" name="label_78">
+           <property name="text">
+            <string>Cloud coverage</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="6">
+          <layout class="QVBoxLayout" name="verticalLayout_post">
+           <item>
+            <widget class="QSlider" name="horizontalSlider_cloud_post">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>15</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="mouseTracking">
+              <bool>false</bool>
+             </property>
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="sliderPosition">
+              <number>10</number>
+             </property>
+             <property name="tracking">
+              <bool>true</bool>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::TicksBelow</enum>
+             </property>
+             <property name="tickInterval">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_751">
+             <property name="font">
+              <font>
+               <pointsize>6</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>0                    10                   20                     30                  40                  50                  60                   70                   80                  90                 100</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="5">
+          <spacer name="horizontalSpacer_28">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="label_76">
+           <property name="text">
+            <string>Ending date</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_73">
+           <property name="text">
+            <string>Post-fire</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="4">
+          <widget class="QDateEdit" name="dateEdit_End_pre">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="dateTime">
+            <datetime>
+             <hour>0</hour>
+             <minute>0</minute>
+             <second>0</second>
+             <year>2021</year>
+             <month>7</month>
+             <day>31</day>
+            </datetime>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+           <property name="date">
+            <date>
+             <year>2021</year>
+             <month>7</month>
+             <day>31</day>
+            </date>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="8">
           <widget class="QSpinBox" name="spinBox_FI_limit_pre">
            <property name="maximum">
             <number>20</number>
            </property>
            <property name="value">
             <number>10</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="7" colspan="2">
+          <widget class="QToolButton" name="toolButton_AOI_path">
+           <property name="text">
+            <string>   Browse   </string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="8">
+          <widget class="QSpinBox" name="spinBox_FI_limit_post">
+           <property name="maximum">
+            <number>20</number>
+           </property>
+           <property name="value">
+            <number>10</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QDateEdit" name="dateEdit_Start_pre">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+           <property name="date">
+            <date>
+             <year>2021</year>
+             <month>7</month>
+             <day>15</day>
+            </date>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="4">
+          <widget class="QDateEdit" name="dateEdit_End_post">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+           <property name="date">
+            <date>
+             <year>2021</year>
+             <month>8</month>
+             <day>31</day>
+            </date>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_51">
+           <property name="text">
+            <string>Starting date</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_52">
+           <property name="text">
+            <string>AOI</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QLabel" name="label_CRS">
+           <property name="text">
+            <string>CRS: </string>
            </property>
           </widget>
          </item>
@@ -769,12 +779,8 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_99">
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_306">
-           <property name="text">
-            <string>Client ID</string>
-           </property>
-          </widget>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="lineEdit_Password"/>
          </item>
          <item row="0" column="0" colspan="4">
           <widget class="QLabel" name="label_305">
@@ -798,18 +804,22 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_User"/>
-         </item>
-         <item row="1" column="3">
-          <widget class="QLineEdit" name="lineEdit_Password"/>
-         </item>
          <item row="1" column="2">
           <widget class="QLabel" name="label_311">
            <property name="text">
             <string>Client secret</string>
            </property>
           </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_306">
+           <property name="text">
+            <string>Client ID</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_User"/>
          </item>
         </layout>
        </item>
@@ -1274,7 +1284,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEditPreFire">
+          <widget class="QLineEdit" name="lineEdit_PreFire">
            <property name="placeholderText">
             <string>Pre-fire raster file path</string>
            </property>
@@ -1342,7 +1352,7 @@
           <widget class="QComboBox" name="comboBox_PostRaster"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEditPostFire">
+          <widget class="QLineEdit" name="lineEdit_PostFire">
            <property name="placeholderText">
             <string>Post-fire raster file path</string>
            </property>
@@ -1447,7 +1457,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayoutOutputPreFire">
          <item>
-          <widget class="QLineEdit" name="lineEditOutputPreFire">
+          <widget class="QLineEdit" name="lineEdit_OutputPreFire">
            <property name="placeholderText">
             <string>Output path for pre-fire raster</string>
            </property>
@@ -1478,7 +1488,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayoutOutputPostFire">
          <item>
-          <widget class="QLineEdit" name="lineEditOutputPostFire">
+          <widget class="QLineEdit" name="lineEdit_OutputPostFire">
            <property name="placeholderText">
             <string>Output path for post-fire raster</string>
            </property>
@@ -3562,8 +3572,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>951</width>
-            <height>418</height>
+            <width>988</width>
+            <height>426</height>
            </rect>
           </property>
           <attribute name="label">
@@ -5239,8 +5249,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>98</width>
-            <height>28</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <attribute name="label">

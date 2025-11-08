@@ -25,8 +25,8 @@ import os
 import time
 import numpy as np
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QColor, QImage, QPixmap
+from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtGui import QIcon, QColor, QImage, QPixmap, QTextCharFormat
 from PyQt5.QtWidgets import (
     QAction, QFileDialog, QMessageBox, QGraphicsScene,
     QGraphicsPixmapItem, QTableWidgetItem
@@ -42,7 +42,7 @@ from qgis.core import (
     QgsRasterLayer, QgsProject, QgsRasterBlock, QgsRasterDataProvider,
     QgsRasterPipe, QgsRasterFileWriter, QgsRasterShader,
     QgsColorRampShader, QgsSingleBandPseudoColorRenderer,
-    QgsCoordinateReferenceSystem
+    QgsCoordinateReferenceSystem, QgsVectorLayer, QgsWkbTypes
 )
 from qgis.utils import iface
 from osgeo import gdal
@@ -229,6 +229,9 @@ class BAD:
         self.dlg.lineEdit_South.clear()
         self.dlg.lineEdit_East.clear()
         self.dlg.lineEdit_West.clear()
+        self.dlg.lineEdit_AOI.setVisible(False)
+        self.dlg.comboBox_AOI_layer.setVisible(True)
+        self.dlg.label_CRS.setText("CRS: ")
         self.dlg.lineEdit_FI_result_pre.clear()
         self.dlg.lineEdit_FI_result_post.clear()
         self.dlg.lineEdit_User.clear()
@@ -241,19 +244,31 @@ class BAD:
         self.dlg.Preview_FI_pre_mos.setEnabled(False)
         self.dlg.Preview_FI_post_mos.setEnabled(False)
 
+    def select_AOI_layer(self):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select AOI vector layer", "",
+                                                    "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
+                                                )
+        self.dlg.lineEdit_AOI.setVisible(True)
+        self.dlg.comboBox_AOI_layer.setVisible(False)
+        if file_path:
+            self.aoi_path = file_path
+            self.dlg.lineEdit_AOI.setText(file_path)
+
 # Pre-Processing tab:
     def select_pre_fire_raster(self):
         file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Pre-fire Raster", "", "GeoTIFF Files (*.tif)")
-        self.dlg.lineEditPreFire.setVisible(True)
+        self.dlg.lineEdit_PreFire.setVisible(True)
         self.dlg.comboBox_PreRaster.setVisible(False)
         if file_path:
             self.pre_fire_path = file_path
-            self.dlg.lineEditPreFire.setText(file_path)
+            self.dlg.lineEdit_PreFire.setText(file_path)
     def select_post_fire_raster(self):
         file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Post-fire Raster", "", "GeoTIFF Files (*.tif)")
+        self.dlg.lineEdit_PostFire.setVisible(True)
+        self.dlg.comboBox_PostRaster.setVisible(False)
         if file_path:
             self.post_fire_path = file_path
-            self.dlg.lineEditPostFire.setText(file_path)
+            self.dlg.lineEdit_PostFire.setText(file_path)
     
     def populate_mask_classes(self):
         """Populate the class selection lists for pre-fire and post-fire."""
@@ -283,7 +298,7 @@ class BAD:
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
     def run_masking(self):
-        if not self.pre_fire_path or not self.post_fire_path:
+        if not self.pre_fire_path or not self.dlg.comboBox_PreRaster.currentIndex() or not self.post_fire_path or not self.dlg.comboBox_PostRaster.currentIndex():
             QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
             return
 
@@ -295,8 +310,8 @@ class BAD:
             return
 
         try:
-            self.mask_raster(self.pre_fire_path, self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentIndex(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentIndex(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
                 self.display_in_qgis(self.output_pre_fire_path)
@@ -326,15 +341,19 @@ class BAD:
                 selected_classes.append(class_index)
         return selected_classes
 
-    def mask_raster(self, input_path, scl_band_index, mask_classes, output_path):
+    def mask_raster(self, input_path, input_layer, scl_band_index, mask_classes, output_path):
         self.show_progress_bar("Computing Pre-Processing")
         self.update_progress(5)
         start = time.process_time()
-        raster_layer = QgsRasterLayer(input_path, "InputRaster")
-        if not raster_layer.isValid():
-            raise ValueError(f"Failed to load raster: {input_path}")
-
-        dataset = gdal.Open(input_path)
+        if input_path:
+            raster_layer = QgsRasterLayer(input_path, "InputRaster")
+            if not raster_layer.isValid():
+                raise ValueError(f"Failed to load raster: {input_path}")
+            dataset = gdal.Open(input_path)
+        elif input_layer:
+            raster_layer = QgsProject.instance().mapLayersByName(input_layer)[0]
+            dataset = gdal.Open(raster_layer.dataProvider().dataSourceUri())
+        
         if dataset is None:
             raise ValueError("Failed to open raster with GDAL.")
 
@@ -388,10 +407,14 @@ class BAD:
         self.dlg.spinBox_scl_pre.setValue(15)
         self.dlg.spinBox_scl_post.setValue(15)
 
-        self.dlg.lineEditPreFire.clear()
-        self.dlg.lineEditPostFire.clear()
-        self.dlg.lineEditOutputPreFire.clear()
-        self.dlg.lineEditOutputPostFire.clear()
+        self.dlg.lineEdit_PreFire.clear()
+        self.dlg.lineEdit_PreFire.setVisible(False)
+        self.dlg.comboBox_PreRaster.setVisible(True)
+        self.dlg.lineEdit_PostFire.clear()
+        self.dlg.lineEdit_PostFire.setVisible(False)
+        self.dlg.comboBox_PostRaster.setVisible(True)
+        self.dlg.lineEdit_OutputPreFire.clear()
+        self.dlg.lineEdit_OutputPostFire.clear()
 
         for index in range(self.dlg.listWidgetClassesPreFire.count()):
             self.dlg.listWidgetClassesPreFire.item(index).setCheckState(QtCore.Qt.Unchecked)
@@ -721,6 +744,87 @@ class BAD:
         filename, _filter = QFileDialog.getSaveFileName(self.dlg, "Select output file", "", '*.tif')
         target_lineedit.setText(filename)
 
+###################################################################################################     
+###################################################################################################
+###################################################################################################
+#  This part of the script contains the code about BBOX definition and calendar visualization
+
+# BBOX definition
+    def get_BBOX(self):
+
+        layer_name = None
+        AOI_layer = None
+        
+        if self.dlg.lineEdit_AOI.isVisible():
+            # Get layer path from line edit
+            layer_path = self.dlg.lineEdit_AOI.text()
+            # Load the raster layer
+            AOI_layer = QgsRasterLayer(layer_path, "AOI_Layer")
+
+        elif self.dlg.comboBox_AOI_layer.isVisible():
+            # Get layer selected
+            layer_name = self.dlg.comboBox_AOI_layer.currentText()
+            # Search for the layer in the project
+            AOI_layer = next(
+                (l for l in QgsProject.instance().mapLayers().values() if l.name() == layer_name),
+                None
+            )
+        if not layer_name or layer_name == "Select a Layer":
+            return # No layer selected  
+        elif not AOI_layer.isValid():
+            print("Layer not valid.")
+        elif AOI_layer.geometryType() != QgsWkbTypes.PolygonGeometry:
+            print("Selected layer is not a polygon.")
+
+        else:
+            crs = AOI_layer.crs()
+            extent = AOI_layer.extent()
+            South = extent.yMinimum()
+            North = extent.yMaximum()
+            West = extent.xMinimum()
+            East = extent.xMaximum()
+        #BBOX = (South, North, West, East)
+            self.dlg.lineEdit_South.setText(str(South))
+            self.dlg.lineEdit_North.setText(str(North))
+            self.dlg.lineEdit_West.setText(str(West))
+            self.dlg.lineEdit_East.setText(str(East))
+            epsg_code = AOI_layer.crs().authid() 
+            epsg_number = epsg_code.split(":")[1]
+
+            link_html = f'<a href="https://epsg.io/{epsg_number}">{epsg_code}</a>'
+            self.dlg.label_CRS.setText("CRS: " + link_html)
+            self.dlg.label_CRS.setOpenExternalLinks(True)
+
+# Calendar visualization
+    def update_calendar(self, start_widget, end_widget):
+        start_date = start_widget.date()
+        end_date = end_widget.date()
+        calendar = end_widget.calendarWidget()
+
+
+        # Gray not available data
+        gray_fmt = QTextCharFormat()
+        gray_fmt.setForeground(Qt.gray)
+
+        # Selected period lightblue
+        highlight_fmt = QTextCharFormat()
+        highlight_fmt.setBackground(QColor("#cceeff"))
+
+        # Applica grigio alle date prima della start (solo nel mese visibile)
+        visible = calendar.monthShown()
+        year = calendar.yearShown()
+        for day in range(1, 32):
+            date = QDate(year, visible, day)
+            if date.isValid() and date < start_date:
+                calendar.setDateTextFormat(date, gray_fmt)
+
+        # Evidenzia il periodo selezionato
+        d = start_date
+        while d <= end_date:
+            calendar.setDateTextFormat(d, highlight_fmt)
+            d = d.addDays(1)
+
+
 
 ###################################################################################################     
 ###################################################################################################
@@ -900,10 +1004,10 @@ class BAD:
         self.window.show()
 
         #populate the comboBox with name of prefire layer
-        self.dlg.comboBox_PreRaster.setVisible(True)
-        self.dlg.lineEditPreFire.setVisible(False)
-        self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        self.dlg.comboBox_PreRaster.addItems(["Pre-fire Sentinel-2 Image"])
+        #self.dlg.comboBox_PreRaster.setVisible(True)
+        self.dlg.lineEdit_PreFire.setVisible(False)
+        #self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
+        self.dlg.comboBox_PreRaster.insertItems(0, ["Pre-fire Sentinel-2 Image"])
 
 
 # The process is executed when the button "Download Post-fire" is clicked 
@@ -942,11 +1046,10 @@ class BAD:
         self.window.show()
 
         #populate the comboBox with name of prefire layer
-        self.dlg.comboBox_PostRaster.setVisible(True)
-        self.dlg.lineEditPostFire.setVisible(False)
-        self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])
-
-        self.dlg.comboBox_PostRaster.addItems(["Post-fire Sentinel-2 Image"])
+        #self.dlg.comboBox_PostRaster.setVisible(True)
+        self.dlg.lineEdit_PostFire.setVisible(False)
+        #self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])
+        self.dlg.comboBox_PostRaster.insertItems(0, ["Post-fire Sentinel-2 Image"])
 
 ###################################################################################################     
 ###################################################################################################
@@ -2564,6 +2667,16 @@ class BAD:
             self.dlg.pushButton_FI_search_pre.clicked.connect(self.search_sentinel_pre)
             self.dlg.pushButton_FI_search_post.clicked.connect(self.search_sentinel_post)
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
+            self.dlg.lineEdit_AOI.setVisible(False)
+            self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
+            self.dlg.toolButton_AOI_path.clicked.connect(self.select_AOI_layer)
+            self.dlg.dateEdit_Start_pre.dateChanged.connect(
+                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
+            )
+            self.dlg.dateEdit_End_pre.dateChanged.connect(
+                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
+            )
+
             self.dlg.pushButton_FI_download_pre.clicked.connect(self.download_sentinel_pre)
             self.dlg.pushButton_FI_download_post.clicked.connect(self.download_sentinel_post)
             self.dlg.Preview_FI_pre_mos.clicked.connect(self.open_preview_mosaic_pre)
@@ -2587,15 +2700,20 @@ class BAD:
             self.dlg.btnBrowseOutputPostFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPostFire))
             self.dlg.btnRunMasking.clicked.connect(self.run_masking)
             self.dlg.btnReset.clicked.connect(self.reset_fields)
-
+            if self.dlg.btnReset.clicked.connect(self.reset_fields):
+                self.select_pre_fire_raster
+                self.select_post_fire_raster
+            
             # Synchronize comboBoxes and lineEdits in Mask tab
-            self.dlg.comboBox_PreRaster.setVisible(False)
-            self.dlg.comboBox_PreRaster.currentTextChanged.connect(self.dlg.lineEditPreFire.setText)
-            self.dlg.lineEditPreFire.textChanged.connect(lambda text: self.dlg.comboBox_PreRaster.setEditText(text))
+            #self.dlg.comboBox_PreRaster.setVisible(False)
+            self.dlg.lineEdit_PreFire.setVisible(False)
+            #self.dlg.comboBox_PreRaster.currentTextChanged.connect(self.dlg.lineEditPreFire.setText)
+            #self.dlg.lineEditPreFire.textChanged.connect(lambda text: self.dlg.comboBox_PreRaster.setEditText(text))
 
-            self.dlg.comboBox_PostRaster.setVisible(False)
-            self.dlg.comboBox_PostRaster.currentTextChanged.connect(self.dlg.lineEditPostFire.setText)
-            self.dlg.lineEditPostFire.textChanged.connect(lambda text: self.dlg.comboBox_PostRaster.setEditText(text))
+            #self.dlg.comboBox_PostRaster.setVisible(False)
+            self.dlg.lineEdit_PostFire.setVisible(False)
+            #self.dlg.comboBox_PostRaster.currentTextChanged.connect(self.dlg.lineEditPostFire.setText)
+            #self.dlg.lineEditPostFire.textChanged.connect(lambda text: self.dlg.comboBox_PostRaster.setEditText(text))
 
             
             self.dlg.pushButton_input_reset.clicked.connect(self.reset_input_tab)
@@ -2649,30 +2767,51 @@ class BAD:
             self.dlg.buttonRunValidation.clicked.connect(self.ComputeValidation)
             self.dlg.buttonExportSEVReport.clicked.connect(self.export_sev_validation_report)
 
-        
+        #Fetch the currently loaded poly and raster layers
+        poly_layers = []
+        raster_layers = []
+
+        #Iterate to get polygon layers
+        for node in QgsProject.instance().layerTreeRoot().children():
+            layer = node.layer()
+            if isinstance(layer, QgsVectorLayer) and layer.geometryType() == QgsWkbTypes.PolygonGeometry:
+                poly_layers.append(layer)
+            elif isinstance(layer, QgsRasterLayer):
+                raster_layers.append(layer)
+    
         #Fetch the currently loaded layers
-        layers = QgsProject.instance().layerTreeRoot().children()
+        #layers = QgsProject.instance().layerTreeRoot().children()
         
         #Clear the contents of the comboBox from previous runs
+        self.dlg.comboBox_AOI_layer.clear()
+        self.dlg.comboBox_PreRaster.clear()
+        self.dlg.comboBox_PostRaster.clear()
+
         self.dlg.comboBox_prefire.clear()
         self.dlg.comboBox_postfire.clear()
 
         self.dlg.comboBox_RG_seed.clear()
         self.dlg.comboBox_RG_grow.clear()
-
         
         #populate the comboBox with names of all the loaded layers
+        self.dlg.comboBox_AOI_layer.addItems(['Select a Layer'])
+        self.dlg.comboBox_AOI_layer.addItems([layer.name() for layer in poly_layers])
+
+        self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
+        self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])   
+        self.dlg.comboBox_PreRaster.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_PostRaster.addItems([layer.name() for layer in raster_layers])
+
         self.dlg.comboBox_prefire.addItems(['Select a Layer'])
         self.dlg.comboBox_postfire.addItems(['Select a Layer'])
+        self.dlg.comboBox_prefire.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_postfire.addItems([layer.name() for layer in raster_layers])
 
-        self.dlg.comboBox_prefire.addItems([layer.name() for layer in layers])
-        self.dlg.comboBox_postfire.addItems([layer.name() for layer in layers])
-      
         self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
         self.dlg.comboBox_RG_grow.addItems(['Select a Layer'])
-        self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in layers])
-        self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in layers])
-               
+        self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
+
 
         # show the dialog
         self.dlg.show()
