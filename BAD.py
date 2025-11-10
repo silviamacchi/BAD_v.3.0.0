@@ -1028,7 +1028,6 @@ class BAD:
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
         Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True)
-        self.pre_fire_path=output_name
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -1071,7 +1070,6 @@ class BAD:
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
         Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False)
-        self.post_fire_path=output_name
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
