@@ -440,7 +440,6 @@ class BAD:
         self.dlg.spinBox_input_B8,
         self.dlg.spinBox_input_B8A,
         self.dlg.spinBox_input_B9,
-        self.dlg.spinBox_input_B10,
         self.dlg.spinBox_input_B11,
         self.dlg.spinBox_input_B12]
 
@@ -460,7 +459,6 @@ class BAD:
         self.dlg.checkBox_input_B8.setCheckState(True)
         self.dlg.checkBox_input_B8A.setCheckState(False)
         self.dlg.checkBox_input_B9.setCheckState(False)
-        self.dlg.checkBox_input_B10.setCheckState(False)
         self.dlg.checkBox_input_B11.setCheckState(False)
         self.dlg.checkBox_input_B12.setCheckState(True)
 
@@ -512,7 +510,6 @@ class BAD:
         self.dlg.checkBox_FAP_B5,
         self.dlg.checkBox_FAP_B8A,
         self.dlg.checkBox_FAP_B9,
-        self.dlg.checkBox_FAP_B10,
         self.dlg.checkBox_FAP_B11,
         self.dlg.checkBox_FAP_B12]
 
@@ -524,7 +521,6 @@ class BAD:
         self.dlg.doubleSpinBox_FAP_B5_K,
         self.dlg.doubleSpinBox_FAP_B8A_K,
         self.dlg.doubleSpinBox_FAP_B9_K,
-        self.dlg.doubleSpinBox_FAP_B10_K,
         self.dlg.doubleSpinBox_FAP_B11_K,
         self.dlg.doubleSpinBox_FAP_B12_K]
         
@@ -536,7 +532,6 @@ class BAD:
         self.dlg.doubleSpinBox_FAP_B5_x,
         self.dlg.doubleSpinBox_FAP_B8A_x,
         self.dlg.doubleSpinBox_FAP_B9_x,
-        self.dlg.doubleSpinBox_FAP_B10_x,
         self.dlg.doubleSpinBox_FAP_B11_x,
         self.dlg.doubleSpinBox_FAP_B12_x]
 
@@ -565,7 +560,6 @@ class BAD:
         self.dlg.checkBox_FAD_B5,
         self.dlg.checkBox_FAD_B8A,
         self.dlg.checkBox_FAD_B9,
-        self.dlg.checkBox_FAD_B10,
         self.dlg.checkBox_FAD_B11]
 
         DoubleSpinBoxes_K = [
@@ -576,7 +570,6 @@ class BAD:
         self.dlg.doubleSpinBox_FAD_B5_K,
         self.dlg.doubleSpinBox_FAD_B8A_K,
         self.dlg.doubleSpinBox_FAD_B9_K,
-        self.dlg.doubleSpinBox_FAD_B10_K,
         self.dlg.doubleSpinBox_FAD_B11_K]
         
         DoubleSpinBoxes_x = [
@@ -587,7 +580,6 @@ class BAD:
         self.dlg.doubleSpinBox_FAD_B5_x,
         self.dlg.doubleSpinBox_FAD_B8A_x,
         self.dlg.doubleSpinBox_FAD_B9_x,
-        self.dlg.doubleSpinBox_FAD_B10_x,
         self.dlg.doubleSpinBox_FAD_B11_x]
 
         # Reset value K
@@ -1162,8 +1154,6 @@ class BAD:
         
         self.GeoTrans=Data.gt
         self.proj=Data.proj
-        numBand=Data.Bands
-
 
         FinalFeatureList=[]
         NameBandsList=[]
@@ -1239,11 +1229,6 @@ class BAD:
             FinalFeatureList.append(layer)
             NameBandsList.append('postB9')
 
-        if self.dlg.checkBox_FAP_B10.isChecked():
-            layer=self.PostMatrix[Band10-1]
-            FinalFeatureList.append(layer)
-            NameBandsList.append('postB10')
-
         if self.dlg.checkBox_FAP_B11.isChecked():
             layer=self.PostMatrix[Band11-1]
             FinalFeatureList.append(layer)
@@ -1289,11 +1274,6 @@ class BAD:
             layer=self.DeltaMatrix[Band9-1]
             FinalFeatureList.append(layer)
             NameBandsList.append('deltaB9')
-
-        if self.dlg.checkBox_FAD_B10.isChecked():
-            layer=self.DeltaMatrix[Band10-1]
-            FinalFeatureList.append(layer)
-            NameBandsList.append('deltaB10')
 
         if self.dlg.checkBox_FAD_B11.isChecked():
             layer=self.DeltaMatrix[Band11-1]
@@ -1473,14 +1453,6 @@ class BAD:
             FinalBandList.append(MD_postB9)
             NameBandsList.append('MD_postB9')
 
-        if self.dlg.checkBox_FAP_B10.isChecked():
-            K=self.dlg.doubleSpinBox_FAP_B10_K.value()
-            x=self.dlg.doubleSpinBox_FAP_B10_x.value()
-            layer=self.PostMatrix[self.BandsList[10]-1]
-            MD_postB10 = MembershipFunction(layer,K,x).MD
-            FinalBandList.append(MD_postB10)
-            NameBandsList.append('MD_postB10')
-
         if self.dlg.checkBox_FAP_B11.isChecked():
             K=self.dlg.doubleSpinBox_FAP_B11_K.value()
             x=self.dlg.doubleSpinBox_FAP_B11_x.value()
@@ -1553,14 +1525,6 @@ class BAD:
             MD_deltaB9 = MembershipFunction(layer,K,x).MD
             FinalBandList.append(MD_deltaB9)
             NameBandsList.append('MD_deltaB9')
-
-        if self.dlg.checkBox_FAD_B10.isChecked():
-            K=self.dlg.doubleSpinBox_FAD_B10_K.value()
-            x=self.dlg.doubleSpinBox_FAD_B10_x.value()
-            layer=self.DeltaMatrix[self.BandsList[10]-1]  
-            MD_deltaB10 = MembershipFunction(layer,K,x).MD
-            FinalBandList.append(MD_deltaB10)
-            NameBandsList.append('MD_deltaB10')
 
         if self.dlg.checkBox_FAD_B11.isChecked():
             K=self.dlg.doubleSpinBox_FAD_B11_K.value()
