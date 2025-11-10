@@ -299,7 +299,7 @@ class BAD:
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
     def run_masking(self):
-        if not self.pre_fire_path or not self.dlg.comboBox_PreRaster.currentIndex() or not self.post_fire_path or not self.dlg.comboBox_PostRaster.currentIndex():
+        if (not self.pre_fire_path and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.post_fire_path and not self.dlg.comboBox_PostRaster.currentIndex()):
             QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
             return
 
@@ -311,8 +311,13 @@ class BAD:
             return
 
         try:
-            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentIndex(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentIndex(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
+            self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
+
+            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+
+            ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
                 self.display_in_qgis(self.output_pre_fire_path)
@@ -350,10 +355,14 @@ class BAD:
             raster_layer = QgsRasterLayer(input_path, "InputRaster")
             if not raster_layer.isValid():
                 raise ValueError(f"Failed to load raster: {input_path}")
+            crs=raster_layer.crs().authid()
             dataset = gdal.Open(input_path)
         elif input_layer:
-            raster_layer = QgsProject.instance().mapLayersByName(input_layer)[0]
-            dataset = gdal.Open(raster_layer.dataProvider().dataSourceUri())
+            name= str(input_layer)
+            info = QgsProject.instance().mapLayersByName(name)
+            input_path = info[0].dataProvider().dataSourceUri()
+            dataset = gdal.Open(input_path)
+            crs=info[0].crs().authid()
         
         if dataset is None:
             raise ValueError("Failed to open raster with GDAL.")
@@ -371,7 +380,7 @@ class BAD:
             band[mask] = np.nan
             masked_bands.append(band)
 
-        self.save_raster(output_path, dataset.RasterXSize, dataset.RasterYSize, raster_layer.crs().authid(), dataset.GetGeoTransform(), masked_bands)
+        self.save_raster(output_path, dataset.RasterXSize, dataset.RasterYSize, crs, dataset.GetGeoTransform(), masked_bands)
         self.update_progress(100)
         self.hide_progress_bar()
         end = time.process_time()
@@ -382,6 +391,7 @@ class BAD:
         self.ui = Ui_Message()
         self.ui.setupUi(self.window)
         self.window.show()
+
     def save_raster(self, output_path, cols, rows, crs, transform, bands):
         driver = gdal.GetDriverByName("GTiff")
         dataset = driver.Create(output_path, cols, rows, len(bands), gdal.GDT_Float32)
@@ -1013,10 +1023,12 @@ class BAD:
 
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
         output_name = self.dlg.lineEdit_FI_result_pre.text()
+        
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
         Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True)
+        self.pre_fire_path=output_name
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -1059,6 +1071,7 @@ class BAD:
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
         Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False)
+        self.post_fire_path=output_name
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -1286,8 +1299,8 @@ class BAD:
             NameBandsList.append('postNBR2')
 
         if self.dlg.checkBox_FAP_MIRBI.isChecked():
-            swir1=self.PostMatrix[Band11-1]
-            swir=self.PostMatrix[Band12-1]
+            swir1=(self.PostMatrix[Band11-1])/10000
+            swir=(self.PostMatrix[Band12-1])/10000
             layer=10*swir-9.5*swir1+2
             FinalFeatureList.append(layer)
             NameBandsList.append('postMIRBI')
@@ -1367,11 +1380,11 @@ class BAD:
             NameBandsList.append('deltaNBR2')
 
         if self.dlg.checkBox_FAD_MIRBI.isChecked():
-            swir1=self.PostMatrix[Band11-1]
-            swir=self.PostMatrix[Band12-1]
+            swir1=(self.PostMatrix[Band11-1])/10000
+            swir=(self.PostMatrix[Band12-1])/10000
             post=10*swir-9.5*swir1+2
-            swir1=self.PreMatrix[Band11-1]
-            swir=self.PreMatrix[Band12-1]
+            swir1=(self.PreMatrix[Band11-1])/10000
+            swir=(self.PreMatrix[Band12-1])/10000
             pre=10*swir-9.5*swir1+2
             layer=post-pre
             FinalFeatureList.append(layer)
@@ -1599,8 +1612,8 @@ class BAD:
         if self.dlg.checkBox_FAP_MIRBI.isChecked():
             K=self.dlg.doubleSpinBox_FAP_MIRBI_K.value()
             x=self.dlg.doubleSpinBox_FAP_MIRBI_x.value()
-            swir1=self.PostMatrix[self.BandsList[11]-1]
-            swir=self.PostMatrix[self.BandsList[12]-1]
+            swir1=(self.PostMatrix[self.BandsList[11]-1])/10000
+            swir=(self.PostMatrix[self.BandsList[12]-1])/10000
             layer=10*swir-9.5*swir1+2
             MD_postMIRBI = MembershipFunction(layer,K,x).MD
             FinalBandList.append(MD_postMIRBI)
@@ -1716,11 +1729,11 @@ class BAD:
         if self.dlg.checkBox_FAD_MIRBI.isChecked():
             K=self.dlg.doubleSpinBox_FAD_MIRBI_K.value()
             x=self.dlg.doubleSpinBox_FAD_MIRBI_x.value()
-            swir1=self.PostMatrix[self.BandsList[11]-1]
-            swir=self.PostMatrix[self.BandsList[12]-1]
+            swir1=(self.PostMatrix[self.BandsList[11]-1])/10000
+            swir=(self.PostMatrix[self.BandsList[12]-1])/10000
             post=10*swir-9.5*swir1+2
-            swir1=self.PreMatrix[self.BandsList[11]-1]
-            swir=self.PreMatrix[self.BandsList[12]-1]
+            swir1=(self.PreMatrix[self.BandsList[11]-1])/10000
+            swir=(self.PreMatrix[self.BandsList[12]-1])/10000
             pre=10*swir-9.5*swir1+2
             layer=post-pre
             MD_deltaMIRBI = MembershipFunction(layer,K,x).MD
@@ -2864,6 +2877,8 @@ class BAD:
 
             # Mask
             self.populate_mask_classes()
+            self.pre_fire_path=None
+            self.post_fire_path=None
             self.dlg.btnBrowsePreFire.clicked.connect(self.select_pre_fire_raster)
             self.dlg.btnBrowsePostFire.clicked.connect(self.select_post_fire_raster)
             self.dlg.btnBrowseOutputPreFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPreFire))

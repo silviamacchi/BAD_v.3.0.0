@@ -3495,8 +3495,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>98</width>
-            <height>28</height>
+            <width>976</width>
+            <height>534</height>
            </rect>
           </property>
           <attribute name="label">
@@ -6880,7 +6880,7 @@
             <item row="11" column="0">
              <layout class="QHBoxLayout" name="horizontalLayout_101">
               <item>
-               <widget class="QCheckBox" name="checkBox_FAD_NBR_2">
+               <widget class="QCheckBox" name="checkBox_FAD_NBR2">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
