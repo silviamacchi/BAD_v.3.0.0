@@ -511,7 +511,11 @@ class BAD:
         self.dlg.checkBox_FAP_B8A,
         self.dlg.checkBox_FAP_B9,
         self.dlg.checkBox_FAP_B11,
-        self.dlg.checkBox_FAP_B12]
+        self.dlg.checkBox_FAP_B12,
+        self.dlg.checkBox_FAP_NDVI,
+        self.dlg.checkBox_FAP_NBR,
+        self.dlg.checkBox_FAP_NBR2,
+        self.dlg.checkBox_FAP_MIRBI]
 
         DoubleSpinBoxes_K = [
         self.dlg.doubleSpinBox_FAP_B1_K,
@@ -522,7 +526,11 @@ class BAD:
         self.dlg.doubleSpinBox_FAP_B8A_K,
         self.dlg.doubleSpinBox_FAP_B9_K,
         self.dlg.doubleSpinBox_FAP_B11_K,
-        self.dlg.doubleSpinBox_FAP_B12_K]
+        self.dlg.doubleSpinBox_FAP_B12_K,
+        self.dlg.doubleSpinBox_FAP_NDVI_K,
+        self.dlg.doubleSpinBox_FAP_NBR_K,
+        self.dlg.doubleSpinBox_FAP_NBR2_K,
+        self.dlg.doubleSpinBox_FAP_MIRBI_K]
         
         DoubleSpinBoxes_x = [
         self.dlg.doubleSpinBox_FAP_B1_x,
@@ -533,7 +541,11 @@ class BAD:
         self.dlg.doubleSpinBox_FAP_B8A_x,
         self.dlg.doubleSpinBox_FAP_B9_x,
         self.dlg.doubleSpinBox_FAP_B11_x,
-        self.dlg.doubleSpinBox_FAP_B12_x]
+        self.dlg.doubleSpinBox_FAP_B12_x,
+        self.dlg.doubleSpinBox_FAP_NDVI_x,
+        self.dlg.doubleSpinBox_FAP_NBR_x,
+        self.dlg.doubleSpinBox_FAP_NBR2_x,
+        self.dlg.doubleSpinBox_FAP_MIRBI_x]
 
         # Reset value K
         for DSbox in DoubleSpinBoxes_K:
@@ -560,7 +572,12 @@ class BAD:
         self.dlg.checkBox_FAD_B5,
         self.dlg.checkBox_FAD_B8A,
         self.dlg.checkBox_FAD_B9,
-        self.dlg.checkBox_FAD_B11]
+        self.dlg.checkBox_FAD_B11,
+        self.dlg.checkBox_FAD_NDVI,
+        self.dlg.checkBox_FAD_NBR,
+        self.dlg.checkBox_FAD_NBR2,
+        self.dlg.checkBox_FAD_MIRBI,
+        ]
 
         DoubleSpinBoxes_K = [
         self.dlg.doubleSpinBox_FAD_B1_K,
@@ -570,7 +587,11 @@ class BAD:
         self.dlg.doubleSpinBox_FAD_B5_K,
         self.dlg.doubleSpinBox_FAD_B8A_K,
         self.dlg.doubleSpinBox_FAD_B9_K,
-        self.dlg.doubleSpinBox_FAD_B11_K]
+        self.dlg.doubleSpinBox_FAD_B11_K,
+        self.dlg.doubleSpinBox_FAD_NDVI_K,
+        self.dlg.doubleSpinBox_FAD_NBR_K,
+        self.dlg.doubleSpinBox_FAD_NBR2_K,
+        self.dlg.doubleSpinBox_FAD_MIRBI_K]
         
         DoubleSpinBoxes_x = [
         self.dlg.doubleSpinBox_FAD_B1_x,
@@ -580,7 +601,11 @@ class BAD:
         self.dlg.doubleSpinBox_FAD_B5_x,
         self.dlg.doubleSpinBox_FAD_B8A_x,
         self.dlg.doubleSpinBox_FAD_B9_x,
-        self.dlg.doubleSpinBox_FAD_B11_x]
+        self.dlg.doubleSpinBox_FAD_B11_x,
+        self.dlg.doubleSpinBox_FAD_NDVI_x,
+        self.dlg.doubleSpinBox_FAD_NBR_x,
+        self.dlg.doubleSpinBox_FAD_NBR2_x,
+        self.dlg.doubleSpinBox_FAD_MIRBI_x]
 
         # Reset value K
         for DSbox in DoubleSpinBoxes_K:
@@ -1239,6 +1264,34 @@ class BAD:
             FinalFeatureList.append(layer)
             NameBandsList.append('postB12')
 
+        if self.dlg.checkBox_FAP_NDVI.isChecked():
+            nir=self.PostMatrix[Band8-1]
+            red=self.PostMatrix[Band4-1]
+            layer=(nir-red)/(nir+red)
+            FinalFeatureList.append(layer)
+            NameBandsList.append('postNDVI')
+
+        if self.dlg.checkBox_FAP_NBR.isChecked():
+            nir=self.PostMatrix[Band8-1]
+            swir=self.PostMatrix[Band12-1]
+            layer=(nir-swir)/(nir+swir)
+            FinalFeatureList.append(layer)
+            NameBandsList.append('postNBR')
+
+        if self.dlg.checkBox_FAP_NBR2.isChecked():
+            swir1=self.PostMatrix[Band11-1]
+            swir=self.PostMatrix[Band12-1]
+            layer=(swir1-swir)/(swir1+swir)
+            FinalFeatureList.append(layer)
+            NameBandsList.append('postNBR2')
+
+        if self.dlg.checkBox_FAP_MIRBI.isChecked():
+            swir1=self.PostMatrix[Band11-1]
+            swir=self.PostMatrix[Band12-1]
+            layer=10*swir-9.5*swir1+2
+            FinalFeatureList.append(layer)
+            NameBandsList.append('postMIRBI')
+
         # FEATURES ADVANCED DELTA
         if self.dlg.checkBox_FAD_B1.isChecked():
             layer=self.DeltaMatrix[Band1-1]
@@ -1279,6 +1332,50 @@ class BAD:
             layer=self.DeltaMatrix[Band11-1]
             FinalFeatureList.append(layer)
             NameBandsList.append('deltaB11')
+
+        if self.dlg.checkBox_FAD_NDVI.isChecked():
+            nir=self.PostMatrix[Band8-1]
+            red=self.PostMatrix[Band4-1]
+            post=(nir-red)/(nir+red)
+            nir=self.PreMatrix[Band8-1]
+            red=self.PreMatrix[Band4-1]
+            pre=(nir-red)/(nir+red)
+            layer=post-pre
+            FinalFeatureList.append(layer)
+            NameBandsList.append('deltaNDVI')
+
+        if self.dlg.checkBox_FAD_NBR.isChecked():
+            nir=self.PostMatrix[Band8-1]
+            swir=self.PostMatrix[Band12-1]
+            post=(nir-swir)/(nir+swir)
+            nir=self.PreMatrix[Band8-1]
+            swir=self.PreMatrix[Band12-1]
+            pre=(nir-swir)/(nir+swir)
+            layer=post-pre
+            FinalFeatureList.append(layer)
+            NameBandsList.append('deltaNBR')
+
+        if self.dlg.checkBox_FAD_NBR2.isChecked():
+            swir1=self.PostMatrix[Band11-1]
+            swir=self.PostMatrix[Band12-1]
+            post=(swir1-swir)/(swir1+swir)
+            swir1=self.PreMatrix[Band11-1]
+            swir=self.PreMatrix[Band12-1]
+            pre=(swir1-swir)/(swir1+swir)
+            layer=post-pre
+            FinalFeatureList.append(layer)
+            NameBandsList.append('deltaNBR2')
+
+        if self.dlg.checkBox_FAD_MIRBI.isChecked():
+            swir1=self.PostMatrix[Band11-1]
+            swir=self.PostMatrix[Band12-1]
+            post=10*swir-9.5*swir1+2
+            swir1=self.PreMatrix[Band11-1]
+            swir=self.PreMatrix[Band12-1]
+            pre=10*swir-9.5*swir1+2
+            layer=post-pre
+            FinalFeatureList.append(layer)
+            NameBandsList.append('deltaMIRBI')
 
         self.update_progress(95)
 
@@ -1468,6 +1565,46 @@ class BAD:
             MD_postB12 = MembershipFunction(layer,K,x).MD
             FinalBandList.append(MD_postB12)
             NameBandsList.append('MD_postB12')
+        
+        if self.dlg.checkBox_FAP_NDVI.isChecked():
+            K=self.dlg.doubleSpinBox_FAP_NDVI_K.value()
+            x=self.dlg.doubleSpinBox_FAP_NDVI_x.value()
+            nir=self.PostMatrix[self.BandsList[7]-1]
+            red=self.PostMatrix[self.BandsList[3]-1]
+            layer=(nir-red)/(nir+red)
+            MD_postNDVI = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_postNDVI)
+            NameBandsList.append('MD_postNDVI')
+
+        if self.dlg.checkBox_FAP_NBR.isChecked():
+            K=self.dlg.doubleSpinBox_FAP_NBR_K.value()
+            x=self.dlg.doubleSpinBox_FAP_NBR_x.value()
+            nir=self.PostMatrix[self.BandsList[7]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            layer=(nir-swir)/(nir+swir)
+            MD_postNBR = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_postNBR)
+            NameBandsList.append('MD_postNBR')
+
+        if self.dlg.checkBox_FAP_NBR2.isChecked():
+            K=self.dlg.doubleSpinBox_FAP_NBR2_K.value()
+            x=self.dlg.doubleSpinBox_FAP_NBR2_x.value()
+            swir1=self.PostMatrix[self.BandsList[11]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            layer=(swir1-swir)/(swir1+swir)
+            MD_postNBR2 = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_postNBR2)
+            NameBandsList.append('MD_postNBR2')
+
+        if self.dlg.checkBox_FAP_MIRBI.isChecked():
+            K=self.dlg.doubleSpinBox_FAP_MIRBI_K.value()
+            x=self.dlg.doubleSpinBox_FAP_MIRBI_x.value()
+            swir1=self.PostMatrix[self.BandsList[11]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            layer=10*swir-9.5*swir1+2
+            MD_postMIRBI = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_postMIRBI)
+            NameBandsList.append('MD_postMIRBI')
 
         # FEATURES ADVANCED DELTA
         if self.dlg.checkBox_FAD_B1.isChecked():
@@ -1533,6 +1670,62 @@ class BAD:
             MD_deltaB11 = MembershipFunction(layer,K,x).MD
             FinalBandList.append(MD_deltaB11)
             NameBandsList.append('MD_deltaB11')
+        
+        if self.dlg.checkBox_FAD_NDVI.isChecked():
+            K=self.dlg.doubleSpinBox_FAD_NDVI_K.value()
+            x=self.dlg.doubleSpinBox_FAD_NDVI_x.value()
+            nir=self.PostMatrix[self.BandsList[7]-1]
+            red=self.PostMatrix[self.BandsList[3]-1]
+            post=(nir-red)/(nir+red)
+            nir=self.PreMatrix[self.BandsList[7]-1]
+            red=self.PreMatrix[self.BandsList[3]-1]
+            pre=(nir-red)/(nir+red)
+            layer=post-pre
+            MD_deltaNDVI = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_deltaNDVI)
+            NameBandsList.append('MD_deltaNDVI')
+
+        if self.dlg.checkBox_FAD_NBR.isChecked():
+            K=self.dlg.doubleSpinBox_FAD_NBR_K.value()
+            x=self.dlg.doubleSpinBox_FAD_NBR_x.value()
+            nir=self.PostMatrix[self.BandsList[7]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            post=(nir-swir)/(nir+swir)
+            nir=self.PreMatrix[self.BandsList[7]-1]
+            swir=self.PreMatrix[self.BandsList[12]-1]
+            pre=(nir-swir)/(nir+swir)
+            layer=post-pre
+            MD_deltaNBR = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_deltaNBR)
+            NameBandsList.append('MD_deltaNBR')
+
+        if self.dlg.checkBox_FAD_NBR2.isChecked():
+            K=self.dlg.doubleSpinBox_FAD_NBR2_K.value()
+            x=self.dlg.doubleSpinBox_FAD_NBR2_x.value()
+            swir1=self.PostMatrix[self.BandsList[11]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            post=(swir1-swir)/(swir1+swir)
+            swir1=self.PreMatrix[self.BandsList[11]-1]
+            swir=self.PreMatrix[self.BandsList[12]-1]
+            pre=(swir1-swir)/(swir1+swir)
+            layer=post-pre
+            MD_deltaNBR2 = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_deltaNBR2)
+            NameBandsList.append('MD_deltaNBR2')
+
+        if self.dlg.checkBox_FAD_MIRBI.isChecked():
+            K=self.dlg.doubleSpinBox_FAD_MIRBI_K.value()
+            x=self.dlg.doubleSpinBox_FAD_MIRBI_x.value()
+            swir1=self.PostMatrix[self.BandsList[11]-1]
+            swir=self.PostMatrix[self.BandsList[12]-1]
+            post=10*swir-9.5*swir1+2
+            swir1=self.PreMatrix[self.BandsList[11]-1]
+            swir=self.PreMatrix[self.BandsList[12]-1]
+            pre=10*swir-9.5*swir1+2
+            layer=post-pre
+            MD_deltaMIRBI = MembershipFunction(layer,K,x).MD
+            FinalBandList.append(MD_deltaMIRBI)
+            NameBandsList.append('MD_deltaMIRBI')
 
 
         # from list to an array
