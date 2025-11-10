@@ -74,6 +74,10 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
             else:
                 width=(512*width)/height
                 height=512
+        else:
+            width = 512
+            height = 512
+
 
         # display image date
         self.label_imageDate.setText(f"Image date: {date}")
