@@ -42,7 +42,7 @@ from qgis.core import (
     QgsRasterLayer, QgsProject, QgsRasterBlock, QgsRasterDataProvider,
     QgsRasterPipe, QgsRasterFileWriter, QgsRasterShader,
     QgsColorRampShader, QgsSingleBandPseudoColorRenderer,
-    QgsCoordinateReferenceSystem, QgsVectorLayer, QgsWkbTypes
+    QgsCoordinateReferenceSystem, QgsVectorLayer, QgsWkbTypes,QgsCoordinateTransform
 )
 from qgis.utils import iface
 from osgeo import gdal
@@ -229,9 +229,10 @@ class BAD:
         self.dlg.lineEdit_South.clear()
         self.dlg.lineEdit_East.clear()
         self.dlg.lineEdit_West.clear()
+        link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
+        self.dlg.label_CRS.setText(link_4326)
         self.dlg.lineEdit_AOI.setVisible(False)
         self.dlg.comboBox_AOI_layer.setVisible(True)
-        self.dlg.label_CRS.setText("CRS: ")
         self.dlg.lineEdit_FI_result_pre.clear()
         self.dlg.lineEdit_FI_result_post.clear()
         self.dlg.lineEdit_User.clear()
@@ -777,22 +778,32 @@ class BAD:
             print("Selected layer is not a polygon.")
 
         else:
-            crs = AOI_layer.crs()
+            crs_source = AOI_layer.crs()
+            crs_target = QgsCoordinateReferenceSystem("EPSG:4326")
+            transform = QgsCoordinateTransform(crs_source, crs_target, QgsProject.instance())
             extent = AOI_layer.extent()
-            South = extent.yMinimum()
-            North = extent.yMaximum()
-            West = extent.xMinimum()
-            East = extent.xMaximum()
+            print("Extent 1",extent)
+            extent_4326 = transform.transform(extent)
+            print("Extent 2",extent_4326)
+
+            South = extent_4326.yMinimum()
+            North = extent_4326.yMaximum()
+            West = extent_4326.xMinimum()
+            East = extent_4326.xMaximum()
         #BBOX = (South, North, West, East)
             self.dlg.lineEdit_South.setText(str(South))
             self.dlg.lineEdit_North.setText(str(North))
             self.dlg.lineEdit_West.setText(str(West))
             self.dlg.lineEdit_East.setText(str(East))
             epsg_code = AOI_layer.crs().authid() 
-            epsg_number = epsg_code.split(":")[1]
+            epsg_number = epsg_code.split(":")[1] 
 
             link_html = f'<a href="https://epsg.io/{epsg_number}">{epsg_code}</a>'
-            self.dlg.label_CRS.setText("CRS: " + link_html)
+            link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
+            if epsg_code != "EPSG:4326":
+                self.dlg.label_CRS.setText("Origin CRS: " + link_html+ " converted to " + link_4326)
+            else:
+                self.dlg.label_CRS.setText(link_4326)
             self.dlg.label_CRS.setOpenExternalLinks(True)
 
 # Calendar visualization
@@ -2664,6 +2675,8 @@ class BAD:
             self.dlg.progressBar.setValue(0)
 
             # Input Sentinel
+            link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
+            self.dlg.label_CRS.setText(link_4326)
             self.dlg.pushButton_FI_search_pre.clicked.connect(self.search_sentinel_pre)
             self.dlg.pushButton_FI_search_post.clicked.connect(self.search_sentinel_post)
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
