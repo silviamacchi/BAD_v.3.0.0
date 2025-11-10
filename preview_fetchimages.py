@@ -26,6 +26,8 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
         self.leftButton.clicked.connect(lambda: self.go_left(bbox, date, cloud, user, password))
         self.rightButton.clicked.connect(lambda: self.go_right(bbox, date, cloud, user, password))
 
+
+
         self.pixmap = self.get_sentinel_preview(
             client_id=user,
             client_secret=password,
@@ -48,7 +50,7 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
     
         self.btnClose.clicked.connect(self.close)
 
-    def get_sentinel_preview(self, client_id, client_secret, bbox, date, cloud, width=512, height=512):
+    def get_sentinel_preview(self, client_id, client_secret, bbox, date, cloud):
 
         # left right buttons
         if self.current_index == 0:
@@ -60,6 +62,18 @@ class PreviewFetchImages(QtWidgets.QDialog, FORM_CLASS):
         else:
             self.leftButton.setEnabled(True)
             self.rightButton.setEnabled(True) 
+        
+        width = bbox[2] - bbox[0]
+        height = bbox[3] - bbox[1]
+
+        if height:
+            proportion=width/height
+            if proportion>1:
+                height=(512*height)/width
+                width=512
+            else:
+                width=(512*width)/height
+                height=512
 
         # display image date
         self.label_imageDate.setText(f"Image date: {date}")
