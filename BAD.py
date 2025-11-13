@@ -459,18 +459,18 @@ class BAD:
             Nband=Nband+1
 
         # Band reset check
-        self.dlg.checkBox_input_B1.setCheckState(False)
-        self.dlg.checkBox_input_B2.setCheckState(False)
-        self.dlg.checkBox_input_B3.setCheckState(False)
-        self.dlg.checkBox_input_B4.setCheckState(False)
-        self.dlg.checkBox_input_B5.setCheckState(False)
-        self.dlg.checkBox_input_B6.setCheckState(True)
-        self.dlg.checkBox_input_B7.setCheckState(True)
-        self.dlg.checkBox_input_B8.setCheckState(True)
-        self.dlg.checkBox_input_B8A.setCheckState(False)
-        self.dlg.checkBox_input_B9.setCheckState(False)
-        self.dlg.checkBox_input_B11.setCheckState(False)
-        self.dlg.checkBox_input_B12.setCheckState(True)
+        self.dlg.checkBox_input_B1.setChecked(True)
+        self.dlg.checkBox_input_B2.setChecked(True)
+        self.dlg.checkBox_input_B3.setChecked(True)
+        self.dlg.checkBox_input_B4.setChecked(True)
+        self.dlg.checkBox_input_B5.setChecked(True)
+        self.dlg.checkBox_input_B6.setChecked(True)
+        self.dlg.checkBox_input_B7.setChecked(True)
+        self.dlg.checkBox_input_B8.setChecked(True)
+        self.dlg.checkBox_input_B8A.setChecked(True)
+        self.dlg.checkBox_input_B9.setChecked(True)
+        self.dlg.checkBox_input_B11.setChecked(True)
+        self.dlg.checkBox_input_B12.setChecked(True)
 
         print("restored input tab")   
 
@@ -487,7 +487,7 @@ class BAD:
 
         # Reset check
         for CKbox in CheckBoxes:
-            CKbox.setCheckState(True)
+            CKbox.setChecked(True)
 
         # Reset value K
         self.dlg.doubleSpinBox_FD_postB6_K.setValue(-125.89400)
@@ -562,7 +562,7 @@ class BAD:
 
         # Reset checkbox
         for CKbox in CheckBoxes:
-            CKbox.setCheckState(False)
+            CKbox.setChecked(False)
         
         CheckBoxes = [
         self.dlg.checkBox_FAD_B1,
@@ -617,19 +617,19 @@ class BAD:
 
         # Reset checkbox
         for CKbox in CheckBoxes:
-            CKbox.setCheckState(False)
+            CKbox.setChecked(False)
 
     # OWA TAB #
     def reset_OWA_tab(self):
 
         # OWA reset check
-        self.dlg.checkBox_OWA_AND.setCheckState(False)
-        self.dlg.checkBox_OWA_almostAND.setCheckState(False)
-        self.dlg.checkBox_OWA_AVERAGE.setCheckState(False)
-        self.dlg.checkBox_OWA_almostOR.setCheckState(False)
-        self.dlg.checkBox_OWA_OR.setCheckState(False)
-        self.dlg.checkBox_OWA_UserChoice1.setCheckState(False)
-        self.dlg.checkBox_OWA_UserChoice2.setCheckState(False)
+        self.dlg.checkBox_OWA_AND.setChecked(False)
+        self.dlg.checkBox_OWA_almostAND.setChecked(False)
+        self.dlg.checkBox_OWA_AVERAGE.setChecked(False)
+        self.dlg.checkBox_OWA_almostOR.setChecked(False)
+        self.dlg.checkBox_OWA_OR.setChecked(False)
+        self.dlg.checkBox_OWA_UserChoice1.setChecked(False)
+        self.dlg.checkBox_OWA_UserChoice2.setChecked(False)
         
         # OWA reset radiobutton for Seed
         self.dlg.radioButton_OWA_S_AND.setChecked(True)
