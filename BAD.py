@@ -233,6 +233,7 @@ class BAD:
         self.dlg.label_CRS.setText(link_4326)
         self.dlg.lineEdit_AOI.setVisible(False)
         self.dlg.comboBox_AOI_layer.setVisible(True)
+        self.dlg.comboBox_AOI_layer.setCurrentIndex(0)
         self.dlg.lineEdit_FI_result_pre.clear()
         self.dlg.lineEdit_FI_result_post.clear()
         self.dlg.lineEdit_User.clear()
@@ -244,186 +245,30 @@ class BAD:
         self.dlg.Preview_FI_post.setEnabled(False)
         self.dlg.Preview_FI_pre_mos.setEnabled(False)
         self.dlg.Preview_FI_post_mos.setEnabled(False)
+        self.dlg.download_images_pre.setRowCount(0)
+        self.dlg.download_images_post.setRowCount(0)
+        self.dlg.horizontalSlider_cloud_pre.setValue(10)
+        self.dlg.horizontalSlider_cloud_post.setValue(10)
+        self.dlg.spinBox_FI_limit_pre.setValue(10)
+        self.dlg.spinBox_FI_limit_post.setValue(10)
 
-    def select_AOI_layer(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select AOI vector layer", "",
-                                                    "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
-                                                )
-        self.dlg.lineEdit_AOI.setVisible(True)
-        self.dlg.comboBox_AOI_layer.setVisible(False)
-        if file_path:
-            self.aoi_path = file_path
-            self.dlg.lineEdit_AOI.setText(file_path)
-
-# Pre-Processing tab:
-    def select_pre_fire_raster(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Pre-fire Raster", "", "GeoTIFF Files (*.tif)")
-        self.dlg.lineEdit_PreFire.setVisible(True)
-        self.dlg.comboBox_PreRaster.setVisible(False)
-        if file_path:
-            self.pre_fire_path = file_path
-            self.dlg.lineEdit_PreFire.setText(file_path)
-    def select_post_fire_raster(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Post-fire Raster", "", "GeoTIFF Files (*.tif)")
-        self.dlg.lineEdit_PostFire.setVisible(True)
-        self.dlg.comboBox_PostRaster.setVisible(False)
-        if file_path:
-            self.post_fire_path = file_path
-            self.dlg.lineEdit_PostFire.setText(file_path)
-    
-    def populate_mask_classes(self):
-        """Populate the class selection lists for pre-fire and post-fire."""
-        classes = [
-            "0 - No Data",
-            "1 - Saturated / Defective Pixel",
-            "2 - Topographic casted Shadows",
-            "3 - Cloud Shadows",
-            "4 - Vegetation",
-            "5 - Not Vegetated",
-            "6 - Water",
-            "7 - Unclassified",
-            "8 - Cloud Medium Probability",
-            "9 - Cloud High Probability",
-            "10 - Thin Cirrus",
-            "11 - Snow / Ice"
-        ]
-
-        for cls in classes:
-            item = QtWidgets.QListWidgetItem(cls)
-            item.setCheckState(QtCore.Qt.Unchecked)
-            self.dlg.listWidgetClassesPreFire.addItem(item)
-
-        for cls in classes:
-            item = QtWidgets.QListWidgetItem(cls)
-            item.setCheckState(QtCore.Qt.Unchecked)
-            self.dlg.listWidgetClassesPostFire.addItem(item)
-
-    def run_masking(self):
-        if (not self.pre_fire_path and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.post_fire_path and not self.dlg.comboBox_PostRaster.currentIndex()):
-            QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
-            return
-
-        pre_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPreFire)
-        post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
-
-        if not pre_fire_classes or not post_fire_classes:
-            QMessageBox.warning(self.dlg, "No Classes Selected", "Please select at least one class to mask.")
-            return
-
-        try:
-            self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
-            self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
-
-            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
-
-            ##This updated the comboBox of the "input tab"
-
-            if self.dlg.checkBoxDisplayInQGIS.isChecked():
-                self.display_in_qgis(self.output_pre_fire_path)
-                self.display_in_qgis(self.output_post_fire_path)
-
-            #Fetch the currently loaded layers
-            layers = QgsProject.instance().layerTreeRoot().children()
-            self.dlg.comboBox_prefire.clear()
-            self.dlg.comboBox_postfire.clear()
-
-            #populate the comboBox with names of all the loaded layers
-            self.dlg.comboBox_prefire.addItems(['Select a Layer'])
-            self.dlg.comboBox_postfire.addItems(['Select a Layer'])
-
-            self.dlg.comboBox_prefire.addItems([layer.name() for layer in layers])
-            self.dlg.comboBox_postfire.addItems([layer.name() for layer in layers])
-
-        except Exception as e:
-            QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
-
-    def get_selected_classes(self, list_widget):
-        selected_classes = []
-        for index in range(list_widget.count()):
-            item = list_widget.item(index)
-            if item.checkState() == QtCore.Qt.Checked:
-                class_index = int(item.text().split(" - ")[0])
-                selected_classes.append(class_index)
-        return selected_classes
-
-    def mask_raster(self, input_path, input_layer, scl_band_index, mask_classes, output_path):
-        self.show_progress_bar("Computing Pre-Processing")
-        self.update_progress(5)
-        start = time.process_time()
-        if input_path:
-            raster_layer = QgsRasterLayer(input_path, "InputRaster")
-            if not raster_layer.isValid():
-                raise ValueError(f"Failed to load raster: {input_path}")
-            crs=raster_layer.crs().authid()
-            dataset = gdal.Open(input_path)
-        elif input_layer:
-            name= str(input_layer)
-            info = QgsProject.instance().mapLayersByName(name)
-            input_path = info[0].dataProvider().dataSourceUri()
-            dataset = gdal.Open(input_path)
-            crs=info[0].crs().authid()
-        
-        if dataset is None:
-            raise ValueError("Failed to open raster with GDAL.")
-
-        scl_band = dataset.GetRasterBand(scl_band_index + 1)
-        scl_array = scl_band.ReadAsArray()
-        mask = np.isin(scl_array, mask_classes)
-
-        masked_bands = []
-        for band_index in range(1, dataset.RasterCount + 1):
-            if band_index - 1 == scl_band_index:
-                continue
-            band = dataset.GetRasterBand(band_index).ReadAsArray()
-            band = band.astype(np.float32)
-            band[mask] = np.nan
-            masked_bands.append(band)
-
-        self.save_raster(output_path, dataset.RasterXSize, dataset.RasterYSize, crs, dataset.GetGeoTransform(), masked_bands)
-        self.update_progress(100)
-        self.hide_progress_bar()
-        end = time.process_time()
-        print("Process end")
-        print('Computational time Pre-Processing [s]: ',(end - start),"start=", start,"end=",end) 
-        print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
-
-    def save_raster(self, output_path, cols, rows, crs, transform, bands):
-        driver = gdal.GetDriverByName("GTiff")
-        dataset = driver.Create(output_path, cols, rows, len(bands), gdal.GDT_Float32)
-        dataset.SetGeoTransform(transform)
-        dataset.SetProjection(QgsCoordinateReferenceSystem(crs).toWkt())
-
-        for i, band_data in enumerate(bands, start=1):
-            dataset.GetRasterBand(i).WriteArray(band_data)
-            dataset.GetRasterBand(i).SetNoDataValue(np.nan)
-
-        dataset.FlushCache()
-        del dataset
-
-    def display_in_qgis(self, raster_path):
-        layer = QgsRasterLayer(raster_path, os.path.basename(raster_path))
-        if layer.isValid():
-            QgsProject.instance().addMapLayer(layer)
-
+# reset preprocessing
     def reset_fields(self):
         self.pre_fire_path = None
         self.post_fire_path = None
         self.output_pre_fire_path = None
         self.output_post_fire_path = None
-        self.dlg.spinBox_scl_pre.setValue(15)
-        self.dlg.spinBox_scl_post.setValue(15)
+        self.dlg.spinBox_scl_pre.setValue(13)
+        self.dlg.spinBox_scl_post.setValue(13)
 
         self.dlg.lineEdit_PreFire.clear()
         self.dlg.lineEdit_PreFire.setVisible(False)
         self.dlg.comboBox_PreRaster.setVisible(True)
+        self.dlg.comboBox_PreRaster.setCurrentIndex(0)
         self.dlg.lineEdit_PostFire.clear()
         self.dlg.lineEdit_PostFire.setVisible(False)
         self.dlg.comboBox_PostRaster.setVisible(True)
+        self.dlg.comboBox_PostRaster.setCurrentIndex(0)
         self.dlg.lineEdit_OutputPreFire.clear()
         self.dlg.lineEdit_OutputPostFire.clear()
 
@@ -434,6 +279,8 @@ class BAD:
             self.dlg.listWidgetClassesPostFire.item(index).setCheckState(QtCore.Qt.Unchecked)
 
         self.dlg.checkBoxDisplayInQGIS.setChecked(False)
+        self.dlg.listWidgetClassesPreFire.setCurrentRow(-1)
+        self.dlg.listWidgetClassesPostFire.setCurrentRow(-1)
 
     # INPUT TAB #
     def reset_input_tab(self):
@@ -472,7 +319,8 @@ class BAD:
         self.dlg.checkBox_input_B11.setChecked(True)
         self.dlg.checkBox_input_B12.setChecked(True)
 
-        print("restored input tab")   
+        self.dlg.comboBox_prefire.setCurrentIndex(0)
+        self.dlg.comboBox_postfire.setCurrentIndex(0)
 
     # FEATURES TAB default #
     def reset_Features(self):
@@ -619,8 +467,15 @@ class BAD:
         for CKbox in CheckBoxes:
             CKbox.setChecked(False)
 
+        self.dlg.lineEdit_Feature.clear()
+        self.dlg.lineEdit_MD.clear()
+        self.dlg.checkBox_Feature_display.setChecked(False)
+        self.dlg.checkBox_MD_display.setChecked(False)
+
     # OWA TAB #
     def reset_OWA_tab(self):
+
+        self.dlg.mMapLayerComboBox_OWA_MD.setCurrentIndex(0)
 
         # OWA reset check
         self.dlg.checkBox_OWA_AND.setChecked(False)
@@ -649,42 +504,10 @@ class BAD:
         self.dlg.radioButton_OWA_G_UserChoice1.setChecked(False)
         self.dlg.radioButton_OWA_G_UserChoice2.setChecked(False)
 
-        # OWA reset double spinbox values
-        DoubleSpinBoxes_weights = [
-        self.dlg.doubleSpinBox_OWA_max11,
-        self.dlg.doubleSpinBox_OWA_max12,
-        self.dlg.doubleSpinBox_OWA_max13,
-        self.dlg.doubleSpinBox_OWA_min11,
-        self.dlg.doubleSpinBox_OWA_min12,
-        self.dlg.doubleSpinBox_OWA_min13,
-        self.dlg.doubleSpinBox_OWA_max21,
-        self.dlg.doubleSpinBox_OWA_max22,
-        self.dlg.doubleSpinBox_OWA_max23,
-        self.dlg.doubleSpinBox_OWA_min21,
-        self.dlg.doubleSpinBox_OWA_min22,
-        self.dlg.doubleSpinBox_OWA_min23]
-
-        for DSbox in DoubleSpinBoxes_weights:
-            DSbox.setValue(0)
-
-        # OWA reset double spinbox visibility
-        self.dlg.doubleSpinBox_OWA_max12.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_max22.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_max13.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_max23.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_min12.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_min22.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_min13.setVisible(False)
-        self.dlg.doubleSpinBox_OWA_min23.setVisible(False)
-        self.dlg.pushButton_OWA_max1.setEnabled(True)
-        self.dlg.pushButton_OWA_max2.setEnabled(True)
-        self.dlg.pushButton_OWA_min1.setEnabled(True)
-        self.dlg.pushButton_OWA_min2.setEnabled(True)
-
-        self.dlg.count_max1=0
-        self.dlg.count_max2=0
-        self.dlg.count_min1=0
-        self.dlg.count_min2=0
+        self.dlg.lineEdit_OWA_a_UC1.clear()
+        self.dlg.lineEdit_OWA_a_UC2.clear()
+        self.dlg.lineEdit_OWA_b_UC1.clear()
+        self.dlg.lineEdit_OWA_b_UC2.clear()
 
         # OWA reset line edit
         self.dlg.lineEdit_OWA_AND.clear()
@@ -696,25 +519,23 @@ class BAD:
         self.dlg.lineEdit_OWA_UserChoice2.clear()
 
         # OWA reset check for display results
-        self.dlg.checkBox_OWA_display.setCheckState(False)
-       
-        print("restored OWA tab")  
+        self.dlg.checkBox_OWA_display.setChecked(False)
+
 
     # REGION GROWING TAB #
     def reset_RG_tab(self):
 
         # RG reset threshold value
-        threshold_seed = 0.9
-        threshold_grow = 0.1
-        self.dlg.doubleSpinBox_RG_seed.setValue(threshold_seed)
-        self.dlg.doubleSpinBox_RG_grow.setValue(threshold_grow)
-        
+        self.dlg.doubleSpinBox_RG_seed.setValue(0.9)
+        self.dlg.doubleSpinBox_RG_grow.setValue(0.1)
+        self.dlg.comboBox_RG_seed.setCurrentIndex(0)
+        self.dlg.comboBox_RG_grow.setCurrentIndex(0)
+
         # RG reset check for display result
         self.dlg.checkBox_RG_display.setCheckState(False)
         
         # RG reset line edit
         self.dlg.lineEdit_RG_result.clear()
-        print("restored RG tab") 
 
     # SEVERITY TAB #
     def reset_Severity_tab(self):
@@ -744,11 +565,12 @@ class BAD:
 
         
         # Severity reset check for display result
-        self.dlg.checkBox_Severity.setCheckState(False)
+        self.dlg.checkBox_Severity.setChecked(False)
+        self.dlg.checkBox_CombinedSeverity.setChecked(False)
         
         # Severity reset line edit
-        self.dlg.lineEdit_Severityt_RG_result.clear()
-        print("restored Severity tab")  
+        self.dlg.lineEdit_Severity.clear() 
+        self.dlg.lineEdit_CombinedSeverity.clear()
  
 
 ###################################################################################################     
@@ -764,6 +586,16 @@ class BAD:
 ###################################################################################################
 ###################################################################################################
 #  This part of the script contains the code about BBOX definition and calendar visualization
+
+    def select_AOI_layer(self):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select AOI vector layer", "",
+                                                    "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
+                                                )
+        self.dlg.lineEdit_AOI.setVisible(True)
+        self.dlg.comboBox_AOI_layer.setVisible(False)
+        if file_path:
+            self.aoi_path = file_path
+            self.dlg.lineEdit_AOI.setText(file_path)
 
 # BBOX definition
     def get_BBOX(self):
@@ -1078,6 +910,165 @@ class BAD:
         #self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])
         self.dlg.comboBox_PostRaster.insertItems(0, ["Post-fire Sentinel-2 Image"])
 
+###################################################################################################     
+###################################################################################################
+###################################################################################################
+#  This part of the script contains the code about the preprocessing tab,
+#  The process is executed when the button "RUN MASKING" is clicked  
+
+    def select_pre_fire_raster(self):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Pre-fire Raster", "", "GeoTIFF Files (*.tif)")
+        self.dlg.lineEdit_PreFire.setVisible(True)
+        self.dlg.comboBox_PreRaster.setVisible(False)
+        if file_path:
+            self.pre_fire_path = file_path
+            self.dlg.lineEdit_PreFire.setText(file_path)
+    def select_post_fire_raster(self):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Post-fire Raster", "", "GeoTIFF Files (*.tif)")
+        self.dlg.lineEdit_PostFire.setVisible(True)
+        self.dlg.comboBox_PostRaster.setVisible(False)
+        if file_path:
+            self.post_fire_path = file_path
+            self.dlg.lineEdit_PostFire.setText(file_path)
+    
+    def populate_mask_classes(self):
+        """Populate the class selection lists for pre-fire and post-fire."""
+        classes = [
+            "0 - No Data",
+            "1 - Saturated / Defective Pixel",
+            "2 - Topographic casted Shadows",
+            "3 - Cloud Shadows",
+            "4 - Vegetation",
+            "5 - Not Vegetated",
+            "6 - Water",
+            "7 - Unclassified",
+            "8 - Cloud Medium Probability",
+            "9 - Cloud High Probability",
+            "10 - Thin Cirrus",
+            "11 - Snow / Ice"
+        ]
+
+        for cls in classes:
+            item = QtWidgets.QListWidgetItem(cls)
+            item.setCheckState(QtCore.Qt.Unchecked)
+            self.dlg.listWidgetClassesPreFire.addItem(item)
+
+        for cls in classes:
+            item = QtWidgets.QListWidgetItem(cls)
+            item.setCheckState(QtCore.Qt.Unchecked)
+            self.dlg.listWidgetClassesPostFire.addItem(item)
+
+    def run_masking(self):
+        if (not self.pre_fire_path and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.post_fire_path and not self.dlg.comboBox_PostRaster.currentIndex()):
+            QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
+            return
+
+        pre_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPreFire)
+        post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
+
+        if not pre_fire_classes or not post_fire_classes:
+            QMessageBox.warning(self.dlg, "No Classes Selected", "Please select at least one class to mask.")
+            return
+
+        try:
+            self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
+            self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
+
+            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+
+            ##This updated the comboBox of the "input tab"
+
+            if self.dlg.checkBoxDisplayInQGIS.isChecked():
+                self.display_in_qgis(self.output_pre_fire_path)
+                self.display_in_qgis(self.output_post_fire_path)
+
+            #Fetch the currently loaded layers
+            layers = QgsProject.instance().layerTreeRoot().children()
+            self.dlg.comboBox_prefire.clear()
+            self.dlg.comboBox_postfire.clear()
+
+            #populate the comboBox with names of all the loaded layers
+            self.dlg.comboBox_prefire.addItems(['Select a Layer'])
+            self.dlg.comboBox_postfire.addItems(['Select a Layer'])
+
+            self.dlg.comboBox_prefire.addItems([layer.name() for layer in layers])
+            self.dlg.comboBox_postfire.addItems([layer.name() for layer in layers])
+
+        except Exception as e:
+            QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
+
+    def get_selected_classes(self, list_widget):
+        selected_classes = []
+        for index in range(list_widget.count()):
+            item = list_widget.item(index)
+            if item.checkState() == QtCore.Qt.Checked:
+                class_index = int(item.text().split(" - ")[0])
+                selected_classes.append(class_index)
+        return selected_classes
+
+    def mask_raster(self, input_path, input_layer, scl_band_index, mask_classes, output_path):
+        self.show_progress_bar("Computing Pre-Processing")
+        self.update_progress(5)
+        start = time.process_time()
+        if input_path:
+            raster_layer = QgsRasterLayer(input_path, "InputRaster")
+            if not raster_layer.isValid():
+                raise ValueError(f"Failed to load raster: {input_path}")
+            crs=raster_layer.crs().authid()
+            dataset = gdal.Open(input_path)
+        elif input_layer:
+            name= str(input_layer)
+            info = QgsProject.instance().mapLayersByName(name)
+            input_path = info[0].dataProvider().dataSourceUri()
+            dataset = gdal.Open(input_path)
+            crs=info[0].crs().authid()
+        
+        if dataset is None:
+            raise ValueError("Failed to open raster with GDAL.")
+
+        scl_band = dataset.GetRasterBand(scl_band_index + 1)
+        scl_array = scl_band.ReadAsArray()
+        mask = np.isin(scl_array, mask_classes)
+
+        masked_bands = []
+        for band_index in range(1, dataset.RasterCount + 1):
+            if band_index - 1 == scl_band_index:
+                continue
+            band = dataset.GetRasterBand(band_index).ReadAsArray()
+            band = band.astype(np.float32)
+            band[mask] = np.nan
+            masked_bands.append(band)
+
+        self.save_raster(output_path, dataset.RasterXSize, dataset.RasterYSize, crs, dataset.GetGeoTransform(), masked_bands)
+        self.update_progress(100)
+        self.hide_progress_bar()
+        end = time.process_time()
+        print("Process end")
+        print('Computational time Pre-Processing [s]: ',(end - start),"start=", start,"end=",end) 
+        print('\n') 
+        self.window = QtWidgets.QDialog()
+        self.ui = Ui_Message()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    def save_raster(self, output_path, cols, rows, crs, transform, bands):
+        driver = gdal.GetDriverByName("GTiff")
+        dataset = driver.Create(output_path, cols, rows, len(bands), gdal.GDT_Float32)
+        dataset.SetGeoTransform(transform)
+        dataset.SetProjection(QgsCoordinateReferenceSystem(crs).toWkt())
+
+        for i, band_data in enumerate(bands, start=1):
+            dataset.GetRasterBand(i).WriteArray(band_data)
+            dataset.GetRasterBand(i).SetNoDataValue(np.nan)
+
+        dataset.FlushCache()
+        del dataset
+
+    def display_in_qgis(self, raster_path):
+        layer = QgsRasterLayer(raster_path, os.path.basename(raster_path))
+        if layer.isValid():
+            QgsProject.instance().addMapLayer(layer)
 ###################################################################################################     
 ###################################################################################################
 ###################################################################################################
