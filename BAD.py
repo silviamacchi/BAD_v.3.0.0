@@ -475,7 +475,7 @@ class BAD:
         print("restored input tab")   
 
     # FEATURES TAB default #
-    def reset_Features_D_tab(self):
+    def reset_Features(self):
         CheckBoxes = [
         self.dlg.checkBox_FD_postB6,
         self.dlg.checkBox_FD_postB7,
@@ -506,11 +506,6 @@ class BAD:
         self.dlg.doubleSpinBox_FD_deltaB7_x.setValue(-0.07527)
         self.dlg.doubleSpinBox_FD_deltaNIR_x.setValue(-0.08657)
         self.dlg.doubleSpinBox_FD_deltaB12_x.setValue(0.04381)
-
-        print("restored Features D tab")  
-
-    # FEATURES TAB advanced post #    
-    def reset_Features_AP_tab(self):
 
         CheckBoxes = [
         self.dlg.checkBox_FAP_B1,
@@ -568,11 +563,6 @@ class BAD:
         # Reset checkbox
         for CKbox in CheckBoxes:
             CKbox.setCheckState(False)
-
-        print("restored Features AP tab")  
-    
-    # FEATURES TAB advanced delta # 
-    def reset_Features_AD_tab(self):
         
         CheckBoxes = [
         self.dlg.checkBox_FAD_B1,
@@ -628,8 +618,6 @@ class BAD:
         # Reset checkbox
         for CKbox in CheckBoxes:
             CKbox.setCheckState(False)
-
-        print("restored Features AD tab")  
 
     # OWA TAB #
     def reset_OWA_tab(self):
@@ -2900,9 +2888,7 @@ class BAD:
 
             
             self.dlg.pushButton_input_reset.clicked.connect(self.reset_input_tab)
-            self.dlg.pushButton_Features_D_reset.clicked.connect(self.reset_Features_D_tab)
-            self.dlg.pushButton_Features_AP_reset.clicked.connect(self.reset_Features_AP_tab)
-            self.dlg.pushButton_Features_AD_reset.clicked.connect(self.reset_Features_AD_tab)
+            self.dlg.pushButton_Features.clicked.connect(self.reset_Features)
             self.dlg.pushButton_OWA_reset.clicked.connect(self.reset_OWA_tab)
             self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
             self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
