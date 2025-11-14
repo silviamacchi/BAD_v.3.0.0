@@ -3018,16 +3018,8 @@ class BAD:
         self.dlg.show()
         # Run the dialog event loop
         result = self.dlg.exec_()
-        if result == self.dlg.Accepted:
-            current_index = self.dlg.tabWidget.currentIndex()
-            current_tab_widget = self.dlg.tabWidget.tabText(current_index)
-            print("current",current_tab_widget,"INDEX",current_index)
-            if current_index!=9:
-                self.dlg.tabWidget.setCurrentIndex(current_index+1)
-            else:
-                self.dlg.tabWidget.setCurrentIndex(0)
-            self.run()
-        elif result == self.dlg.Rejected:
+
+        if result == self.dlg.Rejected:
             self.reset_sentinel_fields()
             self.reset_fields()
             self.reset_input_tab()

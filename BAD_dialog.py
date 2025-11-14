@@ -45,6 +45,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        
+        self.setup_custom_connections()
         self.Preview.clicked.connect(self.open_preview_window)
         
         self.Preview_FI_pre.clicked.connect(self.open_preview_fetchimages_pre)
@@ -52,6 +54,33 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
 
         self.pushButton_parameters_UC1.clicked.connect(self.open_owa_parameters_UC1_window)
         self.pushButton_parameters_UC2.clicked.connect(self.open_owa_parameters_UC2_window)
+
+    def setup_custom_connections(self):
+        """Connects the OK button to the custom action after removing the default."""
+        
+        # Find the QDialogButtonBox by its name ('button_box') from the UI file
+        self.button_box = self.findChild(QtWidgets.QDialogButtonBox, 'button_box')
+        ok_button = self.button_box.button(QtWidgets.QDialogButtonBox.Ok)
+            
+        if ok_button:
+            ok_button.setText("Next")
+        
+        if self.button_box:
+            self.button_box.accepted.connect(self.handle_ok_button_click)
+
+
+    def handle_ok_button_click(self):
+        """Handles the OK button click: progresses through tabs or accepts (closes) the dialog."""
+        
+        current_index = self.tabWidget.currentIndex()
+        current_tab_widget = self.tabWidget.tabText(current_index)
+        
+        if current_index != 9:
+            # If not the last tab, move to the next one (and the dialog stays open)
+            self.tabWidget.setCurrentIndex(current_index + 1)
+        else:
+            # If it is the last tab (index 9), close the dialog
+            self.accept()
 
 
     def open_preview_window(self):
