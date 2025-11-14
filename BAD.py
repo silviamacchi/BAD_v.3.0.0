@@ -475,7 +475,7 @@ class BAD:
     # OWA TAB #
     def reset_OWA_tab(self):
 
-        self.dlg.mMapLayerComboBox_OWA_MD.setCurrentIndex(0)
+        #self.dlg.mMapLayerComboBox_OWA_MD.setCurrentIndex(0)
 
         # OWA reset check
         self.dlg.checkBox_OWA_AND.setChecked(False)
@@ -582,6 +582,25 @@ class BAD:
         filename, _filter = QFileDialog.getSaveFileName(self.dlg, "Select output file", "", '*.tif')
         target_lineedit.setText(filename)
 
+    def browse_vectorfile(self, comboBox, target_lineedit):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select vector layer", "",
+                                                    "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
+                                                )
+        if file_path:
+            target_lineedit.setVisible(True)
+            comboBox.setVisible(False)
+            target_lineedit.setText(file_path)
+    
+    def browse_rasterfile(self, comboBox, target_lineedit):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select raster file", "",
+                                                    "Raster Files (*.tif *.img *.jp2 *.bil *.hdr);;All Files (*)"
+                                                )
+        if file_path:
+            target_lineedit.setVisible(True)
+            comboBox.setVisible(False)
+            target_lineedit.setText(file_path)
+        
+
 ###################################################################################################     
 ###################################################################################################
 ###################################################################################################
@@ -591,9 +610,10 @@ class BAD:
         file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select AOI vector layer", "",
                                                     "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
                                                 )
-        self.dlg.lineEdit_AOI.setVisible(True)
-        self.dlg.comboBox_AOI_layer.setVisible(False)
+
         if file_path:
+            self.dlg.lineEdit_AOI.setVisible(True)
+            self.dlg.comboBox_AOI_layer.setVisible(False)
             self.aoi_path = file_path
             self.dlg.lineEdit_AOI.setText(file_path)
 
@@ -918,9 +938,9 @@ class BAD:
 
     def select_pre_fire_raster(self):
         file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Pre-fire Raster", "", "GeoTIFF Files (*.tif)")
-        self.dlg.lineEdit_PreFire.setVisible(True)
-        self.dlg.comboBox_PreRaster.setVisible(False)
         if file_path:
+            self.dlg.lineEdit_PreFire.setVisible(True)
+            self.dlg.comboBox_PreRaster.setVisible(False)
             self.pre_fire_path = file_path
             self.dlg.lineEdit_PreFire.setText(file_path)
     def select_post_fire_raster(self):
@@ -959,7 +979,7 @@ class BAD:
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
     def run_masking(self):
-        if (not self.pre_fire_path and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.post_fire_path and not self.dlg.comboBox_PostRaster.currentIndex()):
+        if (not self.dlg.lineEdit_PreFire.text() and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.lineEdit_PostFire.text() and not self.dlg.comboBox_PostRaster.currentIndex()):
             QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
             return
 
@@ -1083,14 +1103,19 @@ class BAD:
         self.update_progress(5)
         start = time.process_time()        
         
-        Pre_name= str(self.dlg.comboBox_prefire.currentText())
-        Pre_info = QgsProject.instance().mapLayersByName(Pre_name)
-        self.Pre_path = Pre_info[0].dataProvider().dataSourceUri()
+        if self.dlg.lineEdit_Pre.setVisible(True):
+            self.Pre_path=self.dlg.lineEdit_pre.text()
+        else:
+            Pre_name= str(self.dlg.comboBox_prefire.currentText())
+            Pre_info = QgsProject.instance().mapLayersByName(Pre_name)
+            self.Pre_path = Pre_info[0].dataProvider().dataSourceUri()
 
-
-        Post_name = str(self.dlg.comboBox_postfire.currentText())       
-        Post_info = QgsProject.instance().mapLayersByName(Post_name)
-        self.Post_path = Post_info[0].dataProvider().dataSourceUri()    
+        if self.dlg.lineEdit_Post.setVisible(True):
+            self.Post_path=self.dlg.lineEdit_post.text()
+        else:   
+            Post_name = str(self.dlg.comboBox_postfire.currentText())       
+            Post_info = QgsProject.instance().mapLayersByName(Post_name)
+            self.Post_path = Post_info[0].dataProvider().dataSourceUri()    
 
         self.update_progress(10)
 
@@ -1773,15 +1798,16 @@ class BAD:
     ############
     # OWA input from User
     ############
-        if self.dlg.groupBox_InputOWA.isChecked():
-
-            if self.dlg.groupBox_InputOWA.isChecked():
-                MD_layer = self.dlg.mMapLayerComboBox_OWA_MD.currentLayer()
-            if not MD_layer:
+        # Get layer path
+        if self.dlg.groupBox_InputOWA.setVisible(True):
+            MD_path = self.dlg.groupBox_InputOWA.currentLayer()
+        else:
+            MD_layer = self.dlg.lineEdit_Input_OWA.text()
+            if MD_layer == "":
                 print("Please select a valid MD layer before running OWA")
                 return None
-        # Get layer path
-            MD_path = MD_layer.dataProvider().dataSourceUri()
+            else:
+                MD_path = MD_layer.dataProvider().dataSourceUri()
         # Read the MD layer
             dataset = gdal.Open(MD_path)
             if dataset is None:
@@ -2828,8 +2854,9 @@ class BAD:
             self.dlg.pushButton_FI_search_post.clicked.connect(self.search_sentinel_post)
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
             self.dlg.lineEdit_AOI.setVisible(False)
+            self.dlg.toolButton_AOI_path.clicked.connect(lambda: self.browse_vectorfile(self.dlg.comboBox_AOI_layer, self.dlg.lineEdit_AOI))
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
-            self.dlg.toolButton_AOI_path.clicked.connect(self.select_AOI_layer)
+            #self.dlg.toolButton_AOI_path.clicked.connect(self.select_AOI_layer)
             self.dlg.dateEdit_Start_pre.dateChanged.connect(
                 lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
             )
@@ -2856,33 +2883,27 @@ class BAD:
             self.populate_mask_classes()
             self.pre_fire_path=None
             self.post_fire_path=None
-            self.dlg.btnBrowsePreFire.clicked.connect(self.select_pre_fire_raster)
-            self.dlg.btnBrowsePostFire.clicked.connect(self.select_post_fire_raster)
+            #self.dlg.btnBrowsePreFire.clicked.connect(self.select_pre_fire_raster)
+            #self.dlg.btnBrowsePostFire.clicked.connect(self.select_post_fire_raster)
+            self.dlg.btnBrowsePreFire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_PreRaster, self.dlg.lineEdit_PreFire))
+            self.dlg.btnBrowsePostFire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_PostRaster, self.dlg.lineEdit_PostFire))
             self.dlg.btnBrowseOutputPreFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPreFire))
             self.dlg.btnBrowseOutputPostFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPostFire))
             self.dlg.btnRunMasking.clicked.connect(self.run_masking)
             self.dlg.btnReset.clicked.connect(self.reset_fields)
-            if self.dlg.btnReset.clicked.connect(self.reset_fields):
-                self.select_pre_fire_raster
-                self.select_post_fire_raster
+            #if self.dlg.btnReset.clicked.connect(self.reset_fields):
+            #    self.select_pre_fire_raster
+            #    self.select_post_fire_raster
             
             # Synchronize comboBoxes and lineEdits in Mask tab
-            #self.dlg.comboBox_PreRaster.setVisible(False)
             self.dlg.lineEdit_PreFire.setVisible(False)
-            #self.dlg.comboBox_PreRaster.currentTextChanged.connect(self.dlg.lineEditPreFire.setText)
-            #self.dlg.lineEditPreFire.textChanged.connect(lambda text: self.dlg.comboBox_PreRaster.setEditText(text))
-
-            #self.dlg.comboBox_PostRaster.setVisible(False)
             self.dlg.lineEdit_PostFire.setVisible(False)
-            #self.dlg.comboBox_PostRaster.currentTextChanged.connect(self.dlg.lineEditPostFire.setText)
-            #self.dlg.lineEditPostFire.textChanged.connect(lambda text: self.dlg.comboBox_PostRaster.setEditText(text))
 
-            
-            self.dlg.pushButton_input_reset.clicked.connect(self.reset_input_tab)
-            self.dlg.pushButton_Features.clicked.connect(self.reset_Features)
-            self.dlg.pushButton_OWA_reset.clicked.connect(self.reset_OWA_tab)
-            self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
-            self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
+            # Input tab
+            self.dlg.lineEdit_Pre.setVisible(False)
+            self.dlg.lineEdit_Post.setVisible(False)
+            self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
+            self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
@@ -2890,12 +2911,15 @@ class BAD:
             self.dlg.toolButton_Feature.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_Feature))
             self.dlg.toolButton_MD.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_MD))
             
+            self.dlg.pushButton_Feature_run.clicked.connect(self.ComputeFeature)
+            self.dlg.pushButton_MD_run.clicked.connect(self.ComputeMD)
+            
             self.dlg.lineEdit_OWA.setVisible(False)
-            #set parameters for OWA user selection only in Read mode
-            self.dlg.lineEdit_OWA_a_UC1.setReadOnly(True)
-            self.dlg.lineEdit_OWA_a_UC2.setReadOnly(True)
-            self.dlg.lineEdit_OWA_b_UC1.setReadOnly(True)   
-            self.dlg.lineEdit_OWA_b_UC2.setReadOnly(True)
+            #set parameters for OWA user selection only in Read mode (DONE IN QT DESIGNER)
+            #self.dlg.lineEdit_OWA_a_UC1.setReadOnly(True)
+            #self.dlg.lineEdit_OWA_a_UC2.setReadOnly(True)
+            #self.dlg.lineEdit_OWA_b_UC1.setReadOnly(True)   
+            #self.dlg.lineEdit_OWA_b_UC2.setReadOnly(True)
 
             self.dlg.toolButton_OWA_AND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AND))
             self.dlg.toolButton_OWA_almostAND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_almostAND))
@@ -2904,13 +2928,18 @@ class BAD:
             self.dlg.toolButton_OWA_OR.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_OR))
             self.dlg.toolButton_OWA_UserChoice1.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice1))
             self.dlg.toolButton_OWA_UserChoice2.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice2))
+            
+            self.dlg.pushButton_OWA_run.clicked.connect(self.ComputeOWA)          
+            
+            # RG tab
+            self.dlg.lineEdit_RG_seed.setVisible(False)
+            self.dlg.lineEdit_RG_grow.setVisible(False)
+            self.dlg.toolButton_browse_RG_seed.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_RG_seed, self.dlg.lineEdit_RG_seed))
+            self.dlg.toolButton_browse_RG_grow.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_RG_grow, self.dlg.lineEdit_RG_grow))
             self.dlg.toolButton_RG_result.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_RG_result))
             self.dlg.toolButton_Severity.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_Severity))
             self.dlg.toolButton_CombinedSeverity.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_CombinedSeverity))
 
-            self.dlg.pushButton_Feature_run.clicked.connect(self.ComputeFeature)
-            self.dlg.pushButton_MD_run.clicked.connect(self.ComputeMD)
-            self.dlg.pushButton_OWA_run.clicked.connect(self.ComputeOWA)          
             self.dlg.pushButton_RG_run.clicked.connect(self.ComputeRG)
             
             self.dlg.pushButton_Severity_run.clicked.connect(self.ComputeSeverity)
@@ -2926,6 +2955,14 @@ class BAD:
             self.dlg.buttonBrowseRefFile.clicked.connect(self.browseRefFile)
             self.dlg.buttonRunValidation.clicked.connect(self.ComputeValidation)
             self.dlg.buttonExportSEVReport.clicked.connect(self.export_sev_validation_report)
+
+            # Reset
+            self.dlg.pushButton_input_reset.clicked.connect(self.reset_input_tab)
+            self.dlg.pushButton_Features.clicked.connect(self.reset_Features)
+            self.dlg.pushButton_OWA_reset.clicked.connect(self.reset_OWA_tab)
+            self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
+            self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
+            
 
         #Fetch the currently loaded poly and raster layers
         poly_layers = []
@@ -2950,6 +2987,7 @@ class BAD:
         self.dlg.comboBox_prefire.clear()
         self.dlg.comboBox_postfire.clear()
 
+        self.dlg.comboBox_InputOWA.clear()
         self.dlg.comboBox_RG_seed.clear()
         self.dlg.comboBox_RG_grow.clear()
         
@@ -2966,6 +3004,9 @@ class BAD:
         self.dlg.comboBox_postfire.addItems(['Select a Layer'])
         self.dlg.comboBox_prefire.addItems([layer.name() for layer in raster_layers])
         self.dlg.comboBox_postfire.addItems([layer.name() for layer in raster_layers])
+
+        self.dlg.comboBox_InputOWA.addItems(['Select a Layer'])
+        self.dlg.comboBox_InputOWA.addItems([layer.name() for layer in raster_layers])
 
         self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
         self.dlg.comboBox_RG_grow.addItems(['Select a Layer'])
