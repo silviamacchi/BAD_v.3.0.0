@@ -77,7 +77,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         if self.button_box:
             self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_ok_button_click)
-            #self.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_runall_button_click)
+            
     def handle_ok_button_click(self):
         """Handles the OK button click: progresses through tabs or accepts (closes) the dialog."""
         
@@ -88,12 +88,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         else:
             # If it is the last tab (index 9), close the dialog
             self.accept()
-
-    def handle_runall_button_click(self):
-        print("run all clicked")
-        """Handles the RunAll button click: run all the predefined processing"""
-        self.RunALL=True
-        #self.accept()
 
     def open_preview_window(self):
         self.preview_dialog = PreviewWindow(self)

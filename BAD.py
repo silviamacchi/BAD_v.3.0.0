@@ -226,8 +226,6 @@ class BAD:
 
 # Sentinel input tab:
     def reset_sentinel_fields(self):
-        self.dlg.pre_fire_path = None
-        self.dlg.post_fire_path = None
         self.dlg.lineEdit_North.clear()
         self.dlg.lineEdit_South.clear()
         self.dlg.lineEdit_East.clear()
@@ -578,7 +576,7 @@ class BAD:
 ###################################################################################################     
 ###################################################################################################
 ###################################################################################################
-# lines of code in order to save output using tool button
+# lines of code in order to save output, manage browse button and comboBox
 
     def select_output_file(self, target_lineedit):
         filename, _filter = QFileDialog.getSaveFileName(self.dlg, "Select output file", "", '*.tif')
@@ -652,12 +650,72 @@ class BAD:
             self.dlg.post_fire_path=layer_path
         self.dlg.enableRunALL()
 
-    def handle_combobox_OWA(self,comboBox):
+    def handle_combobox_click_OWA(self,comboBox):
         if comboBox.currentIndex()!=0:
             layer = str(comboBox.currentText())
             layer = QgsProject.instance().mapLayersByName(layer)
             layer_path = layer[0].dataProvider().dataSourceUri()
             self.MD_path=layer_path
+
+    def handle_combobox_click_seed(self,comboBox):
+        if comboBox.currentIndex()!=0:
+            layer = str(comboBox.currentText())
+            layer = QgsProject.instance().mapLayersByName(layer)
+            layer_path = layer[0].dataProvider().dataSourceUri()
+            self.Seed_file=layer_path
+
+    def handle_combobox_click_grow(self,comboBox):
+        if comboBox.currentIndex()!=0:
+            layer = str(comboBox.currentText())
+            layer = QgsProject.instance().mapLayersByName(layer)
+            layer_path = layer[0].dataProvider().dataSourceUri()
+            self.Grow_file_file=layer_path
+
+    def update_comboBox(self):
+        #Fetch the currently loaded poly and raster layers
+        poly_layers = []
+        raster_layers = []
+
+        #Iterate to get polygon layers
+        for node in QgsProject.instance().layerTreeRoot().children():
+            layer = node.layer()
+            if isinstance(layer, QgsVectorLayer) and layer.geometryType() == QgsWkbTypes.PolygonGeometry:
+                poly_layers.append(layer)
+            elif isinstance(layer, QgsRasterLayer):
+                raster_layers.append(layer)
+        #Clear the contents of the comboBox from previous runs
+        self.dlg.comboBox_AOI_layer.clear()
+        self.dlg.comboBox_PreRaster.clear()
+        self.dlg.comboBox_PostRaster.clear()
+
+        self.dlg.comboBox_prefire.clear()
+        self.dlg.comboBox_postfire.clear()
+
+        self.dlg.comboBox_InputOWA.clear()
+        self.dlg.comboBox_RG_seed.clear()
+        self.dlg.comboBox_RG_grow.clear()
+        
+        #populate the comboBox with names of all the loaded layers
+        self.dlg.comboBox_AOI_layer.addItems(['Select a Layer'])
+        self.dlg.comboBox_AOI_layer.addItems([layer.name() for layer in poly_layers])
+
+        self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
+        self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])   
+        self.dlg.comboBox_PreRaster.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_PostRaster.addItems([layer.name() for layer in raster_layers])
+
+        self.dlg.comboBox_prefire.addItems(['Select a Layer'])
+        self.dlg.comboBox_postfire.addItems(['Select a Layer'])
+        self.dlg.comboBox_prefire.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_postfire.addItems([layer.name() for layer in raster_layers])
+
+        self.dlg.comboBox_InputOWA.addItems(['Select a Layer'])
+        self.dlg.comboBox_InputOWA.addItems([layer.name() for layer in raster_layers])
+
+        self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
+        self.dlg.comboBox_RG_grow.addItems(['Select a Layer'])
+        self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
 
 
         
@@ -666,17 +724,6 @@ class BAD:
 ###################################################################################################
 ###################################################################################################
 #  This part of the script contains the code about BBOX definition and calendar visualization
-
-    def select_AOI_layer(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select AOI vector layer", "",
-                                                    "Vector Files (*.shp *.gpkg *.kml *.gml *.dxf);;All Files (*)"
-                                                )
-
-        if file_path:
-            self.dlg.lineEdit_AOI.setVisible(True)
-            self.dlg.comboBox_AOI_layer.setVisible(False)
-            self.aoi_path = file_path
-            self.dlg.lineEdit_AOI.setText(file_path)
 
 # BBOX definition
     def get_BBOX(self):
@@ -2138,10 +2185,25 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
-        
+
         if not self.check_orness(w_Seed, w_Grow):
             self.dlg.lineEdit_OWA.setVisible(True)
             self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
+
+        self.dlg.comboBox_RG_seed.clear()
+        self.dlg.comboBox_RG_grow.clear()
+        self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
+        self.dlg.comboBox_RG_grow.addItems(['Select a Layer'])
+        poly_layers = []
+        raster_layers = []
+        for node in QgsProject.instance().layerTreeRoot().children():
+            layer = node.layer()
+            if isinstance(layer, QgsVectorLayer) and layer.geometryType() == QgsWkbTypes.PolygonGeometry:
+                poly_layers.append(layer)
+            elif isinstance(layer, QgsRasterLayer):
+                raster_layers.append(layer)
+        self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
+        self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
             
 
         self.update_progress(100)
@@ -2185,67 +2247,54 @@ class BAD:
                
         Seed_value = round(self.dlg.doubleSpinBox_RG_seed.value(),2)
         Grow_value = round(self.dlg.doubleSpinBox_RG_grow.value(),2)
-        
 
-        if self.dlg.groupBox_RG_input.isChecked():
-        
-            Seed_name = str(self.dlg.comboBox_RG_seed.currentText())
-            Seed_info = QgsProject.instance().mapLayersByName(Seed_name)
-            Seed_path = Seed_info[0].dataProvider().dataSourceUri()
-
-            Grow_name = str(self.dlg.comboBox_RG_grow.currentText())       
-            Grow_info = QgsProject.instance().mapLayersByName(Grow_name)
-            Grow_path = Grow_info[0].dataProvider().dataSourceUri()
-            
-            Seed_file = Seed_path 
-            Grow_file = Grow_path
-        
-        else:
+        if not self.Seed_file:
             if self.dlg.radioButton_OWA_S_AND.isChecked():
-                Seed_file = self.OWA_AND.output_path
+                self.Seed_file = self.OWA_AND.output_path
 
             if self.dlg.radioButton_OWA_S_almostAND.isChecked():
-                Seed_file = self.OWA_almostAND.output_path
+                self.Seed_file = self.OWA_almostAND.output_path
 
             if self.dlg.radioButton_OWA_S_AVERAGE.isChecked():
-                Seed_file = self.OWA_AVERAGE.output_path
+                self.Seed_file = self.OWA_AVERAGE.output_path
 
             if self.dlg.radioButton_OWA_S_almostOR.isChecked():
-                Seed_file = self.OWA_almostOR.output_path
+                self.Seed_file = self.OWA_almostOR.output_path
 
             if self.dlg.radioButton_OWA_S_OR.isChecked():
-                Seed_file = self.OWA_OR.output_path
+                self.Seed_file = self.OWA_OR.output_path
 
             if self.dlg.radioButton_OWA_S_UserChoice1.isChecked():
-                Seed_file = self.OWA_UserChoice1.output_path
+                self.Seed_file = self.OWA_UserChoice1.output_path
 
             if self.dlg.radioButton_OWA_S_UserChoice2.isChecked():
-                Seed_file = self.OWA_UserChoice2.output_path
+                self.Seed_file = self.OWA_UserChoice2.output_path
 
+
+        if not self.Grow_file:
             if self.dlg.radioButton_OWA_G_AND.isChecked():
-                Grow_file = self.OWA_AND.output_path
+                self.Grow_file = self.OWA_AND.output_path
 
             if self.dlg.radioButton_OWA_G_almostAND.isChecked():
-                Grow_file = self.OWA_almostAND.output_path
+                self.Grow_file = self.OWA_almostAND.output_path
 
             if self.dlg.radioButton_OWA_G_AVERAGE.isChecked():
-                Grow_file = self.OWA_AVERAGE.output_path
+                self.Grow_file = self.OWA_AVERAGE.output_path
 
             if self.dlg.radioButton_OWA_G_almostOR.isChecked():
-                Grow_file = self.OWA_almostOR.output_path
+                self.Grow_file = self.OWA_almostOR.output_path
 
             if self.dlg.radioButton_OWA_G_OR.isChecked():
-                Grow_file = self.OWA_OR.output_path 
+                self.Grow_file = self.OWA_OR.output_path 
 
             if self.dlg.radioButton_OWA_G_UserChoice1.isChecked():
-                Grow_file = self.OWA_UserChoice1.output_path
+                self.Grow_file = self.OWA_UserChoice1.output_path
 
             if self.dlg.radioButton_OWA_G_UserChoice2.isChecked():
-                Grow_file = self.OWA_UserChoice2.output_path
-
+                self.Grow_file = self.OWA_UserChoice2.output_path
         self.update_progress(20)
 
-        DataRG = ReadingData(Seed_file,Grow_file) 
+        DataRG = ReadingData(self.Seed_file,self.Grow_file) 
         Seed_matrix = DataRG.FirstMatrix
         Grow_matrix = DataRG.SecondMatrix
  
@@ -2257,7 +2306,7 @@ class BAD:
         
         if not RG_outputfile:
                 path_index = 0
-                path = Seed_file
+                path = self.Seed_file
                 filename = "RegionGrowing_result.tif"     
         else:
                 path_index = 1
@@ -2888,6 +2937,11 @@ class BAD:
 
             self.dlg.progressBar.setVisible(False)  
             self.dlg.progressBar.setValue(0)
+            self.dlg.pre_fire_path = None
+            self.dlg.post_fire_path = None
+            self.MD_path=None
+            self.Grow_file=None
+            self.Seed_file=None
 
             # Input Sentinel
             link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
@@ -2954,6 +3008,7 @@ class BAD:
             self.dlg.pushButton_MD_run.clicked.connect(self.ComputeMD)
             
             self.dlg.lineEdit_OWA.setVisible(False)
+            self.dlg.lineEdit_OWA_2.setVisible(False)
             self.dlg.toolButton_OWA_AND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AND))
             self.dlg.toolButton_OWA_almostAND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_almostAND))
             self.dlg.toolButton_OWA_AVERAGE.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AVERAGE))
@@ -2961,8 +3016,8 @@ class BAD:
             self.dlg.toolButton_OWA_OR.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_OR))
             self.dlg.toolButton_OWA_UserChoice1.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice1))
             self.dlg.toolButton_OWA_UserChoice2.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice2))
-            self.dlg.toolButton_InputOWA.clicked.connect(lambda:self.browse_rasterfile_OWA(self.dlg.comboBox_InputOWA, self.dlg.lineEdit_OWA))
-            self.dlg.comboBox_InputOWA.activated.connect(lambda:self.handle_combobox_click_OWA(self.dlg.comboBox_prefire))
+            self.dlg.toolButton_InputOWA.clicked.connect(lambda:self.browse_rasterfile_OWA(self.dlg.comboBox_InputOWA, self.dlg.lineEdit_OWA_2))
+            self.dlg.comboBox_InputOWA.activated.connect(lambda:self.handle_combobox_click_OWA(self.dlg.comboBox_InputOWA))
             self.dlg.pushButton_OWA_run.clicked.connect(self.ComputeOWA)          
             
             # RG tab
@@ -2973,7 +3028,8 @@ class BAD:
             self.dlg.toolButton_RG_result.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_RG_result))
             self.dlg.toolButton_Severity.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_Severity))
             self.dlg.toolButton_CombinedSeverity.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_CombinedSeverity))
-
+            self.dlg.comboBox_RG_seed.activated.connect(lambda:self.handle_combobox_click_seed(self.dlg.comboBox_RG_seed))
+            self.dlg.comboBox_RG_grow.activated.connect(lambda:self.handle_combobox_click_grow(self.dlg.comboBox_RG_grow))
             self.dlg.pushButton_RG_run.clicked.connect(self.ComputeRG)
             
             self.dlg.pushButton_Severity_run.clicked.connect(self.ComputeSeverity)
@@ -2996,56 +3052,7 @@ class BAD:
             self.dlg.pushButton_OWA_reset.clicked.connect(self.reset_OWA_tab)
             self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
             self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
-            
-
-        #Fetch the currently loaded poly and raster layers
-        poly_layers = []
-        raster_layers = []
-
-        #Iterate to get polygon layers
-        for node in QgsProject.instance().layerTreeRoot().children():
-            layer = node.layer()
-            if isinstance(layer, QgsVectorLayer) and layer.geometryType() == QgsWkbTypes.PolygonGeometry:
-                poly_layers.append(layer)
-            elif isinstance(layer, QgsRasterLayer):
-                raster_layers.append(layer)
-    
-        #Fetch the currently loaded layers
-        #layers = QgsProject.instance().layerTreeRoot().children()
         
-        #Clear the contents of the comboBox from previous runs
-        self.dlg.comboBox_AOI_layer.clear()
-        self.dlg.comboBox_PreRaster.clear()
-        self.dlg.comboBox_PostRaster.clear()
-
-        self.dlg.comboBox_prefire.clear()
-        self.dlg.comboBox_postfire.clear()
-
-        self.dlg.comboBox_InputOWA.clear()
-        self.dlg.comboBox_RG_seed.clear()
-        self.dlg.comboBox_RG_grow.clear()
-        
-        #populate the comboBox with names of all the loaded layers
-        self.dlg.comboBox_AOI_layer.addItems(['Select a Layer'])
-        self.dlg.comboBox_AOI_layer.addItems([layer.name() for layer in poly_layers])
-
-        self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])   
-        self.dlg.comboBox_PreRaster.addItems([layer.name() for layer in raster_layers])
-        self.dlg.comboBox_PostRaster.addItems([layer.name() for layer in raster_layers])
-
-        self.dlg.comboBox_prefire.addItems(['Select a Layer'])
-        self.dlg.comboBox_postfire.addItems(['Select a Layer'])
-        self.dlg.comboBox_prefire.addItems([layer.name() for layer in raster_layers])
-        self.dlg.comboBox_postfire.addItems([layer.name() for layer in raster_layers])
-
-        self.dlg.comboBox_InputOWA.addItems(['Select a Layer'])
-        self.dlg.comboBox_InputOWA.addItems([layer.name() for layer in raster_layers])
-
-        self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
-        self.dlg.comboBox_RG_grow.addItems(['Select a Layer'])
-        self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
-        self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
 
         # show the dialog
         self.dlg.show()
@@ -3061,8 +3068,9 @@ class BAD:
             self.reset_OWA_tab()
             self.reset_RG_tab()
             self.reset_Severity_tab()
+            self.update_comboBox()
+
         if result == self.dlg.Accepted:
-            #if self.dlg.RunALL:
             print("Run all started")
             self.ComputeFeature()
             print("Feature computed")
