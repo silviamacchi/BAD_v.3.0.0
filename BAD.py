@@ -213,6 +213,25 @@ class BAD:
         self.dlg.progressBar.setVisible(False)
         self.dlg.progressBar.setValue(0)
             # Define a single handler function to check the button role
+    
+    def handle_Run_ALL(self):
+        print("Run all started")
+        self.ComputeFeature()
+        print("Feature computed")
+        self.ComputeMD()
+        print("MD computed")
+        self.ComputeOWA()
+        print("OWA computed")
+        self.ComputeRG()
+        print("Run computed")
+        self.ComputeSeverity()
+        print("Severity computed")
+        self.ComputeRGSeverity()
+        print("RGSeverity computed")
+        self.window = QtWidgets.QDialog()
+        self.ui = Ui_Message()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
 
 ###################################################################################################
@@ -3052,6 +3071,8 @@ class BAD:
             self.dlg.pushButton_OWA_reset.clicked.connect(self.reset_OWA_tab)
             self.dlg.pushButton_RG_reset.clicked.connect(self.reset_RG_tab)
             self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
+
+            self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_Run_ALL)
         
 
         # show the dialog
@@ -3069,25 +3090,6 @@ class BAD:
             self.reset_RG_tab()
             self.reset_Severity_tab()
             self.update_comboBox()
-
-        if result == self.dlg.Accepted:
-            print("Run all started")
-            self.ComputeFeature()
-            print("Feature computed")
-            self.ComputeMD()
-            print("MD computed")
-            self.ComputeOWA()
-            print("OWA computed")
-            self.ComputeRG()
-            print("Run computed")
-            self.ComputeSeverity()
-            print("Severity computed")
-            self.ComputeRGSeverity()
-            print("RGSeverity computed")
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_Message()
-            self.ui.setupUi(self.window)
-            self.window.show()
             
         
 

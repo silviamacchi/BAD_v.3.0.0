@@ -8031,22 +8031,6 @@ font-weight: bold;
  <connections>
   <connection>
    <sender>button_box</sender>
-   <signal>accepted()</signal>
-   <receiver>BADDialogBase</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>11</x>
-     <y>732</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>button_box</sender>
    <signal>rejected()</signal>
    <receiver>BADDialogBase</receiver>
    <slot>reject()</slot>

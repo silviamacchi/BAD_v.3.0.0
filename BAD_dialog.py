@@ -60,7 +60,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
 
     def enableRunALL(self):
         if self.pre_fire_path and self.post_fire_path:
-                self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).setEnabled(True)
+                self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(True)
     
     def setup_custom_connections(self):
         """Connects the OK button to the custom action after removing the default."""
@@ -68,18 +68,17 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         # Find the QDialogButtonBox by its name ('button_box') from the UI file
         self.button_box = self.findChild(QtWidgets.QDialogButtonBox, 'button_box')
         run_all = self.button_box.button(QtWidgets.QDialogButtonBox.Ok)
-        ok_button=self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll)
-        if ok_button:
-            ok_button.setText("Next")
+        next_button=self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll)
+        if next_button:
+            next_button.setText("Next")
         if run_all:
             run_all.setText("RunAll")
-            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).setEnabled(False)
-        
-        if self.button_box:
-            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_ok_button_click)
-            
-    def handle_ok_button_click(self):
-        """Handles the OK button click: progresses through tabs or accepts (closes) the dialog."""
+            self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(False)
+
+        self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_Next_button_click)
+
+    def handle_Next_button_click(self):
+        """Handles the Next button click: progresses through tabs or accepts (closes) the dialog."""
         
         current_index = self.tabWidget.currentIndex()
         if current_index != 9:
