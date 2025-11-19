@@ -46,6 +46,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.pre_fire_path = None
         self.post_fire_path = None
+        self.RunALL=False
         self.setupUi(self)
         
         self.setup_custom_connections()
@@ -66,18 +67,17 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         # Find the QDialogButtonBox by its name ('button_box') from the UI file
         self.button_box = self.findChild(QtWidgets.QDialogButtonBox, 'button_box')
-        ok_button = self.button_box.button(QtWidgets.QDialogButtonBox.Ok)
-        run_all=self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll)
+        run_all = self.button_box.button(QtWidgets.QDialogButtonBox.Ok)
+        ok_button=self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll)
         if ok_button:
             ok_button.setText("Next")
         if run_all:
             run_all.setText("RunAll")
-            self.RunALL=False
             self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).setEnabled(False)
         
         if self.button_box:
-            self.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_ok_button_click)
-            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_runall_button_click)
+            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_ok_button_click)
+            #self.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_runall_button_click)
     def handle_ok_button_click(self):
         """Handles the OK button click: progresses through tabs or accepts (closes) the dialog."""
         
@@ -90,6 +90,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
             self.accept()
 
     def handle_runall_button_click(self):
+        print("run all clicked")
         """Handles the RunAll button click: run all the predefined processing"""
         self.RunALL=True
         #self.accept()

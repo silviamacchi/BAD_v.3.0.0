@@ -472,6 +472,7 @@ class BAD:
         self.dlg.lineEdit_MD.clear()
         self.dlg.checkBox_Feature_display.setChecked(False)
         self.dlg.checkBox_MD_display.setChecked(False)
+        self.dlg.pushButton_MD_run.setEnabled(False)
 
     # OWA TAB #
     def reset_OWA_tab(self):
@@ -601,6 +602,16 @@ class BAD:
             comboBox.setVisible(False)
             target_lineedit.setText(file_path)
 
+    def browse_rasterfile_OWA(self, comboBox, target_lineedit):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select raster file", "",
+                                                    "Raster Files (*.tif *.img *.jp2 *.bil *.hdr);;All Files (*)"
+                                                )
+        if file_path:
+            target_lineedit.setVisible(True)
+            comboBox.setVisible(False)
+            target_lineedit.setText(file_path)
+            self.MD_path=file_path
+
     def browse_rasterfile_pre(self, comboBox, target_lineedit):
         file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select raster file", "",
                                                     "Raster Files (*.tif *.img *.jp2 *.bil *.hdr);;All Files (*)"
@@ -640,6 +651,14 @@ class BAD:
             layer_path = layer[0].dataProvider().dataSourceUri()
             self.dlg.post_fire_path=layer_path
         self.dlg.enableRunALL()
+
+    def handle_combobox_OWA(self,comboBox):
+        if comboBox.currentIndex()!=0:
+            layer = str(comboBox.currentText())
+            layer = QgsProject.instance().mapLayersByName(layer)
+            layer_path = layer[0].dataProvider().dataSourceUri()
+            self.MD_path=layer_path
+
 
         
 
@@ -914,6 +933,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Pre-fire Sentinel-2 Image")
+                self.dlg.lineEdit_PreFire.setVisible(False)
+                self.dlg.comboBox_PreRaster.insertItems(1, ["Pre-fire Sentinel-2 Image"])
+                self.dlg.comboBox_PreRaster.setCurrentIndex(1)
         self.dlg.pre_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -925,11 +947,6 @@ class BAD:
         self.ui.setupUi(self.window)
         self.window.show()
 
-        #populate the comboBox with name of prefire layer
-        #self.dlg.comboBox_PreRaster.setVisible(True)
-        self.dlg.lineEdit_PreFire.setVisible(False)
-        #self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        self.dlg.comboBox_PreRaster.insertItems(0, ["Pre-fire Sentinel-2 Image"])
 
 
 # The process is executed when the button "Download Post-fire" is clicked 
@@ -957,6 +974,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
+                self.dlg.lineEdit_PostFire.setVisible(False)
+                self.dlg.comboBox_PostRaster.insertItems(1, ["Post-fire Sentinel-2 Image"])
+                self.dlg.comboBox_PostRaster.setCurrentIndex(1)
         self.dlg.post_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -967,12 +987,6 @@ class BAD:
         self.ui = Ui_Message()
         self.ui.setupUi(self.window)
         self.window.show()
-
-        #populate the comboBox with name of prefire layer
-        #self.dlg.comboBox_PostRaster.setVisible(True)
-        self.dlg.lineEdit_PostFire.setVisible(False)
-        #self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])
-        self.dlg.comboBox_PostRaster.insertItems(0, ["Post-fire Sentinel-2 Image"])
 
 ###################################################################################################     
 ###################################################################################################
@@ -1008,9 +1022,6 @@ class BAD:
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
     def run_masking(self):
-        if (not self.dlg.lineEdit_PreFire.text() and not self.dlg.comboBox_PreRaster.currentIndex()) or (not self.lineEdit_PostFire.text() and not self.dlg.comboBox_PostRaster.currentIndex()):
-            QMessageBox.warning(self.dlg, "Missing Files", "Please select both pre-fire and post-fire rasters.")
-            return
 
         pre_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPreFire)
         post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
@@ -1018,19 +1029,23 @@ class BAD:
         if not pre_fire_classes or not post_fire_classes:
             QMessageBox.warning(self.dlg, "No Classes Selected", "Please select at least one class to mask.")
             return
+        if not self.dlg.pre_fire_path or not self.dlg.post_fire_path:
+            QMessageBox.warning(self.dlg, "No Input raster Selected", "Please select the input raster.")
+            return
 
         try:
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
             self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
 
-            self.mask_raster(self.dlg.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.dlg.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
 
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
                 self.display_in_qgis(self.output_pre_fire_path)
                 self.display_in_qgis(self.output_post_fire_path)
+
             self.dlg.pre_fire_path = self.output_pre_fire_path
             self.dlg.post_fire_path = self.output_post_fire_path
             self.dlg.enableRunALL()
@@ -1059,7 +1074,7 @@ class BAD:
                 selected_classes.append(class_index)
         return selected_classes
 
-    def mask_raster(self, input_path, input_layer, scl_band_index, mask_classes, output_path):
+    def mask_raster(self, input_path, scl_band_index, mask_classes, output_path):
         self.show_progress_bar("Computing Pre-Processing")
         self.update_progress(5)
         start = time.process_time()
@@ -1069,12 +1084,6 @@ class BAD:
                 raise ValueError(f"Failed to load raster: {input_path}")
             crs=raster_layer.crs().authid()
             dataset = gdal.Open(input_path)
-        elif input_layer:
-            name= str(input_layer)
-            info = QgsProject.instance().mapLayersByName(name)
-            input_path = info[0].dataProvider().dataSourceUri()
-            dataset = gdal.Open(input_path)
-            crs=info[0].crs().authid()
         
         if dataset is None:
             raise ValueError("Failed to open raster with GDAL.")
@@ -1092,7 +1101,22 @@ class BAD:
             band[mask] = np.nan
             masked_bands.append(band)
 
-        self.save_raster(output_path, dataset.RasterXSize, dataset.RasterYSize, crs, dataset.GetGeoTransform(), masked_bands)
+        if not output_path:
+            path_index = 0
+            path = self.dlg.pre_fire_path
+            filename = "MD_result.tif"     
+        else:
+            path_index = 1
+            path = output_path
+            filename="null"
+        if path_index==0:
+            # se indice zero significa che l'utente non ha specificato nulla per 
+            # cui devo trasformare il path per salvare il file in formato .tif
+            array_path=path.split('/')
+            array_path[-1]=filename
+            splitter="/"
+            path=splitter.join(array_path)
+        self.save_raster(path, dataset.RasterXSize, dataset.RasterYSize, crs, dataset.GetGeoTransform(), masked_bands)
         self.update_progress(100)
         self.hide_progress_bar()
         end = time.process_time()
@@ -1135,21 +1159,6 @@ class BAD:
         self.update_progress(5)
         start = time.process_time()        
         
-        if self.dlg.lineEdit_Pre.setVisible(True):
-            self.Pre_path=self.dlg.lineEdit_pre.text()
-        else:
-            Pre_name= str(self.dlg.comboBox_prefire.currentText())
-            Pre_info = QgsProject.instance().mapLayersByName(Pre_name)
-            self.Pre_path = Pre_info[0].dataProvider().dataSourceUri()
-        self.dlg.pre_fire_path=self.Pre_path
-
-        if self.dlg.lineEdit_Post.setVisible(True):
-            self.Post_path=self.dlg.lineEdit_post.text()
-        else:   
-            Post_name = str(self.dlg.comboBox_postfire.currentText())       
-            Post_info = QgsProject.instance().mapLayersByName(Post_name)
-            self.Post_path = Post_info[0].dataProvider().dataSourceUri()    
-        self.dlg.post_fire_path=self.Post_path
         self.dlg.enableRunALL()
         self.update_progress(10)
 
@@ -1217,7 +1226,7 @@ class BAD:
 
         self.BandsList=[Band1,Band2,Band3,Band4,Band5,Band6,Band7,Band8,Band8A,Band9,Band10,Band11,Band12]
         
-        Data=ReadingData(self.Pre_path,self.Post_path)
+        Data=ReadingData(self.dlg.pre_fire_path,self.dlg.post_fire_path)
 
         self.update_progress(20)
 
@@ -1440,7 +1449,7 @@ class BAD:
         
         if not Feature_outputfile:
                 path_index = 0
-                path = self.Pre_path
+                path = self.dlg.pre_fire_path
                 filename = "Feature_result.tif"     
         else:
                 path_index = 1
@@ -1448,7 +1457,7 @@ class BAD:
                 filename="null"
         
         self.Feature_result = WriteLayer(path_index,path,FinalFeatureMatix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
-  
+        self.dlg.pushButton_MD_run.setEnabled(True)
         if self.dlg.checkBox_Feature_display.isChecked():
                 iface.addRasterLayer(self.Feature_result.output_path, "Feature_result")
         
@@ -1791,7 +1800,7 @@ class BAD:
         
         if not MD_outputfile:
                 path_index = 0
-                path = self.Pre_path
+                path = self.dlg.pre_fire_path
                 filename = "MD_result.tif"     
         else:
                 path_index = 1
@@ -1799,10 +1808,13 @@ class BAD:
                 filename="null"
         
         self.MD_result = WriteLayer(path_index,path,self.FinalBandMatix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
-
+        self.MD_path=self.MD_result.output_path
 
         if self.dlg.checkBox_MD_display.isChecked():
                 iface.addRasterLayer(self.MD_result.output_path, "MD_result")
+                self.dlg.comboBox_InputOWA.insertItems(1, ["MD_result"])
+                self.dlg.comboBox_InputOWA.setCurrentIndex(1)
+
         
         self.update_progress(100)
         self.hide_progress_bar()
@@ -1833,15 +1845,11 @@ class BAD:
     # OWA input from User
     ############
         # Get layer path
-        if self.dlg.groupBox_InputOWA.setVisible(True):
-            MD_path = self.dlg.groupBox_InputOWA.currentLayer()
+        if not self.MD_path:
+            print("Please select a valid MD layer before running OWA")
+            return None
         else:
-            MD_layer = self.dlg.lineEdit_Input_OWA.text()
-            if MD_layer == "":
-                print("Please select a valid MD layer before running OWA")
-                return None
-            else:
-                MD_path = MD_layer.dataProvider().dataSourceUri()
+            MD_path = self.MD_path
         # Read the MD layer
             dataset = gdal.Open(MD_path)
             if dataset is None:
@@ -1888,7 +1896,7 @@ class BAD:
             # files, in particular the seed layer path
             if not outputfile:
                 path_index=0
-                path= MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path= MD_path if MD_path else self.dlg.pre_fire_path
             # otherwise it uses the path specified by the user
             else:
                 path_index=1    
@@ -1926,7 +1934,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path= MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path= MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -1960,7 +1968,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path=MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path=MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -1996,7 +2004,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path=MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path=MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -2030,7 +2038,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path=MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path=MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -2073,7 +2081,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path=MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path=MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -2116,7 +2124,7 @@ class BAD:
 
             if not outputfile:
                 path_index=0
-                path=MD_path if self.dlg.groupBox_InputOWA.isChecked() else self.Pre_path
+                path=MD_path if MD_path else self.dlg.pre_fire_path
             else:
                 path_index=1
                 path=outputfile
@@ -2366,7 +2374,7 @@ class BAD:
 
         if not Severity_outputfile:
                 path_index = 0
-                path = self.Pre_path
+                path = self.dlg.pre_fire_path
                 filename = "Severity_result.tif"     
         else:
                 path_index = 1
@@ -2414,7 +2422,7 @@ class BAD:
         self.update_progress(25)
         if not RGSeverity_outputfile:
                 path_index = 0
-                path = self.Pre_path
+                path = self.dlg.pre_fire_path
                 filename = "RG_Severity_result.tif"     
         else:
                 path_index = 1
@@ -2941,12 +2949,11 @@ class BAD:
             self.dlg.toolButton_Feature.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_Feature))
             self.dlg.toolButton_MD.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_MD))
             
+            self.dlg.pushButton_MD_run.setEnabled(False)
             self.dlg.pushButton_Feature_run.clicked.connect(self.ComputeFeature)
             self.dlg.pushButton_MD_run.clicked.connect(self.ComputeMD)
             
             self.dlg.lineEdit_OWA.setVisible(False)
-
-
             self.dlg.toolButton_OWA_AND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AND))
             self.dlg.toolButton_OWA_almostAND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_almostAND))
             self.dlg.toolButton_OWA_AVERAGE.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AVERAGE))
@@ -2954,7 +2961,8 @@ class BAD:
             self.dlg.toolButton_OWA_OR.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_OR))
             self.dlg.toolButton_OWA_UserChoice1.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice1))
             self.dlg.toolButton_OWA_UserChoice2.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_UserChoice2))
-            
+            self.dlg.toolButton_InputOWA.clicked.connect(lambda:self.browse_rasterfile_OWA(self.dlg.comboBox_InputOWA, self.dlg.lineEdit_OWA))
+            self.dlg.comboBox_InputOWA.activated.connect(lambda:self.handle_combobox_click_OWA(self.dlg.comboBox_prefire))
             self.dlg.pushButton_OWA_run.clicked.connect(self.ComputeOWA)          
             
             # RG tab
@@ -3039,7 +3047,6 @@ class BAD:
         self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
         self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
 
-
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
@@ -3054,19 +3061,29 @@ class BAD:
             self.reset_OWA_tab()
             self.reset_RG_tab()
             self.reset_Severity_tab()
-
-        if self.dlg.RunALL:
-
+        if result == self.dlg.Accepted:
+            #if self.dlg.RunALL:
+            print("Run all started")
             self.ComputeFeature()
+            print("Feature computed")
             self.ComputeMD()
+            print("MD computed")
             self.ComputeOWA()
+            print("OWA computed")
             self.ComputeRG()
+            print("Run computed")
             self.ComputeSeverity()
+            print("Severity computed")
             self.ComputeRGSeverity()
+            print("RGSeverity computed")
             self.window = QtWidgets.QDialog()
             self.ui = Ui_Message()
             self.ui.setupUi(self.window)
             self.window.show()
+            
+        
+
+        
 
 
 
