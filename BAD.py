@@ -212,6 +212,7 @@ class BAD:
     def hide_progress_bar(self):
         self.dlg.progressBar.setVisible(False)
         self.dlg.progressBar.setValue(0)
+            # Define a single handler function to check the button role
 
 
 ###################################################################################################
@@ -225,6 +226,8 @@ class BAD:
 
 # Sentinel input tab:
     def reset_sentinel_fields(self):
+        self.dlg.pre_fire_path = None
+        self.dlg.post_fire_path = None
         self.dlg.lineEdit_North.clear()
         self.dlg.lineEdit_South.clear()
         self.dlg.lineEdit_East.clear()
@@ -254,8 +257,6 @@ class BAD:
 
 # reset preprocessing
     def reset_fields(self):
-        self.pre_fire_path = None
-        self.post_fire_path = None
         self.output_pre_fire_path = None
         self.output_post_fire_path = None
         self.dlg.spinBox_scl_pre.setValue(13)
@@ -599,6 +600,47 @@ class BAD:
             target_lineedit.setVisible(True)
             comboBox.setVisible(False)
             target_lineedit.setText(file_path)
+
+    def browse_rasterfile_pre(self, comboBox, target_lineedit):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select raster file", "",
+                                                    "Raster Files (*.tif *.img *.jp2 *.bil *.hdr);;All Files (*)"
+                                                )
+        if file_path:
+            target_lineedit.setVisible(True)
+            comboBox.setVisible(False)
+            target_lineedit.setText(file_path)
+            self.dlg.pre_fire_path=file_path
+            self.dlg.enableRunALL()
+
+    def browse_rasterfile_post(self, comboBox, target_lineedit):
+        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select raster file", "",
+                                                    "Raster Files (*.tif *.img *.jp2 *.bil *.hdr);;All Files (*)"
+                                                )
+        if file_path:
+            target_lineedit.setVisible(True)
+            comboBox.setVisible(False)
+            target_lineedit.setText(file_path)
+            self.dlg.post_fire_path=file_path
+            self.dlg.enableRunALL()
+
+    def handle_combobox_click_pre(self,comboBox):
+        print("pre current index",comboBox.currentIndex())
+        if comboBox.currentIndex()!=0:
+            layer = str(comboBox.currentText())
+            layer = QgsProject.instance().mapLayersByName(layer)
+            layer_path = layer[0].dataProvider().dataSourceUri()
+            self.dlg.pre_fire_path=layer_path
+        self.dlg.enableRunALL()
+
+    def handle_combobox_click_post(self,comboBox):
+        print("post current index",comboBox.currentIndex())
+        if comboBox.currentIndex()!=0:
+            layer = str(comboBox.currentText())
+            layer = QgsProject.instance().mapLayersByName(layer)
+            layer_path = layer[0].dataProvider().dataSourceUri()
+            self.dlg.post_fire_path=layer_path
+        self.dlg.enableRunALL()
+
         
 
 ###################################################################################################     
@@ -872,7 +914,8 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Pre-fire Sentinel-2 Image")
-
+        self.dlg.pre_fire_path = output_name
+        self.dlg.enableRunALL()
         self.hide_progress_bar()
         end = time.process_time()
         print("Process end")
@@ -914,7 +957,8 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
-
+        self.dlg.post_fire_path = output_name
+        self.dlg.enableRunALL()
         self.hide_progress_bar()
         end = time.process_time()
         print("Process end")
@@ -935,21 +979,6 @@ class BAD:
 ###################################################################################################
 #  This part of the script contains the code about the preprocessing tab,
 #  The process is executed when the button "RUN MASKING" is clicked  
-
-    def select_pre_fire_raster(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Pre-fire Raster", "", "GeoTIFF Files (*.tif)")
-        if file_path:
-            self.dlg.lineEdit_PreFire.setVisible(True)
-            self.dlg.comboBox_PreRaster.setVisible(False)
-            self.pre_fire_path = file_path
-            self.dlg.lineEdit_PreFire.setText(file_path)
-    def select_post_fire_raster(self):
-        file_path, _ = QFileDialog.getOpenFileName(self.dlg, "Select Post-fire Raster", "", "GeoTIFF Files (*.tif)")
-        self.dlg.lineEdit_PostFire.setVisible(True)
-        self.dlg.comboBox_PostRaster.setVisible(False)
-        if file_path:
-            self.post_fire_path = file_path
-            self.dlg.lineEdit_PostFire.setText(file_path)
     
     def populate_mask_classes(self):
         """Populate the class selection lists for pre-fire and post-fire."""
@@ -994,14 +1023,17 @@ class BAD:
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
             self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
 
-            self.mask_raster(self.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.dlg.pre_fire_path, self.dlg.comboBox_PreRaster.currentText(), self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.comboBox_PostRaster.currentText(), self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
 
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
                 self.display_in_qgis(self.output_pre_fire_path)
                 self.display_in_qgis(self.output_post_fire_path)
+            self.dlg.pre_fire_path = self.output_pre_fire_path
+            self.dlg.post_fire_path = self.output_post_fire_path
+            self.dlg.enableRunALL()
 
             #Fetch the currently loaded layers
             layers = QgsProject.instance().layerTreeRoot().children()
@@ -1109,6 +1141,7 @@ class BAD:
             Pre_name= str(self.dlg.comboBox_prefire.currentText())
             Pre_info = QgsProject.instance().mapLayersByName(Pre_name)
             self.Pre_path = Pre_info[0].dataProvider().dataSourceUri()
+        self.dlg.pre_fire_path=self.Pre_path
 
         if self.dlg.lineEdit_Post.setVisible(True):
             self.Post_path=self.dlg.lineEdit_post.text()
@@ -1116,7 +1149,8 @@ class BAD:
             Post_name = str(self.dlg.comboBox_postfire.currentText())       
             Post_info = QgsProject.instance().mapLayersByName(Post_name)
             self.Post_path = Post_info[0].dataProvider().dataSourceUri()    
-
+        self.dlg.post_fire_path=self.Post_path
+        self.dlg.enableRunALL()
         self.update_progress(10)
 
         if self.dlg.checkBox_input_B1.isChecked():
@@ -2856,7 +2890,6 @@ class BAD:
             self.dlg.lineEdit_AOI.setVisible(False)
             self.dlg.toolButton_AOI_path.clicked.connect(lambda: self.browse_vectorfile(self.dlg.comboBox_AOI_layer, self.dlg.lineEdit_AOI))
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
-            #self.dlg.toolButton_AOI_path.clicked.connect(self.select_AOI_layer)
             self.dlg.dateEdit_Start_pre.dateChanged.connect(
                 lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
             )
@@ -2881,19 +2914,14 @@ class BAD:
 
             # Mask
             self.populate_mask_classes()
-            self.pre_fire_path=None
-            self.post_fire_path=None
-            #self.dlg.btnBrowsePreFire.clicked.connect(self.select_pre_fire_raster)
-            #self.dlg.btnBrowsePostFire.clicked.connect(self.select_post_fire_raster)
-            self.dlg.btnBrowsePreFire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_PreRaster, self.dlg.lineEdit_PreFire))
-            self.dlg.btnBrowsePostFire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_PostRaster, self.dlg.lineEdit_PostFire))
+            self.dlg.comboBox_PreRaster.activated.connect(lambda:self.handle_combobox_click_pre(self.dlg.comboBox_PreRaster))
+            self.dlg.comboBox_PostRaster.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_PostRaster))
+            self.dlg.btnBrowsePreFire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_PreRaster, self.dlg.lineEdit_PreFire))
+            self.dlg.btnBrowsePostFire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_PostRaster, self.dlg.lineEdit_PostFire))
             self.dlg.btnBrowseOutputPreFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPreFire))
             self.dlg.btnBrowseOutputPostFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPostFire))
             self.dlg.btnRunMasking.clicked.connect(self.run_masking)
             self.dlg.btnReset.clicked.connect(self.reset_fields)
-            #if self.dlg.btnReset.clicked.connect(self.reset_fields):
-            #    self.select_pre_fire_raster
-            #    self.select_post_fire_raster
             
             # Synchronize comboBoxes and lineEdits in Mask tab
             self.dlg.lineEdit_PreFire.setVisible(False)
@@ -2902,8 +2930,10 @@ class BAD:
             # Input tab
             self.dlg.lineEdit_Pre.setVisible(False)
             self.dlg.lineEdit_Post.setVisible(False)
-            self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
-            self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
+            self.dlg.comboBox_prefire.activated.connect(lambda:self.handle_combobox_click_pre(self.dlg.comboBox_prefire))
+            self.dlg.comboBox_postfire.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_prefire))
+            self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
+            self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
@@ -2915,11 +2945,7 @@ class BAD:
             self.dlg.pushButton_MD_run.clicked.connect(self.ComputeMD)
             
             self.dlg.lineEdit_OWA.setVisible(False)
-            #set parameters for OWA user selection only in Read mode (DONE IN QT DESIGNER)
-            #self.dlg.lineEdit_OWA_a_UC1.setReadOnly(True)
-            #self.dlg.lineEdit_OWA_a_UC2.setReadOnly(True)
-            #self.dlg.lineEdit_OWA_b_UC1.setReadOnly(True)   
-            #self.dlg.lineEdit_OWA_b_UC2.setReadOnly(True)
+
 
             self.dlg.toolButton_OWA_AND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_AND))
             self.dlg.toolButton_OWA_almostAND.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OWA_almostAND))
@@ -3018,6 +3044,7 @@ class BAD:
         self.dlg.show()
         # Run the dialog event loop
         result = self.dlg.exec_()
+        print("result",result)
 
         if result == self.dlg.Rejected:
             self.reset_sentinel_fields()
@@ -3027,4 +3054,21 @@ class BAD:
             self.reset_OWA_tab()
             self.reset_RG_tab()
             self.reset_Severity_tab()
+
+        if self.dlg.RunALL:
+
+            self.ComputeFeature()
+            self.ComputeMD()
+            self.ComputeOWA()
+            self.ComputeRG()
+            self.ComputeSeverity()
+            self.ComputeRGSeverity()
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+
+
+
            

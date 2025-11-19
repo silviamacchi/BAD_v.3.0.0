@@ -44,6 +44,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         # self.<objectname>, and you can use autoconnect slots - see
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
+        self.pre_fire_path = None
+        self.post_fire_path = None
         self.setupUi(self)
         
         self.setup_custom_connections()
@@ -55,26 +57,31 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.pushButton_parameters_UC1.clicked.connect(self.open_owa_parameters_UC1_window)
         self.pushButton_parameters_UC2.clicked.connect(self.open_owa_parameters_UC2_window)
 
+    def enableRunALL(self):
+        if self.pre_fire_path and self.post_fire_path:
+                self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).setEnabled(True)
+    
     def setup_custom_connections(self):
         """Connects the OK button to the custom action after removing the default."""
         
         # Find the QDialogButtonBox by its name ('button_box') from the UI file
         self.button_box = self.findChild(QtWidgets.QDialogButtonBox, 'button_box')
         ok_button = self.button_box.button(QtWidgets.QDialogButtonBox.Ok)
-            
+        run_all=self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll)
         if ok_button:
             ok_button.setText("Next")
+        if run_all:
+            run_all.setText("RunAll")
+            self.RunALL=False
+            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).setEnabled(False)
         
         if self.button_box:
-            self.button_box.accepted.connect(self.handle_ok_button_click)
-
-
+            self.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_ok_button_click)
+            self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_runall_button_click)
     def handle_ok_button_click(self):
         """Handles the OK button click: progresses through tabs or accepts (closes) the dialog."""
         
         current_index = self.tabWidget.currentIndex()
-        current_tab_widget = self.tabWidget.tabText(current_index)
-        
         if current_index != 9:
             # If not the last tab, move to the next one (and the dialog stays open)
             self.tabWidget.setCurrentIndex(current_index + 1)
@@ -82,6 +89,10 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
             # If it is the last tab (index 9), close the dialog
             self.accept()
 
+    def handle_runall_button_click(self):
+        """Handles the RunAll button click: run all the predefined processing"""
+        self.RunALL=True
+        #self.accept()
 
     def open_preview_window(self):
         self.preview_dialog = PreviewWindow(self)
