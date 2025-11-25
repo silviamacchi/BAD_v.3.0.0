@@ -753,8 +753,8 @@ class BAD:
         if self.dlg.lineEdit_AOI.isVisible():
             # Get layer path from line edit
             layer_path = self.dlg.lineEdit_AOI.text()
-            # Load the raster layer
-            AOI_layer = QgsRasterLayer(layer_path, "AOI_Layer")
+            # Load the vector layer
+            AOI_layer = QgsVectorLayer(layer_path, "AOI_Layer", "ogr")
 
         elif self.dlg.comboBox_AOI_layer.isVisible():
             # Get layer selected
@@ -764,8 +764,9 @@ class BAD:
                 (l for l in QgsProject.instance().mapLayers().values() if l.name() == layer_name),
                 None
             )
-        if not layer_name or layer_name == "Select a Layer":
-            return # No layer selected  
+
+        if AOI_layer is None or layer_name=="Select a Layer":
+            return # No layer selected 
         elif not AOI_layer.isValid():
             print("Layer not valid.")
         elif AOI_layer.geometryType() != QgsWkbTypes.PolygonGeometry:
@@ -784,7 +785,7 @@ class BAD:
             North = extent_4326.yMaximum()
             West = extent_4326.xMinimum()
             East = extent_4326.xMaximum()
-        #BBOX = (South, North, West, East)
+            #BBOX = (South, North, West, East)
             self.dlg.lineEdit_South.setText(str(South))
             self.dlg.lineEdit_North.setText(str(North))
             self.dlg.lineEdit_West.setText(str(West))
@@ -2970,6 +2971,7 @@ class BAD:
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
             self.dlg.lineEdit_AOI.setVisible(False)
             self.dlg.toolButton_AOI_path.clicked.connect(lambda: self.browse_vectorfile(self.dlg.comboBox_AOI_layer, self.dlg.lineEdit_AOI))
+            self.dlg.lineEdit_AOI.textChanged.connect(self.get_BBOX) 
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
             self.dlg.dateEdit_Start_pre.dateChanged.connect(
                 lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
@@ -3073,7 +3075,9 @@ class BAD:
             self.dlg.pushButton_Severity_reset.clicked.connect(self.reset_Severity_tab)
 
             self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_Run_ALL)
-        
+
+            # update comboBox
+            self.update_comboBox()
 
         # show the dialog
         self.dlg.show()

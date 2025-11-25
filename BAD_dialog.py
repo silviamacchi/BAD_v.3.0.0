@@ -133,20 +133,15 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         if not self.Nband:
             self.Nband = 7  # Default value if Nband is not computed
         self.preview_dialog = OwaParametersWindow(int(self.Nband))
-        self.pushButton_parameters_UC1.setEnabled(False)
         if self.preview_dialog.exec_():
             self.lineEdit_OWA_a_UC1.setText(str(self.preview_dialog.result[0]))
             self.lineEdit_OWA_b_UC1.setText(str(self.preview_dialog.result[1]))
-            self.pushButton_parameters_UC1.setEnabled(True)
 
     def open_owa_parameters_UC2_window(self):
         if not self.Nband:
             self.Nband = 7  # Default value if Nband is not computed
         self.preview_dialog = OwaParametersWindow(int(self.Nband))
-        self.pushButton_parameters_UC2.setEnabled(False)
         if self.preview_dialog.exec_():
             self.lineEdit_OWA_a_UC2.setText(str(self.preview_dialog.result[0]))
             self.lineEdit_OWA_b_UC2.setText(str(self.preview_dialog.result[1]))
-            self.pushButton_parameters_UC2.setEnabled(True)
-
  
