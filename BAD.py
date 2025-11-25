@@ -1088,45 +1088,62 @@ class BAD:
             item.setCheckState(QtCore.Qt.Unchecked)
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
-    def run_masking(self):
+    def run_masking_pre(self):
 
         pre_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPreFire)
-        post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
-
-        if not pre_fire_classes or not post_fire_classes:
-            QMessageBox.warning(self.dlg, "No Classes Selected", "Please select at least one class to mask.")
-            return
-        if not self.dlg.pre_fire_path or not self.dlg.post_fire_path:
-            QMessageBox.warning(self.dlg, "No Input raster Selected", "Please select the input raster.")
-            return
 
         try:
+            if (not pre_fire_classes or not self.dlg.pre_fire_path):
+                QMessageBox.warning(self.dlg, "Input incomplete", "Please select at least one input file and its class to mask.")
+                return
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
-            self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
 
             self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
-            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
-
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
                 self.display_in_qgis(self.output_pre_fire_path)
-                self.display_in_qgis(self.output_post_fire_path)
 
             self.dlg.pre_fire_path = self.output_pre_fire_path
-            self.dlg.post_fire_path = self.output_post_fire_path
             self.dlg.enableRunALL()
 
             #Fetch the currently loaded layers
             layers = QgsProject.instance().layerTreeRoot().children()
             self.dlg.comboBox_prefire.clear()
-            self.dlg.comboBox_postfire.clear()
 
             #populate the comboBox with names of all the loaded layers
             self.dlg.comboBox_prefire.addItems(['Select a Layer'])
-            self.dlg.comboBox_postfire.addItems(['Select a Layer'])
 
             self.dlg.comboBox_prefire.addItems([layer.name() for layer in layers])
+
+        except Exception as e:
+            QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
+
+    def run_masking_post(self):
+        post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
+
+        try:
+            if (not post_fire_classes or not self.dlg.post_fire_path):
+                QMessageBox.warning(self.dlg, "Input incomplete", "Please select at least one input file and its class to mask.")
+                return
+            self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+
+            ##This updated the comboBox of the "input tab"
+
+            if self.dlg.checkBoxDisplayInQGIS.isChecked():
+                self.display_in_qgis(self.output_post_fire_path)
+
+            self.dlg.post_fire_path = self.output_post_fire_path
+            self.dlg.enableRunALL()
+
+            #Fetch the currently loaded layers
+            layers = QgsProject.instance().layerTreeRoot().children()
+            self.dlg.comboBox_postfire.clear()
+
+            #populate the comboBox with names of all the loaded layers
+            self.dlg.comboBox_postfire.addItems(['Select a Layer'])
+
             self.dlg.comboBox_postfire.addItems([layer.name() for layer in layers])
 
         except Exception as e:
@@ -1145,15 +1162,14 @@ class BAD:
         self.show_progress_bar("Computing Pre-Processing")
         self.update_progress(5)
         start = time.process_time()
+        print("input path",input_path)
         if input_path:
-            raster_layer = QgsRasterLayer(input_path, "InputRaster")
+            raster_layer = QgsRasterLayer(input_path, os.path.basename(input_path))
             if not raster_layer.isValid():
                 raise ValueError(f"Failed to load raster: {input_path}")
             crs=raster_layer.crs().authid()
             dataset = gdal.Open(input_path)
-        
-        if dataset is None:
-            raise ValueError("Failed to open raster with GDAL.")
+            print("dataset creato:",dataset)
 
         scl_band = dataset.GetRasterBand(scl_band_index + 1)
         scl_array = scl_band.ReadAsArray()
@@ -1171,7 +1187,7 @@ class BAD:
         if not output_path:
             path_index = 0
             path = self.dlg.pre_fire_path
-            filename = "MD_result.tif"     
+            filename = "masking_result.tif"     
         else:
             path_index = 1
             path = output_path
@@ -3003,7 +3019,8 @@ class BAD:
             self.dlg.btnBrowsePostFire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_PostRaster, self.dlg.lineEdit_PostFire))
             self.dlg.btnBrowseOutputPreFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPreFire))
             self.dlg.btnBrowseOutputPostFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPostFire))
-            self.dlg.btnRunMasking.clicked.connect(self.run_masking)
+            self.dlg.btnRunMasking_pre.clicked.connect(self.run_masking_pre)
+            self.dlg.btnRunMasking_post.clicked.connect(self.run_masking_post)
             self.dlg.btnReset.clicked.connect(self.reset_fields)
             
             # Synchronize comboBoxes and lineEdits in Mask tab
