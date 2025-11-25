@@ -225,8 +225,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>936</width>
-               <height>1536</height>
+               <width>957</width>
+               <height>1806</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_25">
@@ -691,6 +691,12 @@
          </item>
          <item row="0" column="7" colspan="2">
           <widget class="QToolButton" name="toolButton_AOI_path">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>   Browse   </string>
            </property>
@@ -870,8 +876,8 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetFixedSize</enum>
          </property>
-         <item row="0" column="0" colspan="2">
-          <widget class="QPushButton" name="pushButton_FI_search_pre">
+         <item row="0" column="2" colspan="2">
+          <widget class="QPushButton" name="pushButton_FI_search_post">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -879,7 +885,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Search Pre-fire available images</string>
+            <string>Search Post-fire available images</string>
            </property>
           </widget>
          </item>
@@ -956,6 +962,19 @@
            </column>
           </widget>
          </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="Preview_FI_pre_mos">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Compute Mosaicking Pre</string>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="2">
           <widget class="QPushButton" name="Preview_FI_post">
            <property name="sizePolicy">
@@ -969,6 +988,19 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QPushButton" name="pushButton_FI_search_pre">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Search Pre-fire available images</string>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="Preview_FI_pre">
            <property name="sizePolicy">
@@ -979,19 +1011,6 @@
            </property>
            <property name="text">
             <string>Single image preview Pre</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QPushButton" name="Preview_FI_pre_mos">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Compute Mosaicking Pre</string>
            </property>
           </widget>
          </item>
@@ -1067,19 +1086,6 @@
              <string>Intercept AOI with desired cloud %</string>
             </property>
            </column>
-          </widget>
-         </item>
-         <item row="0" column="2" colspan="2">
-          <widget class="QPushButton" name="pushButton_FI_search_post">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Search Post-fire available images</string>
-           </property>
           </widget>
          </item>
         </layout>
@@ -2211,8 +2217,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>960</width>
-            <height>282</height>
+            <width>988</width>
+            <height>318</height>
            </rect>
           </property>
           <attribute name="label">
