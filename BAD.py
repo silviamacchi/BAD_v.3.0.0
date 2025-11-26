@@ -967,11 +967,11 @@ class BAD:
     #Connects download button to mosaicking
     def open_preview_mosaic_pre(self):
         self.dlg.last_pre=0
-        self.dlg.pushButton_FI_download_pre.setEnabled(True)
+        #self.dlg.pushButton_FI_download_pre.setEnabled(True)
 
     def open_preview_mosaic_post(self):
         self.dlg.last_post=0
-        self.dlg.pushButton_FI_download_post.setEnabled(True)
+        #self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
     def download_sentinel_pre(self):
@@ -979,8 +979,7 @@ class BAD:
         self.show_progress_bar("Downloading Pre-fire Sentinel-2 images")
         self.update_progress(5)
         start = time.process_time()
-        self.dlg.pushButton_FI_download_pre.setEnabled(False)
-
+        
         selected_row = self.dlg.download_images_pre.currentRow()
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
@@ -990,8 +989,12 @@ class BAD:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
 
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
-        output_name = self.dlg.lineEdit_FI_result_pre.text()
-        
+        if self.dlg.lineEdit_FI_result_pre.text():
+            output_name = self.dlg.lineEdit_FI_result_pre.text()
+        else:
+            QMessageBox.warning(self.dlg, "Missing output path", "Please select a valid output path.")
+            return
+
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
@@ -999,7 +1002,8 @@ class BAD:
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
-                iface.addRasterLayer(output_name, "Pre-fire Sentinel-2 Image")
+                self.display_in_qgis(output_name)
+                #iface.addRasterLayer(output_name, os.path.splitext(os.path.basename(output_name))[0])#"Pre-fire Sentinel-2 Image"
                 self.dlg.lineEdit_PreFire.setVisible(False)
                 self.dlg.comboBox_PreRaster.insertItems(1, ["Pre-fire Sentinel-2 Image"])
                 self.dlg.comboBox_PreRaster.setCurrentIndex(1)
@@ -1022,8 +1026,7 @@ class BAD:
         self.show_progress_bar("Downloading Post-fire Sentinel-2 images")
         self.update_progress(5)
         start = time.process_time()
-        self.dlg.pushButton_FI_download_post.setEnabled(False)
-
+        
         selected_row = self.dlg.download_images_post.currentRow()
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
@@ -1032,7 +1035,13 @@ class BAD:
         else:
             date=self.dlg.download_images_post.item(selected_row, 0).text()
         cloud=self.dlg.horizontalSlider_cloud_post.value()
-        output_name = self.dlg.lineEdit_FI_result_post.text()
+
+        if self.dlg.lineEdit_FI_result_post.text():
+            output_name = self.dlg.lineEdit_FI_result_post.text()
+        else:
+            QMessageBox.warning(self.dlg, "Missing output path", "Please select a valid output path.")
+            return
+
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
@@ -1040,7 +1049,8 @@ class BAD:
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
-                iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
+                self.display_in_qgis(output_name)
+                #iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
                 self.dlg.lineEdit_PostFire.setVisible(False)
                 self.dlg.comboBox_PostRaster.insertItems(1, ["Post-fire Sentinel-2 Image"])
                 self.dlg.comboBox_PostRaster.setCurrentIndex(1)
@@ -1097,7 +1107,8 @@ class BAD:
                 QMessageBox.warning(self.dlg, "Input incomplete", "Please select at least one input file and its class to mask.")
                 return
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
-
+            if not self.output_pre_fire_path:
+                self.output_pre_fire_path=os.path.join(os.path.dirname(self.dlg.pre_fire_path.strip()), "Masked_pre_fire.tif")
             self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
             ##This updated the comboBox of the "input tab"
 
@@ -1127,6 +1138,9 @@ class BAD:
                 QMessageBox.warning(self.dlg, "Input incomplete", "Please select at least one input file and its class to mask.")
                 return
             self.output_post_fire_path=self.dlg.lineEdit_OutputPostFire.text()
+            if not self.output_post_fire_path:
+                self.output_post_fire_path=os.path.join(os.path.dirname(self.dlg.post_fire_path.strip()), "Masked_post_fire.tif")
+
             self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
 
             ##This updated the comboBox of the "input tab"
@@ -1224,8 +1238,9 @@ class BAD:
         dataset.FlushCache()
         del dataset
 
-    def display_in_qgis(self, raster_path):
-        layer = QgsRasterLayer(raster_path, os.path.basename(raster_path))
+    # Display in QGIS used everytime the display botton is checked
+    def display_in_qgis(self, file_path):
+        layer = QgsRasterLayer(file_path, os.path.splitext(os.path.basename(file_path))[0])
         if layer.isValid():
             QgsProject.instance().addMapLayer(layer)
 ###################################################################################################     
@@ -1542,7 +1557,8 @@ class BAD:
         self.Feature_result = WriteLayer(path_index,path,FinalFeatureMatix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
         self.dlg.pushButton_MD_run.setEnabled(True)
         if self.dlg.checkBox_Feature_display.isChecked():
-                iface.addRasterLayer(self.Feature_result.output_path, "Feature_result")
+                self.display_in_qgis(self.Feature_result.output_path)
+                #iface.addRasterLayer(self.Feature_result.output_path, "Feature_result")
         
         self.update_progress(100)
         self.hide_progress_bar()
@@ -1894,7 +1910,8 @@ class BAD:
         self.MD_path=self.MD_result.output_path
 
         if self.dlg.checkBox_MD_display.isChecked():
-                iface.addRasterLayer(self.MD_result.output_path, "MD_result")
+                self.display_in_qgis(self.MD_result.output_path)
+                #iface.addRasterLayer(self.MD_result.output_path, "MD_result")
                 self.dlg.comboBox_InputOWA.insertItems(1, ["MD_result"])
                 self.dlg.comboBox_InputOWA.setCurrentIndex(1)
 
@@ -1992,7 +2009,8 @@ class BAD:
             self.OWA_AND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
             
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_AND.output_path, "OWA_AND")
+                self.display_in_qgis(self.OWA_AND.output_path)
+                #iface.addRasterLayer(self.OWA_AND.output_path, "OWA_AND")
 
         self.update_progress(30)
 
@@ -2029,7 +2047,8 @@ class BAD:
             self.OWA_almostAND = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_almostAND.output_path, "OWA_almostAND")
+                self.display_in_qgis(self.OWA_almostAND.output_path)
+                #iface.addRasterLayer(self.OWA_almostAND.output_path, "OWA_almostAND")
 
         self.update_progress(40)
         
@@ -2063,7 +2082,8 @@ class BAD:
             self.OWA_AVERAGE = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_AVERAGE.output_path, "OWA_AVERAGE")
+                self.display_in_qgis(self.OWA_AVERAGE.output_path)
+                #iface.addRasterLayer(self.OWA_AVERAGE.output_path, "OWA_AVERAGE")
 
         self.update_progress(50)
                    
@@ -2099,7 +2119,8 @@ class BAD:
             self.OWA_almostOR = WriteLayer(path_index,path,OWA.Integrated_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_almostOR.output_path, "OWA_almostOR")
+                self.display_in_qgis(self.OWA_almostOR.output_path)
+                #iface.addRasterLayer(self.OWA_almostOR.output_path, "OWA_almostOR")
 
         self.update_progress(60)
         
@@ -2134,7 +2155,8 @@ class BAD:
     
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_OR.output_path, "OWA_OR")
+                self.display_in_qgis(self.OWA_OR.output_path)
+                #iface.addRasterLayer(self.OWA_OR.output_path, "OWA_OR")
 
         self.update_progress(70)
 
@@ -2177,7 +2199,8 @@ class BAD:
     
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_UserChoice1.output_path, "OWA_UserChoice1")
+                self.display_in_qgis(self.OWA_UserChoice1.output_path)
+                #iface.addRasterLayer(self.OWA_UserChoice1.output_path, "OWA_UserChoice1")
 
         self.update_progress(80)
 
@@ -2220,7 +2243,8 @@ class BAD:
     
     
             if self.dlg.checkBox_OWA_display.isChecked():
-                iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
+                self.display_in_qgis(self.OWA_UserChoice2.output_path)
+                #iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
 
         if not self.check_orness(w_Seed, w_Grow):
             self.dlg.lineEdit_OWA.setVisible(True)
@@ -2359,7 +2383,8 @@ class BAD:
         self.update_progress(95)
         
         if self.dlg.checkBox_RG_display.isChecked():
-                iface.addRasterLayer(self.RG_result.output_path, "RG_result")
+                self.display_in_qgis(self.RG_result.output_path)
+                #iface.addRasterLayer(self.RG_result.output_path, "RG_result")
         self.update_progress(100)
         self.hide_progress_bar()
         end=time.process_time()
@@ -2469,7 +2494,8 @@ class BAD:
         self.Severity_result = WriteLayer(path_index,path,self.Class_matrix,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
         
         if self.dlg.checkBox_Severity.isChecked():
-                iface.addRasterLayer(self.Severity_result.output_path, "Severity_result")
+                self.display_in_qgis(self.Severity_result.output_path)
+                #iface.addRasterLayer(self.Severity_result.output_path, "Severity_result")
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -2517,7 +2543,8 @@ class BAD:
         self.RGSeverity_result = WriteLayer(path_index,path,Class_Burned,NameBandsList,Nband,Xsize,Ysize,filename,self.GeoTrans,self.proj)
         
         if self.dlg.checkBox_CombinedSeverity.isChecked():
-                iface.addRasterLayer(self.RGSeverity_result.output_path, "RG_Severity_result")
+                self.display_in_qgis(self.RGSeverity_result.output_path)
+                #iface.addRasterLayer(self.RGSeverity_result.output_path, "RG_Severity_result")
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -3093,8 +3120,8 @@ class BAD:
 
             self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).clicked.connect(self.handle_Run_ALL)
 
-            # update comboBox
-            self.update_comboBox()
+        # update comboBox
+        self.update_comboBox()
 
         # show the dialog
         self.dlg.show()

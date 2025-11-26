@@ -96,7 +96,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         image_list = []
         for row in range(self.download_images_pre.rowCount()):
             date = self.download_images_pre.item(row, 0).text()
-            #time = self.download_images_pre.item(row, 1).text()
             image_list.append(date)
 
         self.last_pre=1
@@ -115,7 +114,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         image_list = []
         for row in range(self.download_images_post.rowCount()):
             date = self.download_images_post.item(row, 0).text()
-            #time = self.download_images_post.item(row, 1).text()
             image_list.append(date)
 
         self.last_post=1
