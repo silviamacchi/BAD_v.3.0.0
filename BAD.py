@@ -3055,7 +3055,7 @@ class BAD:
             self.dlg.lineEdit_Pre.setVisible(False)
             self.dlg.lineEdit_Post.setVisible(False)
             self.dlg.comboBox_prefire.activated.connect(lambda:self.handle_combobox_click_pre(self.dlg.comboBox_prefire))
-            self.dlg.comboBox_postfire.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_prefire))
+            self.dlg.comboBox_postfire.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_postfire))
             self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
             self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             
