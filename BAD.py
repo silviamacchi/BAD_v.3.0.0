@@ -688,7 +688,7 @@ class BAD:
             layer = str(comboBox.currentText())
             layer = QgsProject.instance().mapLayersByName(layer)
             layer_path = layer[0].dataProvider().dataSourceUri()
-            self.Grow_file_file=layer_path
+            self.Grow_file=layer_path
 
     def update_comboBox(self):
         #Fetch the currently loaded poly and raster layers

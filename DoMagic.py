@@ -448,16 +448,13 @@ class OrderedWeigthAverage:
         Row=FinalBandMatix.shape[1]
         Column=FinalBandMatix.shape[2]
         self.Integrated_matrix=np.empty([Row,Column])
-        self.get_value(Row,Column,FinalBandMatix,w)
-
-    def get_value(self,Row,Column,FinalBandMatix,w):
         for i in range (Row):
             for j in range (Column):
                 vector=FinalBandMatix[:,i,j] 
                 if (np.isnan(vector).any()):
                     value=np.nan
                 else:
-                    value=np.dot(np.sort(vector),w)
+                    value=np.dot(np.sort(vector)[::-1],w)
                 self.Integrated_matrix[i,j]=value
 
         
