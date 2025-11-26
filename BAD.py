@@ -1930,7 +1930,6 @@ class BAD:
 ###################################################################################################
 #  This part of the script contains the code about OWA computation
    
-
 #  The process is executed when the button "COMPUTE OWA" is clicked
     def ComputeOWA(self):   
         print("ComputeOWA button clicked, wait until the process end")
@@ -2162,12 +2161,11 @@ class BAD:
             n_bands=self.FinalBandMatix.shape[0]
             
             w = np.zeros(n_bands)
-            a = int(self.dlg.lineEdit_OWA_a_UC1.text())
-            b = int(self.dlg.lineEdit_OWA_b_UC1.text())
-            slope =1 if b==a else 1/(b-a) #slope of the linear function
-            for i in range(n_bands): #i starts from 0 to n_bands-1
-                if i >= a and i < b: 
-                    w[i] = slope 
+            a = int(self.dlg.lineEdit_OWA_a_UC1.text())/n_bands
+            b = int(self.dlg.lineEdit_OWA_b_UC1.text())/n_bands
+            for i in range(1,n_bands+1): #i starts from 0 to n_bands-1
+                w[i-1] = Qfunction(a,b,i/n_bands)-Qfunction(a,b,(i-1)/n_bands)
+    
             
             print("Weights OWA User Choice 1:", w)
             OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)
@@ -2206,12 +2204,11 @@ class BAD:
             n_bands=self.FinalBandMatix.shape[0]
  
             w = np.zeros(n_bands)
-            a = int(self.dlg.lineEdit_OWA_a_UC2.text())
-            b = int(self.dlg.lineEdit_OWA_b_UC2.text())
-            slope =1 if b==a else 1/(b-a) #slope of the linear function
-            for i in range(n_bands):
-                if i >= a and i < b:
-                    w[i] = slope
+            a = int(self.dlg.lineEdit_OWA_a_UC2.text())/n_bands
+            b = int(self.dlg.lineEdit_OWA_b_UC2.text())/n_bands
+            for i in range(1,n_bands+1): #i starts from 0 to n_bands-1
+                w[i-1] = Qfunction(a,b,i/n_bands)-Qfunction(a,b,(i-1)/n_bands)
+    
                     
             print("Weights OWA User Choice 2:", w)
             OWA=OrderedWeigthAverage(self.FinalBandMatix,w=w)

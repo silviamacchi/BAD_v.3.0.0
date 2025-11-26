@@ -93,7 +93,7 @@ class PlotCanvas(FigureCanvas):
         if self.dragging is None or event.inaxes != self.ax:
             return
         if self.dragging == 0:
-            new_x = int(max(1, min(self.n_features + 0.001, event.xdata, self.p2[0])))  #horizontal limits integers
+            new_x = int(max(0, min(self.n_features + 0.001, event.xdata, self.p2[0])))  #horizontal limits integers
             self.p1[0] = new_x
         elif self.dragging == 1:
             new_x = int(max(max(1, self.p1[0]), min(self.n_features + 0.001, event.xdata)))  #horizontal limits integers

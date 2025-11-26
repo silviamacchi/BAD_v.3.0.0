@@ -456,7 +456,12 @@ class OrderedWeigthAverage:
                 else:
                     value=np.dot(np.sort(vector)[::-1],w)
                 self.Integrated_matrix[i,j]=value
-
+def Qfunction(a,b,x):
+    if x>=b:
+        return 1
+    if x<=a:
+        return 0
+    return (x-a)/(b-a)
         
 class WriteLayer:
     def __init__(self,index,path,Matrix,NameBands,Nband,Xsize,Ysize,filename,gt,proj):
