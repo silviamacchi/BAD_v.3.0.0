@@ -967,10 +967,12 @@ class BAD:
     #Connects download button to mosaicking
     def open_preview_mosaic_pre(self):
         self.dlg.last_pre=0
+        self.show_progress_bar("Mosaicking Pre-Fire ready to be downloaded")
         #self.dlg.pushButton_FI_download_pre.setEnabled(True)
 
     def open_preview_mosaic_post(self):
         self.dlg.last_post=0
+        self.show_progress_bar("Mosaicking Post-Fire ready to be downloaded")
         #self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
@@ -1005,7 +1007,7 @@ class BAD:
                 self.display_in_qgis(output_name)
                 #iface.addRasterLayer(output_name, os.path.splitext(os.path.basename(output_name))[0])#"Pre-fire Sentinel-2 Image"
                 self.dlg.lineEdit_PreFire.setVisible(False)
-                self.dlg.comboBox_PreRaster.insertItems(1, ["Pre-fire Sentinel-2 Image"])
+                self.dlg.comboBox_PreRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
                 self.dlg.comboBox_PreRaster.setCurrentIndex(1)
         self.dlg.pre_fire_path = output_name
         self.dlg.enableRunALL()
@@ -1052,7 +1054,7 @@ class BAD:
                 self.display_in_qgis(output_name)
                 #iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
                 self.dlg.lineEdit_PostFire.setVisible(False)
-                self.dlg.comboBox_PostRaster.insertItems(1, ["Post-fire Sentinel-2 Image"])
+                self.dlg.comboBox_PostRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
                 self.dlg.comboBox_PostRaster.setCurrentIndex(1)
         self.dlg.post_fire_path = output_name
         self.dlg.enableRunALL()
@@ -1124,8 +1126,8 @@ class BAD:
 
             #populate the comboBox with names of all the loaded layers
             self.dlg.comboBox_prefire.addItems(['Select a Layer'])
-
             self.dlg.comboBox_prefire.addItems([layer.name() for layer in layers])
+            self.dlg.comboBox_prefire.setCurrentText(os.path.splitext(os.path.basename(self.dlg.pre_fire_path))[0])
 
         except Exception as e:
             QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
@@ -1157,8 +1159,8 @@ class BAD:
 
             #populate the comboBox with names of all the loaded layers
             self.dlg.comboBox_postfire.addItems(['Select a Layer'])
-
             self.dlg.comboBox_postfire.addItems([layer.name() for layer in layers])
+            self.dlg.comboBox_postfire.setCurrentText(os.path.splitext(os.path.basename(self.dlg.post_fire_path))[0])
 
         except Exception as e:
             QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
@@ -1323,7 +1325,6 @@ class BAD:
             Band12=np.nan
 
         self.BandsList=[Band1,Band2,Band3,Band4,Band5,Band6,Band7,Band8,Band8A,Band9,Band10,Band11,Band12]
-        
         Data=ReadingData(self.dlg.pre_fire_path,self.dlg.post_fire_path)
 
         self.update_progress(20)
@@ -1535,13 +1536,11 @@ class BAD:
 
         self.update_progress(95)
 
-        
         FinalFeatureMatix=np.array(FinalFeatureList)      
 
         Nband=FinalFeatureMatix.shape[0]
         Xsize=FinalFeatureMatix.shape[2]
         Ysize=FinalFeatureMatix.shape[1]
-
 
         Feature_outputfile = self.dlg.lineEdit_Feature.text()
         
@@ -1911,10 +1910,8 @@ class BAD:
 
         if self.dlg.checkBox_MD_display.isChecked():
                 self.display_in_qgis(self.MD_result.output_path)
-                #iface.addRasterLayer(self.MD_result.output_path, "MD_result")
-                self.dlg.comboBox_InputOWA.insertItems(1, ["MD_result"])
+                self.dlg.comboBox_InputOWA.insertItems(1, [os.path.splitext(os.path.basename(self.MD_path))[0]])
                 self.dlg.comboBox_InputOWA.setCurrentIndex(1)
-
         
         self.update_progress(100)
         self.hide_progress_bar()
@@ -2246,10 +2243,6 @@ class BAD:
                 self.display_in_qgis(self.OWA_UserChoice2.output_path)
                 #iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
 
-        if not self.check_orness(w_Seed, w_Grow):
-            self.dlg.lineEdit_OWA.setVisible(True)
-            self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
-
         self.dlg.comboBox_RG_seed.clear()
         self.dlg.comboBox_RG_grow.clear()
         self.dlg.comboBox_RG_seed.addItems(['Select a Layer'])
@@ -2264,49 +2257,6 @@ class BAD:
                 raster_layers.append(layer)
         self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
         self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
-            
-
-        self.update_progress(100)
-        self.hide_progress_bar()   
-        end=time.process_time()
-        print("Process end")
-        print('Computational time OWA [s]: ',(end - start),"start=", start,"end=",end)   
-        print('\n') 
-
-        if not self.check_orness(w_Seed, w_Grow):
-            self.dlg.lineEdit_OWA.setVisible(True)
-            self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
-        else:
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_Message()
-            self.ui.setupUi(self.window)
-            self.window.show()
-    
-    # function to check the orness of the two selected OWA weights
-    def check_orness(self, w_Seed, w_Grow):
-
-        orness_Seed = np.sum(w_Seed*(len(w_Seed)-1))/(len(w_Seed)-1)
-        orness_Grow = np.sum(w_Grow*(len(w_Grow)-1))/(len(w_Grow)-1)
-        print("OWA orness seed and grow:", orness_Seed, orness_Grow)
-        if orness_Seed < orness_Grow:
-            return True
-        else:
-            return False
-###################################################################################################
-###################################################################################################
-###################################################################################################
-#  This part of the script contains the code about the application of the Region Growing Algorithm 
-#  The process is executed when the button "COMPUTE RG" is clicked 
-#
-
-    def ComputeRG(self):
-        print("ComputeRG button clicked, wait until the process end")
-        self.show_progress_bar("Computing RG")
-        self.update_progress(5)
-        start=time.process_time()
-               
-        Seed_value = round(self.dlg.doubleSpinBox_RG_seed.value(),2)
-        Grow_value = round(self.dlg.doubleSpinBox_RG_grow.value(),2)
 
         if not self.Seed_file:
             if self.dlg.radioButton_OWA_S_AND.isChecked():
@@ -2352,6 +2302,53 @@ class BAD:
 
             if self.dlg.radioButton_OWA_G_UserChoice2.isChecked():
                 self.Grow_file = self.OWA_UserChoice2.output_path
+
+        self.dlg.comboBox_RG_seed.setCurrentText(os.path.splitext(os.path.basename(self.Seed_file))[0])
+        self.dlg.comboBox_RG_grow.setCurrentText(os.path.splitext(os.path.basename(self.Grow_file))[0])
+        self.update_progress(100)
+        self.hide_progress_bar()   
+        end=time.process_time()
+        print("Process end")
+        print('Computational time OWA [s]: ',(end - start),"start=", start,"end=",end)   
+        print('\n') 
+
+        if not self.check_orness(w_Seed, w_Grow):
+            self.dlg.lineEdit_OWA.setVisible(True)
+            self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
+        else:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
+    
+    # function to check the orness of the two selected OWA weights
+    def check_orness(self, w_Seed, w_Grow):
+        n = len(w_Seed)
+        coeff = np.arange(n - 1, -1, -1) / (n - 1)
+        orness_Seed = np.sum(w_Seed * coeff)
+        orness_Grow = np.sum(w_Grow*coeff)
+        #orness_Seed = np.sum(w_Seed*(len(w_Seed)-1))/(len(w_Seed)-1)
+        #orness_Grow = np.sum(w_Grow*(len(w_Grow)-1))/(len(w_Grow)-1)
+        print("OWA orness seed and grow:", orness_Seed, orness_Grow)
+        if orness_Seed < orness_Grow:
+            return True
+        else:
+            return False
+###################################################################################################
+###################################################################################################
+###################################################################################################
+#  This part of the script contains the code about the application of the Region Growing Algorithm 
+#  The process is executed when the button "COMPUTE RG" is clicked 
+#
+
+    def ComputeRG(self):
+        print("ComputeRG button clicked, wait until the process end")
+        self.show_progress_bar("Computing RG")
+        self.update_progress(5)
+        start=time.process_time()
+               
+        Seed_value = round(self.dlg.doubleSpinBox_RG_seed.value(),2)
+        Grow_value = round(self.dlg.doubleSpinBox_RG_grow.value(),2)
         self.update_progress(20)
 
         DataRG = ReadingData(self.Seed_file,self.Grow_file) 
