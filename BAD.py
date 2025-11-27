@@ -216,17 +216,17 @@ class BAD:
     
     def handle_Run_ALL(self):
         print("Run all started")
-        self.ComputeFeature()
+        self.ComputeFeature(True)
         print("Feature computed")
-        self.ComputeMD()
+        self.ComputeMD(True)
         print("MD computed")
-        self.ComputeOWA()
+        self.ComputeOWA(True)
         print("OWA computed")
-        self.ComputeRG()
+        self.ComputeRG(True)
         print("Run computed")
-        self.ComputeSeverity()
+        self.ComputeSeverity(True)
         print("Severity computed")
-        self.ComputeRGSeverity()
+        self.ComputeRGSeverity(True)
         print("RGSeverity computed")
         self.window = QtWidgets.QDialog()
         self.ui = Ui_Message()
@@ -1252,7 +1252,7 @@ class BAD:
 #  the computation of the features (post and delta)
 #  The process is executed when the button "COMPUTE FEATURE" is clicked  
 
-    def ComputeFeature(self):
+    def ComputeFeature(self,flag=False):
         
         print("ComputeFeature button clicked, wait until the process end")
         self.show_progress_bar("Computing Features")
@@ -1566,10 +1566,11 @@ class BAD:
         print("Process end")
         print('Computational time Feature [s]: ',(end - start),"start=", start,"end=",end)
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
        
 ###################################################################################################     
 ###################################################################################################
@@ -1577,7 +1578,7 @@ class BAD:
 #  This part of the script contains the code about Membership Degree computation
 #  The process is executed when the button "COMPUTE MD" is clicked  
    
-    def ComputeMD(self):
+    def ComputeMD(self,flag=False):
         print("ComputeMD button clicked, wait until the process end")
         self.show_progress_bar("Computing MD")
         self.update_progress(10)
@@ -1920,10 +1921,11 @@ class BAD:
         print("Process end")
         print('Computational time MD [s]: ',(end - start),"start=", start,"end=",end)
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
 
 ###################################################################################################     
 ###################################################################################################
@@ -1931,7 +1933,7 @@ class BAD:
 #  This part of the script contains the code about OWA computation
    
 #  The process is executed when the button "COMPUTE OWA" is clicked
-    def ComputeOWA(self):   
+    def ComputeOWA(self,flag=False):   
         print("ComputeOWA button clicked, wait until the process end")
         self.show_progress_bar("Computing OWA")
         self.update_progress(3)
@@ -2312,7 +2314,7 @@ class BAD:
         if not self.check_orness(w_Seed, w_Grow):
             self.dlg.lineEdit_OWA.setVisible(True)
             self.dlg.lineEdit_OWA.setStyleSheet("color: red; font-weight: bold;")
-        else:
+        elif not flag:
             self.window = QtWidgets.QDialog()
             self.ui = Ui_Message()
             self.ui.setupUi(self.window)
@@ -2338,7 +2340,7 @@ class BAD:
 #  The process is executed when the button "COMPUTE RG" is clicked 
 #
 
-    def ComputeRG(self):
+    def ComputeRG(self,flag=False):
         print("ComputeRG button clicked, wait until the process end")
         self.show_progress_bar("Computing RG")
         self.update_progress(5)
@@ -2385,10 +2387,11 @@ class BAD:
         print("Process end")
         print('Computational time RG [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
 
 ###################################################################################################
 ###################################################################################################
@@ -2396,7 +2399,7 @@ class BAD:
 #  This part of the script contains the code about the Severity computation 
 #  The process is executed when the button "COMPUTE SEVERITY" is clicked  
 
-    def ComputeSeverity(self):
+    def ComputeSeverity(self,flag=False):
 
         print("ComputeSeverity button clicked, wait until the process end")
         self.show_progress_bar("Computing Severity")
@@ -2497,17 +2500,18 @@ class BAD:
         print("Process end")
         print('Computational time Severity [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
 ###################################################################################################
 ###################################################################################################
 ###################################################################################################
 #  This part of the script contains the code about the RG Severity computation 
 #  The process is executed when the button "COMPUTE RG SEVERITY" is clicked 
     
-    def ComputeRGSeverity(self):
+    def ComputeRGSeverity(self,flag=False):
 
         print("ComputeRG_Severity button clicked, wait until the process end")
         self.show_progress_bar("Computing RGSeverity")
@@ -2546,10 +2550,11 @@ class BAD:
         print("Process end")
         print('Computational time Severity+RG [s]: ',(end - start),"start=", start,"end=",end)
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
 
     # RG_Validation tab
     def browseRGFile(self):
@@ -2974,9 +2979,6 @@ class BAD:
             QMessageBox.information(self.dlg, "Export Successful", f"Validation report exported to:\n{file_path}")
         except Exception as e:
             QMessageBox.critical(self.dlg, "Export Failed", f"Failed to save report: {e}")
-
-
-
 
 
 ###################################################################################################
