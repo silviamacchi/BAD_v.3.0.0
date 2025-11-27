@@ -977,7 +977,7 @@ class BAD:
         else:
             QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
             return
-        #self.dlg.pushButton_FI_download_pre.setEnabled(True)
+        self.dlg.pushButton_FI_download_pre.setEnabled(True)
 
     def open_preview_mosaic_post(self):
         if self.dlg.lineEdit_User.text()!="" and self.dlg.lineEdit_Password.text()!="":
@@ -986,7 +986,7 @@ class BAD:
         else:
             QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
             return
-        #self.dlg.pushButton_FI_download_post.setEnabled(True)
+        self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
     def download_sentinel_pre(self):

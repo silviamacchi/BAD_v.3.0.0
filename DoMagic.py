@@ -126,7 +126,7 @@ def calculate_nbr(swir_band,nir_band):
 def create_composite(raster_file_list, output_file_path, pre=True):
 
     if not raster_file_list:
-        print("Errore: La lista dei raster di input è vuota.")
+        print("Error: list of input raster is empty")
         return
 
     try:
@@ -170,21 +170,21 @@ def create_composite(raster_file_list, output_file_path, pre=True):
         
 
     except Exception as e:
-        print(f"Errore fatale durante l'elaborazione del primo file: {e}")
+        print(f"Fatal error while processing first raster file: {e}")
         return
 
     # --- 2. Iterazione sui raster rimanenti ---
     for raster_path in raster_file_list[1:]:
         try:
-            print(f"Elaborazione di: {raster_path}")
+            print(f"Analysis of: {raster_path}")
             ds = gdal.Open(raster_path, gdal.GA_ReadOnly)
             if ds is None:
-                print(f"  Attenzione: Impossibile aprire {raster_path}. Salto.")
+                print(f" Warning, impossible opening {raster_path}. Skipping.")
                 continue
 
             # Controllo di coerenza (fondamentale!)
             if ds.RasterXSize != x_size or ds.RasterYSize != y_size or ds.RasterCount != band_count:
-                print(f"  Attenzione: {raster_path} ha metadati non corrispondenti. Salto.")
+                print(f"  Warning: {raster_path} has uncoherent metadata. Skipping.")
                 ds = None
                 continue
 
@@ -217,7 +217,7 @@ def create_composite(raster_file_list, output_file_path, pre=True):
             ds = None 
 
         except Exception as e:
-            print(f"  Errore durante l'elaborazione di {raster_path}: {e}. Salto.")
+            print(f"  Error during the processing of {raster_path}: {e}. Skipping.")
             continue
     ds_second = None
     # --- 3. Scrittura del file di output ---
@@ -228,7 +228,7 @@ def create_composite(raster_file_list, output_file_path, pre=True):
                                options=['COMPRESS=LZW', 'TILED=YES'])
         
         if out_ds is None:
-            raise Exception("Impossibile creare il file di output GEOFiff.")
+            raise Exception("Impossible to create the GEOFiff file.")
 
         out_ds.SetGeoTransform(geotransform)
         out_ds.SetProjection(projection)
@@ -240,10 +240,10 @@ def create_composite(raster_file_list, output_file_path, pre=True):
             out_band.FlushCache()
         
         out_ds = None # Chiudi e salva definitivamente il file
-        print("--- Processo Completato con Successo ---")
+        print("Process completed")
 
     except Exception as e:
-        print(f"Errore fatale durante la scrittura del file di output: {e}")
+        print(f"Fatal error while writing the output: {e}")
 
 def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
     token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
