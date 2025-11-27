@@ -849,6 +849,10 @@ class BAD:
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
+        if North=="" or South=="" or East=="" or West=="":
+            QMessageBox.warning(self.dlg, "Missing AOI", "Please insert a valid area of interest")
+            self.hide_progress_bar()
+            return
         self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
         aoi_pol = wkt.loads(self.aoi)
 
@@ -898,8 +902,6 @@ class BAD:
         print("Process end")
         print('Computational time Search Pre-fire [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-        self.window = QtWidgets.QDialog()
-
 
 # The process is executed when the button "Search Post-fire" is clicked 
     def search_sentinel_post(self):
@@ -913,6 +915,10 @@ class BAD:
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
+        if North=="" or South=="" or East=="" or West=="":
+            QMessageBox.warning(self.dlg, "Missing AOI", "Please insert a valid area of interest")
+            self.hide_progress_bar()
+            return
         self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
         aoi_pol = wkt.loads(self.aoi)
 
@@ -962,17 +968,24 @@ class BAD:
         print("Process end")
         print('Computational time Search Post-fire [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-        self.window = QtWidgets.QDialog()
     
     #Connects download button to mosaicking
     def open_preview_mosaic_pre(self):
-        self.dlg.last_pre=0
-        self.show_progress_bar("Mosaicking Pre-Fire ready to be downloaded")
+        if self.dlg.lineEdit_User.text()!="" and self.dlg.lineEdit_Password.text()!="":
+            self.dlg.last_pre=0
+            self.show_progress_bar("Mosaicking Pre-Fire ready to be downloaded, press Download Pre-fire to start the download")
+        else:
+            QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
+            return
         #self.dlg.pushButton_FI_download_pre.setEnabled(True)
 
     def open_preview_mosaic_post(self):
-        self.dlg.last_post=0
-        self.show_progress_bar("Mosaicking Post-Fire ready to be downloaded")
+        if self.dlg.lineEdit_User.text()!="" and self.dlg.lineEdit_Password.text()!="":
+            self.dlg.last_post=0
+            self.show_progress_bar("Mosaicking Post-Fire ready to be downloaded,, press Download Post-fire to start the download")
+        else:
+            QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
+            return
         #self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
