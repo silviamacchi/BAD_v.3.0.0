@@ -258,7 +258,7 @@ class BAD:
         self.dlg.lineEdit_FI_result_post.clear()
         self.dlg.lineEdit_User.clear()
         self.dlg.lineEdit_Password.clear()
-        self.dlg.checkBox_FI_display.setCheckState(False)
+        self.dlg.checkBox_FI_display.setChecked(True)
         self.dlg.pushButton_FI_download_pre.setEnabled(False)
         self.dlg.pushButton_FI_download_post.setEnabled(False)
         self.dlg.Preview_FI_pre.setEnabled(False)
@@ -296,7 +296,7 @@ class BAD:
         for index in range(self.dlg.listWidgetClassesPostFire.count()):
             self.dlg.listWidgetClassesPostFire.item(index).setCheckState(QtCore.Qt.Unchecked)
 
-        self.dlg.checkBoxDisplayInQGIS.setChecked(False)
+        self.dlg.checkBoxDisplayInQGIS.setChecked(True)
         self.dlg.listWidgetClassesPreFire.setCurrentRow(-1)
         self.dlg.listWidgetClassesPostFire.setCurrentRow(-1)
 
@@ -487,8 +487,8 @@ class BAD:
 
         self.dlg.lineEdit_Feature.clear()
         self.dlg.lineEdit_MD.clear()
-        self.dlg.checkBox_Feature_display.setChecked(False)
-        self.dlg.checkBox_MD_display.setChecked(False)
+        self.dlg.checkBox_Feature_display.setChecked(True)
+        self.dlg.checkBox_MD_display.setChecked(True)
         self.dlg.pushButton_MD_run.setEnabled(False)
 
     # OWA TAB #
@@ -538,7 +538,7 @@ class BAD:
         self.dlg.lineEdit_OWA_UserChoice2.clear()
 
         # OWA reset check for display results
-        self.dlg.checkBox_OWA_display.setChecked(False)
+        self.dlg.checkBox_OWA_display.setChecked(True)
 
 
     # REGION GROWING TAB #
@@ -551,7 +551,7 @@ class BAD:
         self.dlg.comboBox_RG_grow.setCurrentIndex(0)
 
         # RG reset check for display result
-        self.dlg.checkBox_RG_display.setCheckState(False)
+        self.dlg.checkBox_RG_display.setCheckState(True)
         
         # RG reset line edit
         self.dlg.lineEdit_RG_result.clear()
@@ -584,8 +584,8 @@ class BAD:
 
         
         # Severity reset check for display result
-        self.dlg.checkBox_Severity.setChecked(False)
-        self.dlg.checkBox_CombinedSeverity.setChecked(False)
+        self.dlg.checkBox_Severity.setChecked(True)
+        self.dlg.checkBox_CombinedSeverity.setChecked(True)
         
         # Severity reset line edit
         self.dlg.lineEdit_Severity.clear() 
@@ -1570,7 +1570,6 @@ class BAD:
         self.dlg.pushButton_MD_run.setEnabled(True)
         if self.dlg.checkBox_Feature_display.isChecked():
                 self.display_in_qgis(self.Feature_result.output_path)
-                #iface.addRasterLayer(self.Feature_result.output_path, "Feature_result")
         
         self.update_progress(100)
         self.hide_progress_bar()
@@ -2021,7 +2020,6 @@ class BAD:
             
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_AND.output_path)
-                #iface.addRasterLayer(self.OWA_AND.output_path, "OWA_AND")
 
         self.update_progress(30)
 
@@ -2059,7 +2057,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_almostAND.output_path)
-                #iface.addRasterLayer(self.OWA_almostAND.output_path, "OWA_almostAND")
 
         self.update_progress(40)
         
@@ -2094,7 +2091,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_AVERAGE.output_path)
-                #iface.addRasterLayer(self.OWA_AVERAGE.output_path, "OWA_AVERAGE")
 
         self.update_progress(50)
                    
@@ -2131,7 +2127,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_almostOR.output_path)
-                #iface.addRasterLayer(self.OWA_almostOR.output_path, "OWA_almostOR")
 
         self.update_progress(60)
         
@@ -2167,7 +2162,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_OR.output_path)
-                #iface.addRasterLayer(self.OWA_OR.output_path, "OWA_OR")
 
         self.update_progress(70)
 
@@ -2210,7 +2204,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_UserChoice1.output_path)
-                #iface.addRasterLayer(self.OWA_UserChoice1.output_path, "OWA_UserChoice1")
 
         self.update_progress(80)
 
@@ -2253,7 +2246,6 @@ class BAD:
     
             if self.dlg.checkBox_OWA_display.isChecked():
                 self.display_in_qgis(self.OWA_UserChoice2.output_path)
-                #iface.addRasterLayer(self.OWA_UserChoice2.output_path, "OWA_UserChoice2")
 
         self.dlg.comboBox_RG_seed.clear()
         self.dlg.comboBox_RG_grow.clear()
@@ -2393,7 +2385,6 @@ class BAD:
         
         if self.dlg.checkBox_RG_display.isChecked():
                 self.display_in_qgis(self.RG_result.output_path)
-                #iface.addRasterLayer(self.RG_result.output_path, "RG_result")
         self.update_progress(100)
         self.hide_progress_bar()
         end=time.process_time()
@@ -2505,7 +2496,6 @@ class BAD:
         
         if self.dlg.checkBox_Severity.isChecked():
                 self.display_in_qgis(self.Severity_result.output_path)
-                #iface.addRasterLayer(self.Severity_result.output_path, "Severity_result")
 
         self.update_progress(100)
         self.hide_progress_bar()
@@ -2555,7 +2545,6 @@ class BAD:
         
         if self.dlg.checkBox_CombinedSeverity.isChecked():
                 self.display_in_qgis(self.RGSeverity_result.output_path)
-                #iface.addRasterLayer(self.RGSeverity_result.output_path, "RG_Severity_result")
 
         self.update_progress(100)
         self.hide_progress_bar()

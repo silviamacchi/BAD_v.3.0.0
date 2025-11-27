@@ -177,11 +177,12 @@
      </property>
      <property name="font">
       <font>
+       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>9</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -195,6 +196,7 @@
         <widget class="QFrame" name="frame_4">
          <property name="font">
           <font>
+           <weight>50</weight>
            <bold>false</bold>
            <strikeout>false</strikeout>
           </font>
@@ -225,7 +227,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>957</width>
+               <width>495</width>
                <height>1806</height>
               </rect>
              </property>
@@ -289,6 +291,7 @@
         <widget class="QLabel" name="label_38">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -507,6 +510,7 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -603,6 +607,7 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -822,6 +827,7 @@
           <widget class="QLabel" name="label_305">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -1107,6 +1113,7 @@
         <widget class="QLabel" name="label_74">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1193,6 +1200,7 @@
          </property>
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1201,6 +1209,9 @@
          </property>
          <property name="text">
           <string>Display results in QGIS</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
          <property name="tristate">
           <bool>false</bool>
@@ -1261,6 +1272,7 @@
         <widget class="QLabel" name="labelPreFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1338,6 +1350,7 @@
         <widget class="QLabel" name="labelPostFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1411,6 +1424,7 @@
         <widget class="QLabel" name="labelMaskClassesPreFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1430,6 +1444,7 @@
         <widget class="QLabel" name="labelMaskClassesPostFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1449,6 +1464,7 @@
         <widget class="QLabel" name="labelOutputPreFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1523,6 +1539,7 @@
         <widget class="QCheckBox" name="checkBoxDisplayInQGIS">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1531,6 +1548,9 @@
          </property>
          <property name="text">
           <string>Display results in QGIS</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -1956,6 +1976,7 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -2007,6 +2028,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -2020,6 +2042,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -2035,6 +2058,7 @@
              <property name="font">
               <font>
                <pointsize>8</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -2145,6 +2169,7 @@
         <widget class="QCheckBox" name="checkBox_MD_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2153,6 +2178,9 @@
          </property>
          <property name="text">
           <string>Display MD result in QGIS</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
          <property name="tristate">
           <bool>false</bool>
@@ -2163,6 +2191,7 @@
         <widget class="QCheckBox" name="checkBox_Feature_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2171,6 +2200,9 @@
          </property>
          <property name="text">
           <string>Display Features result in QGIS</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
          <property name="tristate">
           <bool>false</bool>
@@ -2182,6 +2214,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2200,6 +2233,7 @@
          </property>
          <property name="font">
           <font>
+           <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
            <underline>false</underline>
@@ -2418,6 +2452,7 @@
                </property>
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -2775,6 +2810,7 @@
               <widget class="QLabel" name="label_54">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2943,8 +2979,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>512</width>
-            <height>413</height>
+            <width>459</width>
+            <height>352</height>
            </rect>
           </property>
           <attribute name="label">
@@ -3439,6 +3475,7 @@
               <widget class="QLabel" name="label_102">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4155,6 +4192,7 @@
               <widget class="QLabel" name="label_101">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4189,8 +4227,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>517</width>
-            <height>385</height>
+            <width>463</width>
+            <height>328</height>
            </rect>
           </property>
           <attribute name="label">
@@ -4740,6 +4778,7 @@
               <widget class="QLabel" name="label_93">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4951,6 +4990,7 @@
               <widget class="QLabel" name="label_92">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -5465,6 +5505,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -5480,6 +5521,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -5579,6 +5621,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5751,6 +5794,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5777,6 +5821,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6047,6 +6092,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6101,6 +6147,7 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
+           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -6120,6 +6167,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6306,6 +6354,7 @@
         <widget class="QCheckBox" name="checkBox_OWA_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6314,6 +6363,9 @@
          </property>
          <property name="text">
           <string>Display results in QGIS</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
          <property name="tristate">
           <bool>false</bool>
@@ -6359,6 +6411,7 @@
          <property name="font">
           <font>
            <pointsize>8</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>
@@ -6381,6 +6434,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6434,6 +6488,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6496,6 +6551,7 @@
           <widget class="QLabel" name="label_43">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6534,6 +6590,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6697,6 +6754,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6717,6 +6775,7 @@
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6725,6 +6784,9 @@
            </property>
            <property name="text">
             <string>Display result in QGIS</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
            <property name="tristate">
             <bool>false</bool>
@@ -6827,6 +6889,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_86">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6842,6 +6905,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6855,6 +6919,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6865,6 +6930,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6882,6 +6948,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6895,6 +6962,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6905,6 +6973,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6920,6 +6989,7 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6982,6 +7052,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -7424,6 +7495,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_65">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
              <underline>false</underline>
             </font>
@@ -7437,6 +7509,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_66">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7606,6 +7679,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_87">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7709,6 +7783,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_144">
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7734,6 +7809,7 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7742,6 +7818,9 @@ font-weight: bold;
            </property>
            <property name="text">
             <string>Display severity result on QGIS</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
            <property name="tristate">
             <bool>false</bool>
@@ -7752,6 +7831,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_145">
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7787,6 +7867,7 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7795,6 +7876,9 @@ font-weight: bold;
            </property>
            <property name="text">
             <string>Display result on QGIS</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
            <property name="tristate">
             <bool>false</bool>
@@ -7821,6 +7905,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_88">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7836,6 +7921,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7846,6 +7932,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7865,6 +7952,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7878,6 +7966,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7891,6 +7980,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7907,6 +7997,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7922,6 +8013,7 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7943,6 +8035,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>8</pointsize>
+                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -8010,6 +8103,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
