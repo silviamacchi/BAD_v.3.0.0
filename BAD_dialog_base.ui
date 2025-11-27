@@ -144,7 +144,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::YesToAll</set>
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok|QDialogButtonBox::YesToAll</set>
      </property>
     </widget>
    </item>
@@ -227,7 +227,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>495</width>
+               <width>957</width>
                <height>1806</height>
               </rect>
              </property>
