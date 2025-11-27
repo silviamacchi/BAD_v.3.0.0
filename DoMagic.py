@@ -300,7 +300,7 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
                             }
                         },
                         "maxCloudCoverage": cloud,
-                        "processing": {"harmonizeValues": "false"},
+                        #"processing": {"harmonizeValues": "false"},
                     }
                 ],
             },
@@ -456,6 +456,7 @@ class OrderedWeigthAverage:
                 else:
                     value=np.dot(np.sort(vector)[::-1],w)
                 self.Integrated_matrix[i,j]=value
+
 def Qfunction(a,b,x):
     if x>=b:
         return 1
