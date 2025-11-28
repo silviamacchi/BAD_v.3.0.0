@@ -274,11 +274,6 @@ class BAD:
 
 # reset preprocessing
     def reset_fields(self):
-        self.output_pre_fire_path = None
-        self.output_post_fire_path = None
-        self.dlg.spinBox_scl_pre.setValue(13)
-        self.dlg.spinBox_scl_post.setValue(13)
-
         self.dlg.lineEdit_OutputPreFire.clear()
         self.dlg.lineEdit_OutputPostFire.clear()
 
@@ -1120,7 +1115,7 @@ class BAD:
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
             if not self.output_pre_fire_path:
                 self.output_pre_fire_path=os.path.join(os.path.dirname(self.dlg.pre_fire_path.strip()), "Masked_pre_fire.tif")
-            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_scl.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_input_B13.value()-1, pre_fire_classes, self.output_pre_fire_path)
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
@@ -1152,7 +1147,7 @@ class BAD:
             if not self.output_post_fire_path:
                 self.output_post_fire_path=os.path.join(os.path.dirname(self.dlg.post_fire_path.strip()), "Masked_post_fire.tif")
 
-            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_input_B13.value()-1, post_fire_classes, self.output_post_fire_path)
 
             ##This updated the comboBox of the "input tab"
 
