@@ -181,7 +181,7 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -2222,7 +2222,7 @@
           <string notr="true">background-color: rgb(252, 252, 252);</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_1">
           <property name="geometry">
@@ -2234,7 +2234,7 @@
            </rect>
           </property>
           <attribute name="label">
-           <string>Default</string>
+           <string>Default Features</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_20">
            <item row="0" column="0">
@@ -2954,33 +2954,33 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>512</width>
-            <height>413</height>
+            <y>-125</y>
+            <width>960</width>
+            <height>439</height>
            </rect>
           </property>
           <attribute name="label">
-           <string>Advanced Post</string>
+           <string>Advanced Post Features</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_20">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+            <layout class="QGridLayout" name="gridLayout_7" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
              <property name="sizeConstraint">
               <enum>QLayout::SetMinimumSize</enum>
              </property>
-             <item row="4" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_88">
+             <item row="7" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_91">
                <item>
-                <widget class="QLabel" name="label_108">
+                <widget class="QLabel" name="label_111">
                  <property name="text">
-                  <string>Post Red</string>
+                  <string>Post Water Vapour</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="6" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_K">
+             <item row="9" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -2989,7 +2989,7 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>86</width>
+                 <width>85</width>
                  <height>0</height>
                 </size>
                </property>
@@ -2997,64 +2997,43 @@
                 <number>5</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>-100.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>100.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.000010000000000</double>
                </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
               </widget>
              </item>
-             <item row="9" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B12">
+             <item row="2" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B2_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
+                 <horstretch>85</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="text">
-                <string/>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
                </property>
-               <property name="checked">
-                <bool>false</bool>
+               <property name="decimals">
+                <number>5</number>
                </property>
-              </widget>
-             </item>
-             <item row="10" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_NDVI">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
                </property>
-               <property name="text">
-                <string/>
+               <property name="maximum">
+                <double>100.000000000000000</double>
                </property>
-               <property name="checked">
-                <bool>false</bool>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
                </property>
               </widget>
-             </item>
-             <item row="5" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_89">
-               <item>
-                <widget class="QLabel" name="label_109">
-                 <property name="text">
-                  <string>Post RedEdge (band5)</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </item>
              <item row="6" column="0">
               <widget class="QCheckBox" name="checkBox_FAP_B8A">
@@ -3072,8 +3051,8 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B4">
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B3">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3088,8 +3067,8 @@
                </property>
               </widget>
              </item>
-             <item row="12" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR2_x">
+             <item row="8" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3116,68 +3095,8 @@
                </property>
               </widget>
              </item>
-             <item row="13" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_MIRBI">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NDVI_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="12" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR2_K">
+             <item row="7" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B9_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3210,7 +3129,80 @@
                </property>
               </widget>
              </item>
-             <item row="11" column="0">
+             <item row="12" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_85">
+               <item>
+                <widget class="QLabel" name="label_105">
+                 <property name="text">
+                  <string>Post Aereosol</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="0">
               <widget class="QCheckBox" name="checkBox_FAP_NBR">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -3226,8 +3218,8 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B3">
+             <item row="13" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_NBR2">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3270,6 +3262,22 @@
                </property>
               </widget>
              </item>
+             <item row="11" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_NDVI">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_86">
                <item>
@@ -3281,19 +3289,35 @@
                </item>
               </layout>
              </item>
-             <item row="12" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_99">
+             <item row="7" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B9">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_90">
                <item>
-                <widget class="QLabel" name="label_119">
+                <widget class="QLabel" name="label_110">
                  <property name="text">
-                  <string>Post NBR2</string>
+                  <string>Post RedEdge (band8A)</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="0" column="2">
-              <spacer name="horizontalSpacer_57">
+             <item row="0" column="4">
+              <spacer name="horizontalSpacer_10">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -3302,53 +3326,14 @@
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>70</width>
+                 <width>40</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
-             <item row="9" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B12_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="11" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_97">
-               <item>
-                <widget class="QLabel" name="label_117">
-                 <property name="text">
-                  <string>Post NBR</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="13" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_MIRBI_K">
+             <item row="11" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NDVI_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3381,19 +3366,19 @@
                </property>
               </widget>
              </item>
-             <item row="8" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_93">
+             <item row="12" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_97">
                <item>
-                <widget class="QLabel" name="label_113">
+                <widget class="QLabel" name="label_117">
                  <property name="text">
-                  <string>Post SWIR (band11)</string>
+                  <string>Post NBR</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="8" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B11">
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B1">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3406,30 +3391,22 @@
                <property name="checked">
                 <bool>false</bool>
                </property>
+               <property name="tristate">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
-             <item row="9" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_94">
-               <item>
-                <widget class="QLabel" name="label_114">
-                 <property name="text">
-                  <string>Post SWIR (band12)</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_x">
+             <item row="12" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>85</horstretch>
+                 <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>85</width>
+                 <width>86</width>
                  <height>0</height>
                 </size>
                </property>
@@ -3437,13 +3414,19 @@
                 <number>5</number>
                </property>
                <property name="minimum">
-                <double>-100.000000000000000</double>
+                <double>-999.999000000000024</double>
                </property>
                <property name="maximum">
-                <double>100.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -3460,8 +3443,21 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B4_x">
+             <item row="0" column="3" alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="label_101">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>K</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3522,8 +3518,402 @@
                </property>
               </widget>
              </item>
+             <item row="6" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_MIRBI">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_89">
+               <item>
+                <widget class="QLabel" name="label_109">
+                 <property name="text">
+                  <string>Post RedEdge (band5)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="2">
+              <spacer name="horizontalSpacer_57">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>70</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="13" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_99">
+               <item>
+                <widget class="QLabel" name="label_119">
+                 <property name="text">
+                  <string>Post NBR2</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>85</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>85</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_MIRBI_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B12">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_88">
+               <item>
+                <widget class="QLabel" name="label_108">
+                 <property name="text">
+                  <string>Post Red</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="4" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B4_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_87">
+               <item>
+                <widget class="QLabel" name="label_107">
+                 <property name="text">
+                  <string>Post Green</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="13" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR2_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_94">
+               <item>
+                <widget class="QLabel" name="label_114">
+                 <property name="text">
+                  <string>Post SWIR (band12)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="11" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_96">
+               <item>
+                <widget class="QLabel" name="label_116">
+                 <property name="text">
+                  <string>Post NDVI</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item row="4" column="3">
               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B4_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_MIRBI_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3590,6 +3980,45 @@
                </property>
               </widget>
              </item>
+             <item row="11" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NDVI_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_93">
+               <item>
+                <widget class="QLabel" name="label_113">
+                 <property name="text">
+                  <string>Post SWIR (band11)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item row="1" column="3">
               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B1_K">
                <property name="sizePolicy">
@@ -3621,257 +4050,6 @@
                </property>
                <property name="value">
                 <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_96">
-               <item>
-                <widget class="QLabel" name="label_116">
-                 <property name="text">
-                  <string>Post NDVI</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="8" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B11_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_91">
-               <item>
-                <widget class="QLabel" name="label_111">
-                 <property name="text">
-                  <string>Post Water Vapour</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="3" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>85</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_87">
-               <item>
-                <widget class="QLabel" name="label_107">
-                 <property name="text">
-                  <string>Post Green</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="11" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>10</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B9_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NDVI_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B8A_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="12" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_NBR2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -3909,7 +4087,23 @@
                </property>
               </widget>
              </item>
-             <item row="13" column="1">
+             <item row="8" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B11">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="1">
               <layout class="QHBoxLayout" name="horizontalLayout_98">
                <item>
                 <widget class="QLabel" name="label_118">
@@ -3954,8 +4148,36 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B1">
+             <item row="13" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR2_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_FAP_B5">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3968,13 +4190,78 @@
                <property name="checked">
                 <bool>false</bool>
                </property>
-               <property name="tristate">
-                <bool>false</bool>
+              </widget>
+             </item>
+             <item row="10" column="0" colspan="2">
+              <widget class="QLabel" name="label_90">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Vegetation indexes</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B3_K">
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="label_89">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Spectral bands</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_3">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>-128</y>
+            <width>960</width>
+            <height>411</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Advanced Delta Features</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_21">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_6">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMinimumSize</enum>
+             </property>
+             <item row="5" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_79">
+               <item>
+                <widget class="QLabel" name="label_98">
+                 <property name="text">
+                  <string>Delta RedEdge (band5)</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="12" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_101">
+               <item>
+                <widget class="QLabel" name="label_121">
+                 <property name="text">
+                  <string>Delta NBR2</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B2_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4007,19 +4294,130 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_85">
+             <item row="10" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NDVI_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_92">
                <item>
-                <widget class="QLabel" name="label_105">
+                <widget class="QLabel" name="label_112">
                  <property name="text">
-                  <string>Post Aereosol</string>
+                  <string>Delta NDVI</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="5" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B5_x">
+             <item row="0" column="4">
+              <spacer name="horizontalSpacer_135">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_76">
+               <item>
+                <widget class="QLabel" name="label_95">
+                 <property name="text">
+                  <string>Delta Blue</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="7" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B9_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B4_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B8A_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4047,7 +4445,7 @@
               </widget>
              </item>
              <item row="11" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_NBR_K">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4080,8 +4478,8 @@
                </property>
               </widget>
              </item>
-             <item row="13" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_MIRBI_x">
+             <item row="6" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B8A_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4090,7 +4488,7 @@
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>85</width>
+                 <width>86</width>
                  <height>0</height>
                 </size>
                </property>
@@ -4098,29 +4496,119 @@
                 <number>5</number>
                </property>
                <property name="minimum">
-                <double>-100.000000000000000</double>
+                <double>-999.999000000000024</double>
                </property>
                <property name="maximum">
-                <double>100.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.000010000000000</double>
                </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_90">
+             <item row="10" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NDVI_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_MIRBI">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5" alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="label_93">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Xo</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_B2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_84">
                <item>
-                <widget class="QLabel" name="label_110">
+                <widget class="QLabel" name="label_103">
                  <property name="text">
-                  <string>Post RedEdge (band8A)</string>
+                  <string>Delta SWIR (band11)</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="2" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAP_B2_x">
+             <item row="1" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B1_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>85</horstretch>
@@ -4147,8 +4635,26 @@
                </property>
               </widget>
              </item>
-             <item row="7" column="0">
-              <widget class="QCheckBox" name="checkBox_FAP_B9">
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_94">
+               <property name="text">
+                <string>Delta Aereosol</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_77">
+               <item>
+                <widget class="QLabel" name="label_96">
+                 <property name="text">
+                  <string>Delta Green</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="10" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_NDVI">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4163,59 +4669,8 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="3" alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_101">
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>K</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <spacer name="horizontalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="page_3">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>517</width>
-            <height>385</height>
-           </rect>
-          </property>
-          <attribute name="label">
-           <string>Advanced Delta</string>
-          </attribute>
-          <layout class="QGridLayout" name="gridLayout_21">
-           <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_6">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetMinimumSize</enum>
-             </property>
-             <item row="11" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR2_K">
+             <item row="1" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B1_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4248,30 +4703,8 @@
                </property>
               </widget>
              </item>
-             <item row="11" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_101">
-               <item>
-                <widget class="QLabel" name="label_121">
-                 <property name="text">
-                  <string>Delta NBR2</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="10" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_100">
-               <item>
-                <widget class="QLabel" name="label_120">
-                 <property name="text">
-                  <string>Delta NBR</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="9" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_NDVI">
+             <item row="7" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_B9">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4286,8 +4719,70 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B3_K">
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="label_104">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Spectral bands</string>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_95">
+               <item>
+                <widget class="QLabel" name="label_115">
+                 <property name="text">
+                  <string>Delta MIRBI</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="11" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_100">
+               <item>
+                <widget class="QLabel" name="label_120">
+                 <property name="text">
+                  <string>Delta NBR</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B2_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>85</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_MIRBI_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4336,8 +4831,8 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B4_x">
+             <item row="11" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4361,6 +4856,96 @@
                </property>
                <property name="singleStep">
                 <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_78">
+               <item>
+                <widget class="QLabel" name="label_97">
+                 <property name="text">
+                  <string>Delta Red</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B3_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_NBR2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_B3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3" alignment="Qt::AlignHCenter">
+              <widget class="QLabel" name="label_92">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>K</string>
                </property>
               </widget>
              </item>
@@ -4398,8 +4983,69 @@
                </property>
               </widget>
              </item>
-             <item row="12" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_MIRBI_x">
+             <item row="7" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_81">
+               <item>
+                <widget class="QLabel" name="label_100">
+                 <property name="text">
+                  <string>Delta Water Vapour</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="11" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_NBR">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B4_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B5_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4426,124 +5072,6 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="4">
-              <spacer name="horizontalSpacer_135">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="12" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_MIRBI_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B1_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="2">
               <spacer name="horizontalSpacer_58">
                <property name="orientation">
@@ -4560,19 +5088,70 @@
                </property>
               </spacer>
              </item>
-             <item row="12" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_95">
-               <item>
-                <widget class="QLabel" name="label_115">
-                 <property name="text">
-                  <string>Delta MIRBI</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+             <item row="8" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B11_K">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>86</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
              </item>
-             <item row="12" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_MIRBI">
+             <item row="12" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR2_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_B11">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4603,19 +5182,52 @@
                </property>
               </widget>
              </item>
-             <item row="9" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_92">
-               <item>
-                <widget class="QLabel" name="label_112">
-                 <property name="text">
-                  <string>Delta NDVI</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_FAD_B5">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
-             <item row="6" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B8A_x">
+             <item row="3" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B3_x">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>85</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>85</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-100.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>100.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.000010000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="5">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_MIRBI_x">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -4676,101 +5288,6 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_B3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_76">
-               <item>
-                <widget class="QLabel" name="label_95">
-                 <property name="text">
-                  <string>Delta Blue</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="7" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_81">
-               <item>
-                <widget class="QLabel" name="label_100">
-                 <property name="text">
-                  <string>Delta Water Vapour</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="9" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NDVI_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="5" alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_93">
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Xo</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_77">
-               <item>
-                <widget class="QLabel" name="label_96">
-                 <property name="text">
-                  <string>Delta Green</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
              <item row="8" column="5">
               <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B11_x">
                <property name="sizePolicy">
@@ -4799,284 +5316,6 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_B2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>10</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_B9">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_80">
-               <item>
-                <widget class="QLabel" name="label_99">
-                 <property name="text">
-                  <string>Delta RedEdge (band8A)</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="4" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_78">
-               <item>
-                <widget class="QLabel" name="label_97">
-                 <property name="text">
-                  <string>Delta Red</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="5" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B5_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_B5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="11" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR2_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NDVI_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="3" alignment="Qt::AlignHCenter">
-              <widget class="QLabel" name="label_92">
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>K</string>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_NBR">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_79">
-               <item>
-                <widget class="QLabel" name="label_98">
-                 <property name="text">
-                  <string>Delta RedEdge (band5)</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="6" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B8A_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_B11">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="0">
               <widget class="QCheckBox" name="checkBox_FAD_B1">
                <property name="sizePolicy">
@@ -5096,17 +5335,17 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B1_x">
+             <item row="12" column="3">
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_NBR2_K">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>85</horstretch>
+                 <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>85</width>
+                 <width>86</width>
                  <height>0</height>
                 </size>
                </property>
@@ -5114,233 +5353,42 @@
                 <number>5</number>
                </property>
                <property name="minimum">
-                <double>-100.000000000000000</double>
+                <double>-999.999000000000024</double>
                </property>
                <property name="maximum">
-                <double>100.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.000010000000000</double>
                </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::DefaultStepType</enum>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
               </widget>
              </item>
-             <item row="8" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_84">
+             <item row="6" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_80">
                <item>
-                <widget class="QLabel" name="label_103">
+                <widget class="QLabel" name="label_99">
                  <property name="text">
-                  <string>Delta SWIR (band11)</string>
+                  <string>Delta RedEdge (band8A)</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
-             <item row="3" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B3_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>85</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B9_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="label_94">
-               <property name="text">
-                <string>Delta Aereosol</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B4_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="11" column="0">
-              <widget class="QCheckBox" name="checkBox_FAD_NBR2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+             <item row="9" column="0" colspan="2">
+              <widget class="QLabel" name="label_122">
+               <property name="font">
+                <font>
+                 <bold>true</bold>
+                </font>
                </property>
                <property name="text">
-                <string/>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B2_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="5">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B2_x">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>85</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>85</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-100.000000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>100.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="3">
-              <widget class="QDoubleSpinBox" name="doubleSpinBox_FAD_B11_K">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>86</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="decimals">
-                <number>5</number>
-               </property>
-               <property name="minimum">
-                <double>-999.999000000000024</double>
-               </property>
-               <property name="maximum">
-                <double>999.999000000000024</double>
-               </property>
-               <property name="singleStep">
-                <double>0.000010000000000</double>
-               </property>
-               <property name="stepType">
-                <enum>QAbstractSpinBox::DefaultStepType</enum>
-               </property>
-               <property name="value">
-                <double>0.000000000000000</double>
+                <string>Vegetation indexes</string>
                </property>
               </widget>
              </item>
