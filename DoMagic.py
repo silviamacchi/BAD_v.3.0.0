@@ -25,6 +25,7 @@
 import os
 from osgeo import gdal
 import numpy as np
+from datetime import datetime
 
 #new libraries
 import requests
@@ -56,7 +57,7 @@ class SentinelSearch:
             self.result = pd.DataFrame({'Name': ["No available data for the given dates. Please select a different time period."]})
             print(self.result['Name'])
 
-def get_sorted_col0_values(table_widget):
+def get_sorted_percentage(table_widget):
     row_count = table_widget.rowCount()
     
     data_to_sort = []
@@ -73,6 +74,16 @@ def get_sorted_col0_values(table_widget):
     result_list = [item[1] for item in sorted_data]
     
     return result_list
+
+def get_sorted_date(table_widget):
+    row_count = table_widget.rowCount()
+    data_to_sort = []
+    for row in range(row_count):
+        item_col0 = table_widget.item(row, 0).text()
+        data_to_sort.append(item_col0)
+    sorted_data = sorted(data_to_sort, key=lambda x: datetime.strptime(x, "%Y-%m-%d"))
+    print("Sorted data:",sorted_data)
+    return sorted_data
             
 def transform_bbox_to_utm(bbox):
         lon_center = (bbox[0] + bbox[2]) / 2
@@ -123,7 +134,7 @@ def calculate_nbr(swir_band,nir_band):
     return nbr
 
 #Creates the composite based on the maximum NDVI/NBR values
-def create_composite(raster_file_list, output_file_path, pre=True):
+def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=True):
 
     if not raster_file_list:
         print("Error: list of input raster is empty")
@@ -159,15 +170,17 @@ def create_composite(raster_file_list, output_file_path, pre=True):
         ds_first = None
         
         # If pre is True, calculate NDVI; else calculate NBR
-        if pre:
+        if pre and ChoiceMosaicking=="Index":
             red_data = output_bands_data[3].astype(np.float32)
             nir_data = output_bands_data[7].astype(np.float32)
             reference_grid = calculate_ndvi(red_data, nir_data)
-        else:
+        elif not pre and ChoiceMosaicking=="Index":
             nir_data = output_bands_data[7].astype(np.float32)
             swir_data = output_bands_data[11].astype(np.float32)
             reference_grid = calculate_nbr(swir_data, nir_data)
-        
+        elif ChoiceMosaicking=="Date":
+            scl_data = output_bands_data[12]
+            old_mask_with_clouds = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
     except Exception as e:
         print(f"Fatal error while processing first raster file: {e}")
@@ -182,7 +195,6 @@ def create_composite(raster_file_list, output_file_path, pre=True):
                 print(f" Warning, impossible opening {raster_path}. Skipping.")
                 continue
 
-            # Controllo di coerenza (fondamentale!)
             if ds.RasterXSize != x_size or ds.RasterYSize != y_size or ds.RasterCount != band_count:
                 print(f"  Warning: {raster_path} has uncoherent metadata. Skipping.")
                 ds = None
@@ -190,31 +202,34 @@ def create_composite(raster_file_list, output_file_path, pre=True):
 
             scl_data = ds.GetRasterBand(13).ReadAsArray()
             cloud_shadow_mask = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
-
-            if pre:
-                red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
-                nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
-                current_value = calculate_ndvi(red_data, nir_data)
-                update_mask = (current_value >= reference_grid) & (~cloud_shadow_mask)
-            else:
-                nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
-                swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
-                current_value = calculate_nbr(swir_data, nir_data)
-                update_mask = (current_value <= reference_grid) & (~cloud_shadow_mask)
+            if ChoiceMosaicking=="Index":
+                if pre:
+                    red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
+                    nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
+                    current_value = calculate_ndvi(red_data, nir_data)
+                    update_mask = (current_value >= reference_grid) & (~cloud_shadow_mask)
+                else:
+                    nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
+                    swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
+                    current_value = calculate_nbr(swir_data, nir_data)
+                    update_mask = (current_value <= reference_grid) & (~cloud_shadow_mask)
+                # Aggiorna il grid al valore massimoNDVI/minimoNBR
+                reference_grid[update_mask] = current_value[update_mask]
+            elif ChoiceMosaicking=="Date":
+                update_mask = old_mask_with_clouds & (~cloud_shadow_mask)
 
             # Se non ci sono pixel da aggiornare, passa al file successivo
             if not np.any(update_mask):
                 ds = None
                 continue
-            
-            # Aggiorna il grid al valore massimoNDVI/minimoNBR
-            reference_grid[update_mask] = current_value[update_mask]
-            
             # Aggiorna i dati delle bande di output usando la maschera
             for b in range(1, band_count + 1):
                 current_band_data = ds.GetRasterBand(b).ReadAsArray()
                 output_bands_data[b-1][update_mask] = current_band_data[update_mask]
             ds = None 
+            if ChoiceMosaicking=="Date":
+                scl_data = output_bands_data[12]
+                old_mask_with_clouds = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
         except Exception as e:
             print(f"  Error during the processing of {raster_path}: {e}. Skipping.")
@@ -245,7 +260,7 @@ def create_composite(raster_file_list, output_file_path, pre=True):
     except Exception as e:
         print(f"Fatal error while writing the output: {e}")
 
-def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
+def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre,ChoiceMosaicking):
     token_url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
     token_data = {
         "grant_type": "client_credentials",
@@ -300,7 +315,6 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
                             }
                         },
                         "maxCloudCoverage": cloud,
-                        #"processing": {"harmonizeValues": "false"},
                     }
                 ],
             },
@@ -414,7 +428,7 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre):
 
             except requests.exceptions.RequestException as e:
                 print(f"Connection error: {e}")
-        create_composite(list_outputs, output_name, pre)
+        create_composite(list_outputs, output_name, ChoiceMosaicking, pre)
         for file in list_outputs:
             os.remove(file)
     return None

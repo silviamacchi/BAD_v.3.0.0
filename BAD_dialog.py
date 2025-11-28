@@ -26,7 +26,9 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 from .preview_window import PreviewWindow
+from .Mosaicking_options_window import PreviewMosaicking
 from .preview_fetchimages import PreviewFetchImages
 from .owa_parameters_window import OwaParametersWindow
 
@@ -46,7 +48,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.pre_fire_path = None
         self.post_fire_path = None
-        self.RunALL=False
         self.setupUi(self)
         
         self.setup_custom_connections()
@@ -54,6 +55,8 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         
         self.Preview_FI_pre.clicked.connect(self.open_preview_fetchimages_pre)
         self.Preview_FI_post.clicked.connect(self.open_preview_fetchimages_post)
+        self.Preview_FI_pre_mos.clicked.connect(self.open_mosaicking_pre)
+        self.Preview_FI_post_mos.clicked.connect(self.open_mosaicking_post)
 
         self.pushButton_parameters_UC1.clicked.connect(self.open_owa_parameters_UC1_window)
         self.pushButton_parameters_UC2.clicked.connect(self.open_owa_parameters_UC2_window)
@@ -141,4 +144,25 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         if self.preview_dialog.exec_():
             self.lineEdit_OWA_a_UC2.setText(str(self.preview_dialog.result[0]))
             self.lineEdit_OWA_b_UC2.setText(str(self.preview_dialog.result[1]))
- 
+
+    def open_mosaicking_pre(self):
+        if self.lineEdit_User.text()!="" and self.lineEdit_Password.text()!="":
+            self.last_pre=0
+        else:
+            QMessageBox.warning(self, "Missing credential", "Please insert your credential to proced with the mosaicking")
+            return
+        self.preview_dialog = PreviewMosaicking(type="Pre")
+        self.preview_dialog.exec_()
+        self.ChoicheMosaicking_pre=self.preview_dialog.choice
+        self.pushButton_FI_download_pre.setEnabled(True)
+
+    def open_mosaicking_post(self):
+        if self.lineEdit_User.text()!="" and self.lineEdit_Password.text()!="":
+            self.last_post=0
+        else:
+            QMessageBox.warning(self, "Missing credential", "Please insert your credential to proced with the mosaicking")
+            return
+        self.preview_dialog = PreviewMosaicking(type="Post")
+        self.preview_dialog.exec_()
+        self.ChoicheMosaicking_post=self.preview_dialog.choice
+        self.pushButton_FI_download_post.setEnabled(True)

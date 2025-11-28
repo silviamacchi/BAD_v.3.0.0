@@ -245,6 +245,8 @@ class BAD:
     def reset_variables_buttons(self):
         self.dlg.pre_fire_path = None
         self.dlg.post_fire_path = None
+        self.dlg.ChoicheMosaicking_pre=None
+        self.dlg.ChoicheMosaicking_post=None
         self.MD_path=None
         self.Grow_file=None
         self.Seed_file=None
@@ -252,6 +254,8 @@ class BAD:
 
 # Sentinel input tab:
     def reset_sentinel_fields(self):
+        self.dlg.ChoicheMosaicking_pre=None
+        self.dlg.ChoicheMosaicking_post=None
         self.dlg.lineEdit_North.clear()
         self.dlg.lineEdit_South.clear()
         self.dlg.lineEdit_East.clear()
@@ -975,28 +979,28 @@ class BAD:
         print("Process end")
         print('Computational time Search Post-fire [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-    
-    #Connects download button to mosaicking
-    def open_preview_mosaic_pre(self):
-        if self.dlg.lineEdit_User.text()!="" and self.dlg.lineEdit_Password.text()!="":
-            self.dlg.last_pre=0
-            self.show_progress_bar("Mosaicking Pre-Fire ready to be downloaded, press Download Pre-fire to start the download")
-        else:
-            QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
-            return
-        self.dlg.pushButton_FI_download_pre.setEnabled(True)
-
-    def open_preview_mosaic_post(self):
-        if self.dlg.lineEdit_User.text()!="" and self.dlg.lineEdit_Password.text()!="":
-            self.dlg.last_post=0
-            self.show_progress_bar("Mosaicking Post-Fire ready to be downloaded,, press Download Post-fire to start the download")
-        else:
-            QMessageBox.warning(self.dlg, "Missing credential", "Please insert your credential to proced with the mosaicking")
-            return
-        self.dlg.pushButton_FI_download_post.setEnabled(True)
 
     # The process is executed when the button "Download Pre-fire" is clicked 
     def download_sentinel_pre(self):
+        if self.dlg.last_pre==0:
+            reply = QMessageBox.question(
+                self.dlg, 
+                'Download confermation', 
+                "Since the last Pre-Fire button pressed was \"Compute Mosaicking Pre\" you are about to download the mosaick image according to your selected criteria, do you conferm the download? ",
+                QMessageBox.Yes | QMessageBox.No, 
+                QMessageBox.Yes  # Predefined
+            )
+        else: 
+            reply = QMessageBox.question(
+                self.dlg, 
+                'Download confermation', 
+                "Since the last Pre-Fire button pressed was \"Single image preview pre\" you are about to download the currently selected row in the Pre-fire table, do you conferm the download?",
+                QMessageBox.Yes | QMessageBox.No, 
+                QMessageBox.Yes  # Predefined
+            )
+
+        if reply == QMessageBox.No:
+            return
 
         self.show_progress_bar("Downloading Pre-fire Sentinel-2 images")
         self.update_progress(5)
@@ -1006,7 +1010,11 @@ class BAD:
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_pre==0:
-            date = get_sorted_col0_values(self.dlg.download_images_pre)
+            if self.dlg.ChoicheMosaicking_pre=="Date":
+                date = get_sorted_date(self.dlg.download_images_pre)
+                date = date[::-1]
+            elif self.dlg.ChoicheMosaicking_pre=="Index":
+                date = get_sorted_percentage(self.dlg.download_images_pre)
         else:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
 
@@ -1015,12 +1023,13 @@ class BAD:
             output_name = self.dlg.lineEdit_FI_result_pre.text()
         else:
             QMessageBox.warning(self.dlg, "Missing output path", "Please select a valid output path.")
+            self.hide_progress_bar()
             return
 
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True, self.dlg.ChoicheMosaicking_pre)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -1041,10 +1050,27 @@ class BAD:
         self.ui.setupUi(self.window)
         self.window.show()
 
-
-
 # The process is executed when the button "Download Post-fire" is clicked 
     def download_sentinel_post(self):
+        if self.dlg.last_post==0:
+            reply = QMessageBox.question(
+                self.dlg, 
+                'Download confermation', 
+                "Since the last Post-Fire button pressed was \"Compute Mosaicking Post\" you are about to download the mosaick image according to your selected criteria, do you conferm the download? ",
+                QMessageBox.Yes | QMessageBox.No, 
+                QMessageBox.Yes  # Predefined
+            )
+        else: 
+            reply = QMessageBox.question(
+                self.dlg, 
+                'Download confermation', 
+                "Since the last Post-Fire button pressed was \"Single image preview post\" you are about to download the currently selected row in the Post-fire table, do you conferm the download?",
+                QMessageBox.Yes | QMessageBox.No, 
+                QMessageBox.Yes  # Predefined
+            )
+
+        if reply == QMessageBox.No:
+            return
 
         self.show_progress_bar("Downloading Post-fire Sentinel-2 images")
         self.update_progress(5)
@@ -1054,7 +1080,10 @@ class BAD:
         BBOX = [float(self.dlg.lineEdit_West.text()), float(self.dlg.lineEdit_South.text()), float(self.dlg.lineEdit_East.text()), float(self.dlg.lineEdit_North.text())]
         # If the last button pressed was "Single Image Preview" it downloads just the selected image, otherwise it downloads the mosaic of all the images found
         if self.dlg.last_post==0:
-            date = get_sorted_col0_values(self.dlg.download_images_post)
+            if self.dlg.ChoicheMosaicking_post=="Date":
+                date = get_sorted_date(self.dlg.download_images_post)
+            elif self.dlg.ChoicheMosaicking_post=="Index":
+                date = get_sorted_percentage(self.dlg.download_images_post)
         else:
             date=self.dlg.download_images_post.item(selected_row, 0).text()
         cloud=self.dlg.horizontalSlider_cloud_post.value()
@@ -1063,12 +1092,13 @@ class BAD:
             output_name = self.dlg.lineEdit_FI_result_post.text()
         else:
             QMessageBox.warning(self.dlg, "Missing output path", "Please select a valid output path.")
+            self.hide_progress_bar()
             return
 
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False)
+        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False,self.dlg.ChoicheMosaicking_post)
         self.update_progress(100)
 
         if self.dlg.checkBox_FI_display.isChecked():
@@ -3033,8 +3063,6 @@ class BAD:
 
             self.dlg.pushButton_FI_download_pre.clicked.connect(self.download_sentinel_pre)
             self.dlg.pushButton_FI_download_post.clicked.connect(self.download_sentinel_post)
-            self.dlg.Preview_FI_pre_mos.clicked.connect(self.open_preview_mosaic_pre)
-            self.dlg.Preview_FI_post_mos.clicked.connect(self.open_preview_mosaic_post)
             self.dlg.pushButton_FI_download_pre.setEnabled(False)
             self.dlg.pushButton_FI_download_post.setEnabled(False)
             self.dlg.Preview_FI_pre.setEnabled(False)
