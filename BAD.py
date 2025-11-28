@@ -326,6 +326,9 @@ class BAD:
         self.dlg.checkBox_input_B12.setChecked(True)
         self.dlg.checkBox_input_B13.setChecked(True)
 
+        self.dlg.comboBox_prefire.setCurrentIndex(0)
+        self.dlg.comboBox_postfire.setCurrentIndex(0)
+
     # FEATURES TAB default #
     def reset_Features(self):
         CheckBoxes = [
@@ -826,10 +829,7 @@ class BAD:
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
-        #if North=="" or South=="" or East=="" or West=="":
-        #    QMessageBox.warning(self.dlg, "Missing AOI", "Please insert a valid area of interest")
-        #    self.hide_progress_bar()
-        #    return
+
         try:
             self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
             aoi_pol = wkt.loads(self.aoi)
@@ -1007,10 +1007,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 self.display_in_qgis(output_name)
-                #iface.addRasterLayer(output_name, os.path.splitext(os.path.basename(output_name))[0])#"Pre-fire Sentinel-2 Image"
-                #self.dlg.lineEdit_PreFire.setVisible(False)
-                #self.dlg.comboBox_PreRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                #self.dlg.comboBox_PreRaster.setCurrentIndex(1)
+                self.dlg.lineEdit_Pre.setVisible(False)
+                self.dlg.comboBox_prefire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                self.dlg.comboBox_prefire.setCurrentIndex(1)
         self.dlg.pre_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -1055,10 +1054,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 self.display_in_qgis(output_name)
-                #iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
-                self.dlg.lineEdit_PostFire.setVisible(False)
-                self.dlg.comboBox_PostRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                self.dlg.comboBox_PostRaster.setCurrentIndex(1)
+                self.dlg.lineEdit_Post.setVisible(False)
+                self.dlg.comboBox_postfire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                self.dlg.comboBox_postfire.setCurrentIndex(1)
         self.dlg.post_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -3052,10 +3050,6 @@ class BAD:
             self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
             self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             self.dlg.checkBox_input_B13.stateChanged.connect(lambda state: self.dlg.tab_Masking.setEnabled(self.dlg.checkBox_input_B13.isChecked()))
-
-            # Synchronize comboBoxes and lineEdits in Mask tab
-            #self.dlg.lineEdit_PreFire.setVisible(False)
-            #self.dlg.lineEdit_PostFire.setVisible(False)
 
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
