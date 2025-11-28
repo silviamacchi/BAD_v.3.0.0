@@ -73,7 +73,6 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
             next_button.setText("Next")
         if run_all:
             run_all.setText("RunAll")
-            self.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(False)
 
         self.button_box.button(QtWidgets.QDialogButtonBox.YesToAll).clicked.connect(self.handle_Next_button_click)
 

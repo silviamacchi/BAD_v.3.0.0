@@ -242,6 +242,13 @@ class BAD:
 #  present inside the plug-in.                                            
 #  In this way the user is able to restore the default value and         
 #  the state of each spinbox, checkbox, radiusbox in the related page. 
+    def reset_variables_buttons(self):
+        self.dlg.pre_fire_path = None
+        self.dlg.post_fire_path = None
+        self.MD_path=None
+        self.Grow_file=None
+        self.Seed_file=None
+        self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(False)
 
 # Sentinel input tab:
     def reset_sentinel_fields(self):
@@ -3005,6 +3012,7 @@ class BAD:
             self.MD_path=None
             self.Grow_file=None
             self.Seed_file=None
+            self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(False)
 
             # Input Sentinel
             link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
@@ -3130,6 +3138,7 @@ class BAD:
         print("result",result)
 
         if result == self.dlg.Rejected:
+            self.reset_variables_buttons()
             self.reset_sentinel_fields()
             self.reset_fields()
             self.reset_input_tab()
@@ -3138,6 +3147,7 @@ class BAD:
             self.reset_RG_tab()
             self.reset_Severity_tab()
             self.update_comboBox()
+
             
         
 
