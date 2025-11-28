@@ -250,6 +250,8 @@ class BAD:
         self.MD_path=None
         self.Grow_file=None
         self.Seed_file=None
+        self.dlg.last_pre=None
+        self.dlg.last_post=None
         self.dlg.button_box.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(False)
 
 # Sentinel input tab:
@@ -1017,7 +1019,7 @@ class BAD:
                 date = get_sorted_percentage(self.dlg.download_images_pre)
         else:
             date=self.dlg.download_images_pre.item(selected_row, 0).text()
-
+        print("date",date)
         cloud=self.dlg.horizontalSlider_cloud_pre.value()
         if self.dlg.lineEdit_FI_result_pre.text():
             output_name = self.dlg.lineEdit_FI_result_pre.text()

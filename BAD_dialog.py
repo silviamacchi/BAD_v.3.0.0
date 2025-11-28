@@ -154,6 +154,7 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.preview_dialog = PreviewMosaicking(type="Pre")
         self.preview_dialog.exec_()
         self.ChoicheMosaicking_pre=self.preview_dialog.choice
+        print("choice mosaicking",self.ChoicheMosaicking_pre)
         self.pushButton_FI_download_pre.setEnabled(True)
 
     def open_mosaicking_post(self):
@@ -165,4 +166,5 @@ class BADDialog(QtWidgets.QDialog, FORM_CLASS):
         self.preview_dialog = PreviewMosaicking(type="Post")
         self.preview_dialog.exec_()
         self.ChoicheMosaicking_post=self.preview_dialog.choice
+        print("choice mosaicking",self.ChoicheMosaicking_post)
         self.pushButton_FI_download_post.setEnabled(True)

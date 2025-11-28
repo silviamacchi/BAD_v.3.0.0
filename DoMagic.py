@@ -134,7 +134,8 @@ def calculate_nbr(swir_band,nir_band):
     return nbr
 
 #Creates the composite based on the maximum NDVI/NBR values
-def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=True):
+def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=True):
+    print("Choice mosaicking",ChoiceMosaicking)
 
     if not raster_file_list:
         print("Error: list of input raster is empty")
@@ -143,14 +144,9 @@ def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=T
     try:
         print(f"Initializing first raster: {raster_file_list[0]}")
         ds_first = gdal.Open(raster_file_list[0], gdal.GA_ReadOnly)
-        ds_second = gdal.Open(raster_file_list[1], gdal.GA_ReadOnly)
         if ds_first is None:
             raise Exception(f"Unable to open file: {raster_file_list[0]}")
 
-        scl_data = ds_first.GetRasterBand(13).ReadAsArray()
-        cloud_mask = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
-
-        valid_mask = ~cloud_mask
         # Get metadata
         x_size = ds_first.RasterXSize
         y_size = ds_first.RasterYSize
@@ -163,10 +159,7 @@ def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=T
         numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
         output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
         for b in range(1, band_count + 1):
-            output_bands_data[b-1] = ds_second.GetRasterBand(b).ReadAsArray()
-        for b in range(1, band_count + 1):
-            current_band_data = ds_first.GetRasterBand(b).ReadAsArray()
-            output_bands_data[b-1][valid_mask] = current_band_data[valid_mask]
+            output_bands_data[b-1] = ds_first.GetRasterBand(b).ReadAsArray()
         ds_first = None
         
         # If pre is True, calculate NDVI; else calculate NBR
@@ -178,9 +171,8 @@ def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=T
             nir_data = output_bands_data[7].astype(np.float32)
             swir_data = output_bands_data[11].astype(np.float32)
             reference_grid = calculate_nbr(swir_data, nir_data)
-        elif ChoiceMosaicking=="Date":
-            scl_data = output_bands_data[12]
-            old_mask_with_clouds = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+        scl_data = output_bands_data[12]
+        old_mask_with_clouds = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
     except Exception as e:
         print(f"Fatal error while processing first raster file: {e}")
@@ -201,18 +193,18 @@ def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=T
                 continue
 
             scl_data = ds.GetRasterBand(13).ReadAsArray()
-            cloud_shadow_mask = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+            cloud_shadow_mask = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
             if ChoiceMosaicking=="Index":
                 if pre:
                     red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
                     nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
                     current_value = calculate_ndvi(red_data, nir_data)
-                    update_mask = (current_value >= reference_grid) & (~cloud_shadow_mask)
+                    update_mask = (((current_value >= reference_grid) & (~cloud_shadow_mask)))|old_mask_with_clouds
                 else:
                     nir_data = ds.GetRasterBand(8).ReadAsArray().astype(np.float32)
                     swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
                     current_value = calculate_nbr(swir_data, nir_data)
-                    update_mask = (current_value <= reference_grid) & (~cloud_shadow_mask)
+                    update_mask = (((current_value <= reference_grid) & (~cloud_shadow_mask)))|old_mask_with_clouds
                 # Aggiorna il grid al valore massimoNDVI/minimoNBR
                 reference_grid[update_mask] = current_value[update_mask]
             elif ChoiceMosaicking=="Date":
@@ -227,14 +219,13 @@ def create_composite(raster_file_list, output_file_path, ChoiceMosaicking, pre=T
                 current_band_data = ds.GetRasterBand(b).ReadAsArray()
                 output_bands_data[b-1][update_mask] = current_band_data[update_mask]
             ds = None 
-            if ChoiceMosaicking=="Date":
-                scl_data = output_bands_data[12]
-                old_mask_with_clouds = (scl_data == 3) | (scl_data == 7) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+            scl_data = output_bands_data[12]
+            old_mask_with_clouds = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
         except Exception as e:
             print(f"  Error during the processing of {raster_path}: {e}. Skipping.")
             continue
-    ds_second = None
+
     # --- 3. Scrittura del file di output ---
     try:
         print(f"\nWriting final raster: {output_file_path}")
