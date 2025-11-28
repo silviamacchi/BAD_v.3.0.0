@@ -2973,7 +2973,7 @@
                <item>
                 <widget class="QLabel" name="label_108">
                  <property name="text">
-                  <string>Delta Red</string>
+                  <string>Post Red</string>
                  </property>
                 </widget>
                </item>
