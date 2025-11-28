@@ -787,6 +787,9 @@ class BAD:
         start_date = start_widget.date()
         end_date = end_widget.date()
         calendar = end_widget.calendarWidget()
+        
+        # Reset format 
+        calendar.setDateTextFormat(QDate(), QTextCharFormat())
 
         # Gray not available data
         gray_fmt = QTextCharFormat()
@@ -796,7 +799,7 @@ class BAD:
         highlight_fmt = QTextCharFormat()
         highlight_fmt.setBackground(QColor("#cceeff"))
 
-        # Applica grigio alle date prima della start (solo nel mese visibile)
+        # Apply grey on dates before the start (only on the current month)
         visible = calendar.monthShown()
         year = calendar.yearShown()
         for day in range(1, 32):
@@ -804,11 +807,13 @@ class BAD:
             if date.isValid() and date < start_date:
                 calendar.setDateTextFormat(date, gray_fmt)
 
-        # Evidenzia il periodo selezionato
+        # Highlight selected period
         d = start_date
         while d <= end_date:
             calendar.setDateTextFormat(d, highlight_fmt)
             d = d.addDays(1)
+
+        calendar.setMinimumDate(start_date)
 
 
 
@@ -831,6 +836,12 @@ class BAD:
         West=self.dlg.lineEdit_West.text()
 
         try:
+            #check on coordinate values
+            if not (-90 <= float(South) <= 90 and -90 <= float(North) <= 90):
+                raise ValueError("Latitude must be between -90° and 90°")
+            if not (-180 <= float(West) <= 180 and -180 <= float(East) <= 180):
+                raise ValueError("Longitude must be between -180° and 180°")
+    
             self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
             aoi_pol = wkt.loads(self.aoi)
         except Exception as e:
@@ -899,6 +910,12 @@ class BAD:
         West=self.dlg.lineEdit_West.text()
         
         try:
+            #check on coordinate values
+            if not (-90 <= float(South) <= 90 and -90 <= float(North) <= 90):
+                raise ValueError("Latitude must be between -90° and 90°")
+            if not (-180 <= float(West) <= 180 and -180 <= float(East) <= 180):
+                raise ValueError("Longitude must be between -180° and 180°")
+            
             self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
             aoi_pol = wkt.loads(self.aoi)
 
@@ -3012,12 +3029,12 @@ class BAD:
             self.dlg.lineEdit_AOI.textChanged.connect(self.get_BBOX) 
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
             
-            self.dlg.dateEdit_Start_pre.dateChanged.connect(
-                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
-            )
-            self.dlg.dateEdit_End_pre.dateChanged.connect(
-                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
-            )
+            self.dlg.dateEdit_Start_pre.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_End_pre.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_End_pre.calendarWidget().currentPageChanged.connect(lambda y, m: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_Start_post.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
+            self.dlg.dateEdit_End_post.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
+            self.dlg.dateEdit_End_post.calendarWidget().currentPageChanged.connect(lambda y, m: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
 
             self.dlg.pushButton_FI_download_pre.clicked.connect(self.download_sentinel_pre)
             self.dlg.pushButton_FI_download_post.clicked.connect(self.download_sentinel_post)
