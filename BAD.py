@@ -287,19 +287,6 @@ class BAD:
 
 # reset preprocessing
     def reset_fields(self):
-        self.output_pre_fire_path = None
-        self.output_post_fire_path = None
-        self.dlg.spinBox_scl_pre.setValue(13)
-        self.dlg.spinBox_scl_post.setValue(13)
-
-        self.dlg.lineEdit_PreFire.clear()
-        self.dlg.lineEdit_PreFire.setVisible(False)
-        self.dlg.comboBox_PreRaster.setVisible(True)
-        self.dlg.comboBox_PreRaster.setCurrentIndex(0)
-        self.dlg.lineEdit_PostFire.clear()
-        self.dlg.lineEdit_PostFire.setVisible(False)
-        self.dlg.comboBox_PostRaster.setVisible(True)
-        self.dlg.comboBox_PostRaster.setCurrentIndex(0)
         self.dlg.lineEdit_OutputPreFire.clear()
         self.dlg.lineEdit_OutputPostFire.clear()
 
@@ -329,7 +316,8 @@ class BAD:
         self.dlg.spinBox_input_B8A,
         self.dlg.spinBox_input_B9,
         self.dlg.spinBox_input_B11,
-        self.dlg.spinBox_input_B12]
+        self.dlg.spinBox_input_B12,
+        self.dlg.spinBox_input_B13]
 
         Nband=1
         for Band in Bands:
@@ -349,6 +337,7 @@ class BAD:
         self.dlg.checkBox_input_B9.setChecked(True)
         self.dlg.checkBox_input_B11.setChecked(True)
         self.dlg.checkBox_input_B12.setChecked(True)
+        self.dlg.checkBox_input_B13.setChecked(True)
 
         self.dlg.comboBox_prefire.setCurrentIndex(0)
         self.dlg.comboBox_postfire.setCurrentIndex(0)
@@ -717,8 +706,6 @@ class BAD:
                 raster_layers.append(layer)
         #Clear the contents of the comboBox from previous runs
         self.dlg.comboBox_AOI_layer.clear()
-        self.dlg.comboBox_PreRaster.clear()
-        self.dlg.comboBox_PostRaster.clear()
 
         self.dlg.comboBox_prefire.clear()
         self.dlg.comboBox_postfire.clear()
@@ -730,11 +717,6 @@ class BAD:
         #populate the comboBox with names of all the loaded layers
         self.dlg.comboBox_AOI_layer.addItems(['Select a Layer'])
         self.dlg.comboBox_AOI_layer.addItems([layer.name() for layer in poly_layers])
-
-        self.dlg.comboBox_PreRaster.addItems(['Select a Layer'])
-        self.dlg.comboBox_PostRaster.addItems(['Select a Layer'])   
-        self.dlg.comboBox_PreRaster.addItems([layer.name() for layer in raster_layers])
-        self.dlg.comboBox_PostRaster.addItems([layer.name() for layer in raster_layers])
 
         self.dlg.comboBox_prefire.addItems(['Select a Layer'])
         self.dlg.comboBox_postfire.addItems(['Select a Layer'])
@@ -749,8 +731,7 @@ class BAD:
         self.dlg.comboBox_RG_seed.addItems([layer.name() for layer in raster_layers])
         self.dlg.comboBox_RG_grow.addItems([layer.name() for layer in raster_layers])
 
-
-        
+ 
 
 ###################################################################################################     
 ###################################################################################################
@@ -819,7 +800,9 @@ class BAD:
         start_date = start_widget.date()
         end_date = end_widget.date()
         calendar = end_widget.calendarWidget()
-
+        
+        # Reset format 
+        calendar.setDateTextFormat(QDate(), QTextCharFormat())
 
         # Gray not available data
         gray_fmt = QTextCharFormat()
@@ -829,7 +812,7 @@ class BAD:
         highlight_fmt = QTextCharFormat()
         highlight_fmt.setBackground(QColor("#cceeff"))
 
-        # Applica grigio alle date prima della start (solo nel mese visibile)
+        # Apply grey on dates before the start (only on the current month)
         visible = calendar.monthShown()
         year = calendar.yearShown()
         for day in range(1, 32):
@@ -837,11 +820,13 @@ class BAD:
             if date.isValid() and date < start_date:
                 calendar.setDateTextFormat(date, gray_fmt)
 
-        # Evidenzia il periodo selezionato
+        # Highlight selected period
         d = start_date
         while d <= end_date:
             calendar.setDateTextFormat(d, highlight_fmt)
             d = d.addDays(1)
+
+        calendar.setMinimumDate(start_date)
 
 
 
@@ -862,12 +847,20 @@ class BAD:
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
-        if North=="" or South=="" or East=="" or West=="":
-            QMessageBox.warning(self.dlg, "Missing AOI", "Please insert a valid area of interest")
+
+        try:
+            #check on coordinate values
+            if not (-90 <= float(South) <= 90 and -90 <= float(North) <= 90):
+                raise ValueError("Latitude must be between -90° and 90°")
+            if not (-180 <= float(West) <= 180 and -180 <= float(East) <= 180):
+                raise ValueError("Longitude must be between -180° and 180°")
+    
+            self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
+            aoi_pol = wkt.loads(self.aoi)
+        except Exception as e:
+            QMessageBox.warning(self.dlg, "Not valid AOI", f"Please check the inserted coordinates and input a valid area of interest\n\nError: {e}")
             self.hide_progress_bar()
             return
-        self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
-        aoi_pol = wkt.loads(self.aoi)
 
         Start_date=self.dlg.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_pre.date().toString("yyyy-MM-dd")
@@ -928,12 +921,25 @@ class BAD:
         South=self.dlg.lineEdit_South.text()
         East=self.dlg.lineEdit_East.text()
         West=self.dlg.lineEdit_West.text()
-        if North=="" or South=="" or East=="" or West=="":
-            QMessageBox.warning(self.dlg, "Missing AOI", "Please insert a valid area of interest")
+        
+        try:
+            #check on coordinate values
+            if not (-90 <= float(South) <= 90 and -90 <= float(North) <= 90):
+                raise ValueError("Latitude must be between -90° and 90°")
+            if not (-180 <= float(West) <= 180 and -180 <= float(East) <= 180):
+                raise ValueError("Longitude must be between -180° and 180°")
+            
+            self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
+            aoi_pol = wkt.loads(self.aoi)
+
+            if not aoi_pol.is_valid or aoi_pol.area == 0:
+                raise ValueError("Polygon invalid or empty")
+
+        except (WKTReadingError, ValueError, Exception) as e:
+            QMessageBox.warning(self.dlg, "Not valid AOI",
+                                f"Please check the inserted coordinates and input a valid area of interest\n\nError: {e}")
             self.hide_progress_bar()
             return
-        self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
-        aoi_pol = wkt.loads(self.aoi)
 
         Start_date=self.dlg.dateEdit_Start_post.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_post.date().toString("yyyy-MM-dd")
@@ -1036,10 +1042,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 self.display_in_qgis(output_name)
-                #iface.addRasterLayer(output_name, os.path.splitext(os.path.basename(output_name))[0])#"Pre-fire Sentinel-2 Image"
-                self.dlg.lineEdit_PreFire.setVisible(False)
-                self.dlg.comboBox_PreRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                self.dlg.comboBox_PreRaster.setCurrentIndex(1)
+                self.dlg.lineEdit_Pre.setVisible(False)
+                self.dlg.comboBox_prefire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                self.dlg.comboBox_prefire.setCurrentIndex(1)
         self.dlg.pre_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -1105,10 +1110,9 @@ class BAD:
 
         if self.dlg.checkBox_FI_display.isChecked():
                 self.display_in_qgis(output_name)
-                #iface.addRasterLayer(output_name, "Post-fire Sentinel-2 Image")
-                self.dlg.lineEdit_PostFire.setVisible(False)
-                self.dlg.comboBox_PostRaster.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                self.dlg.comboBox_PostRaster.setCurrentIndex(1)
+                self.dlg.lineEdit_Post.setVisible(False)
+                self.dlg.comboBox_postfire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                self.dlg.comboBox_postfire.setCurrentIndex(1)
         self.dlg.post_fire_path = output_name
         self.dlg.enableRunALL()
         self.hide_progress_bar()
@@ -1165,7 +1169,7 @@ class BAD:
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
             if not self.output_pre_fire_path:
                 self.output_pre_fire_path=os.path.join(os.path.dirname(self.dlg.pre_fire_path.strip()), "Masked_pre_fire.tif")
-            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_scl_pre.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_input_B13.value()-1, pre_fire_classes, self.output_pre_fire_path)
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
@@ -1197,7 +1201,7 @@ class BAD:
             if not self.output_post_fire_path:
                 self.output_post_fire_path=os.path.join(os.path.dirname(self.dlg.post_fire_path.strip()), "Masked_post_fire.tif")
 
-            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_scl_post.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_input_B13.value()-1, post_fire_classes, self.output_post_fire_path)
 
             ##This updated the comboBox of the "input tab"
 
@@ -3053,15 +3057,24 @@ class BAD:
             self.dlg.pushButton_FI_search_post.clicked.connect(self.search_sentinel_post)
             self.dlg.pushButton_FI_reset.clicked.connect(self.reset_sentinel_fields)
             self.dlg.lineEdit_AOI.setVisible(False)
+            self.dlg.checkBox_Coord_editing.stateChanged.connect(
+                lambda state: [
+                    self.dlg.lineEdit_North.setReadOnly(not self.dlg.checkBox_Coord_editing.isChecked()),
+                    self.dlg.lineEdit_South.setReadOnly(not self.dlg.checkBox_Coord_editing.isChecked()),
+                    self.dlg.lineEdit_East.setReadOnly(not self.dlg.checkBox_Coord_editing.isChecked()),
+                    self.dlg.lineEdit_West.setReadOnly(not self.dlg.checkBox_Coord_editing.isChecked())
+                ]
+            )
             self.dlg.toolButton_AOI_path.clicked.connect(lambda: self.browse_vectorfile(self.dlg.comboBox_AOI_layer, self.dlg.lineEdit_AOI))
             self.dlg.lineEdit_AOI.textChanged.connect(self.get_BBOX) 
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
-            self.dlg.dateEdit_Start_pre.dateChanged.connect(
-                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
-            )
-            self.dlg.dateEdit_End_pre.dateChanged.connect(
-                lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre)
-            )
+            
+            self.dlg.dateEdit_Start_pre.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_End_pre.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_End_pre.calendarWidget().currentPageChanged.connect(lambda y, m: self.update_calendar(self.dlg.dateEdit_Start_pre, self.dlg.dateEdit_End_pre))
+            self.dlg.dateEdit_Start_post.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
+            self.dlg.dateEdit_End_post.dateChanged.connect(lambda: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
+            self.dlg.dateEdit_End_post.calendarWidget().currentPageChanged.connect(lambda y, m: self.update_calendar(self.dlg.dateEdit_Start_post, self.dlg.dateEdit_End_post))
 
             self.dlg.pushButton_FI_download_pre.clicked.connect(self.download_sentinel_pre)
             self.dlg.pushButton_FI_download_post.clicked.connect(self.download_sentinel_post)
@@ -3078,20 +3091,12 @@ class BAD:
 
             # Mask
             self.populate_mask_classes()
-            self.dlg.comboBox_PreRaster.activated.connect(lambda:self.handle_combobox_click_pre(self.dlg.comboBox_PreRaster))
-            self.dlg.comboBox_PostRaster.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_PostRaster))
-            self.dlg.btnBrowsePreFire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_PreRaster, self.dlg.lineEdit_PreFire))
-            self.dlg.btnBrowsePostFire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_PostRaster, self.dlg.lineEdit_PostFire))
             self.dlg.btnBrowseOutputPreFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPreFire))
             self.dlg.btnBrowseOutputPostFire.clicked.connect(lambda:self.select_output_file(self.dlg.lineEdit_OutputPostFire))
             self.dlg.btnRunMasking_pre.clicked.connect(self.run_masking_pre)
             self.dlg.btnRunMasking_post.clicked.connect(self.run_masking_post)
             self.dlg.btnReset.clicked.connect(self.reset_fields)
             
-            # Synchronize comboBoxes and lineEdits in Mask tab
-            self.dlg.lineEdit_PreFire.setVisible(False)
-            self.dlg.lineEdit_PostFire.setVisible(False)
-
             # Input tab
             self.dlg.lineEdit_Pre.setVisible(False)
             self.dlg.lineEdit_Post.setVisible(False)
@@ -3099,7 +3104,8 @@ class BAD:
             self.dlg.comboBox_postfire.activated.connect(lambda:self.handle_combobox_click_post(self.dlg.comboBox_postfire))
             self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
             self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
-            
+            self.dlg.checkBox_input_B13.stateChanged.connect(lambda state: self.dlg.tab_Masking.setEnabled(self.dlg.checkBox_input_B13.isChecked()))
+
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
             #self.dlg.pushButton_Error.clicked.connect(self.test)
