@@ -343,6 +343,9 @@ class BAD:
         self.dlg.comboBox_prefire.setCurrentIndex(0)
         self.dlg.comboBox_postfire.setCurrentIndex(0)
 
+        listspinbox=[self.dlg.spinBox_input_B1,self.dlg.spinBox_input_B2,self.dlg.spinBox_input_B3,self.dlg.spinBox_input_B4,self.dlg.spinBox_input_B5,self.dlg.spinBox_input_B6,self.dlg.spinBox_input_B7,self.dlg.spinBox_input_B8,self.dlg.spinBox_input_B8A,self.dlg.spinBox_input_B9,self.dlg.spinBox_input_B11,self.dlg.spinBox_input_B12,self.dlg.spinBox_input_B13]
+        for spin in listspinbox:
+            spin.setEnabled(True)
     # FEATURES TAB default #
     def reset_Features(self):
         CheckBoxes = [
@@ -1134,6 +1137,11 @@ class BAD:
     def update_text(self):
         value=self.dlg.spinBox_input_B13.value()
         self.dlg.label_104.setText(f"Masking based on SCL Band ({value})")
+    def deactivatespinnbox(self,checkbox,spinbox):
+        if not checkbox.isChecked():
+            spinbox.setEnabled(False)
+        else:
+            spinbox.setEnabled(True)
     
     def populate_mask_classes(self):
         """Populate the class selection lists for pre-fire and post-fire."""
@@ -3112,6 +3120,14 @@ class BAD:
             self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             self.dlg.checkBox_input_B13.stateChanged.connect(lambda state: self.dlg.tab_Masking.setEnabled(self.dlg.checkBox_input_B13.isChecked()))
             self.dlg.spinBox_input_B13.valueChanged.connect(self.update_text)
+            listcheckbox=[self.dlg.checkBox_input_B1,self.dlg.checkBox_input_B2,self.dlg.checkBox_input_B3,self.dlg.checkBox_input_B4,self.dlg.checkBox_input_B5,self.dlg.checkBox_input_B6,self.dlg.checkBox_input_B7,self.dlg.checkBox_input_B8,self.dlg.checkBox_input_B8A,self.dlg.checkBox_input_B9,self.dlg.checkBox_input_B11,self.dlg.checkBox_input_B12,self.dlg.checkBox_input_B13]
+            listspinbox=[self.dlg.spinBox_input_B1,self.dlg.spinBox_input_B2,self.dlg.spinBox_input_B3,self.dlg.spinBox_input_B4,self.dlg.spinBox_input_B5,self.dlg.spinBox_input_B6,self.dlg.spinBox_input_B7,self.dlg.spinBox_input_B8,self.dlg.spinBox_input_B8A,self.dlg.spinBox_input_B9,self.dlg.spinBox_input_B11,self.dlg.spinBox_input_B12,self.dlg.spinBox_input_B13]
+            for i in range(len(listcheckbox)):
+                cb = listcheckbox[i]
+                sb = listspinbox[i]
+
+                listcheckbox[i].stateChanged.connect(lambda state, checkbox_widget=cb, spinbox_widget=sb: self.deactivatespinnbox(checkbox_widget, spinbox_widget)
+            )
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
             #self.dlg.pushButton_Error.clicked.connect(self.test)
