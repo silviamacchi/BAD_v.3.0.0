@@ -263,6 +263,7 @@ class BAD:
         self.dlg.lineEdit_East.clear()
         self.dlg.lineEdit_West.clear()
         link_4326 = f'<a href="https://epsg.io/4326">EPSG:4326</a>'
+        self.dlg.checkBox_Coord_editing.setChecked(True)
         self.dlg.label_CRS.setText(link_4326)
         self.dlg.lineEdit_AOI.setVisible(False)
         self.dlg.comboBox_AOI_layer.setVisible(True)
@@ -3069,6 +3070,8 @@ class BAD:
                 ]
             )
             self.dlg.toolButton_AOI_path.clicked.connect(lambda: self.browse_vectorfile(self.dlg.comboBox_AOI_layer, self.dlg.lineEdit_AOI))
+            self.dlg.toolButton_AOI_path.clicked.connect(lambda:self.dlg.checkBox_Coord_editing.setChecked(False))
+            self.dlg.comboBox_AOI_layer.activated.connect(lambda:self.dlg.checkBox_Coord_editing.setChecked(False))
             self.dlg.lineEdit_AOI.textChanged.connect(self.get_BBOX) 
             self.dlg.comboBox_AOI_layer.currentTextChanged.connect(self.get_BBOX)
             
