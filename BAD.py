@@ -1130,6 +1130,9 @@ class BAD:
 ###################################################################################################
 #  This part of the script contains the code about the preprocessing tab,
 #  The process is executed when the button "RUN MASKING" is clicked  
+    def update_text(self):
+        value=self.dlg.spinBox_input_B13.value()
+        self.dlg.label_104.setText(f"Masking based on SCL Band ({value})")
     
     def populate_mask_classes(self):
         """Populate the class selection lists for pre-fire and post-fire."""
@@ -3105,7 +3108,7 @@ class BAD:
             self.dlg.toolButton_browse_prefire.clicked.connect(lambda:self.browse_rasterfile_pre(self.dlg.comboBox_prefire, self.dlg.lineEdit_Pre))
             self.dlg.toolButton_browse_postfire.clicked.connect(lambda:self.browse_rasterfile_post(self.dlg.comboBox_postfire, self.dlg.lineEdit_Post))
             self.dlg.checkBox_input_B13.stateChanged.connect(lambda state: self.dlg.tab_Masking.setEnabled(self.dlg.checkBox_input_B13.isChecked()))
-
+            self.dlg.spinBox_input_B13.valueChanged.connect(self.update_text)
             # save NBand for OWA use in parameters window
             self.dlg.Nband=None
             #self.dlg.pushButton_Error.clicked.connect(self.test)
