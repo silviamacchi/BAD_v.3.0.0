@@ -342,6 +342,10 @@ class BAD:
 
         self.dlg.comboBox_prefire.setCurrentIndex(0)
         self.dlg.comboBox_postfire.setCurrentIndex(0)
+        self.dlg.comboBox_prefire.setVisible(True)
+        self.dlg.comboBox_postfire.setVisible(True)
+        self.dlg.lineEdit_Pre.setVisible(False)
+        self.dlg.lineEdit_Post.setVisible(False)
 
         listspinbox=[self.dlg.spinBox_input_B1,self.dlg.spinBox_input_B2,self.dlg.spinBox_input_B3,self.dlg.spinBox_input_B4,self.dlg.spinBox_input_B5,self.dlg.spinBox_input_B6,self.dlg.spinBox_input_B7,self.dlg.spinBox_input_B8,self.dlg.spinBox_input_B8A,self.dlg.spinBox_input_B9,self.dlg.spinBox_input_B11,self.dlg.spinBox_input_B12,self.dlg.spinBox_input_B13]
         for spin in listspinbox:

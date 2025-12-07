@@ -137,31 +137,8 @@
   <property name="windowTitle">
    <string>Burned Area Detector</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4">
-   <item row="4" column="0">
-    <widget class="QDialogButtonBox" name="button_box">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok|QDialogButtonBox::YesToAll</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="value">
-      <number>0</number>
-     </property>
-     <property name="textVisible">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout_8">
+   <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -177,11 +154,12 @@
      </property>
      <property name="font">
       <font>
+       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -195,6 +173,7 @@
         <widget class="QFrame" name="frame_4">
          <property name="font">
           <font>
+           <weight>50</weight>
            <bold>false</bold>
            <strikeout>false</strikeout>
           </font>
@@ -225,8 +204,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>936</width>
-               <height>1536</height>
+               <width>957</width>
+               <height>1806</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_25">
@@ -289,6 +268,7 @@
         <widget class="QLabel" name="label_38">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -457,6 +437,7 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -645,6 +626,7 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
+               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -847,6 +829,7 @@
           <widget class="QLabel" name="label_305">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -1132,6 +1115,7 @@
         <widget class="QLabel" name="label_74">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1218,6 +1202,7 @@
          </property>
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1284,10 +1269,38 @@
       <attribute name="title">
        <string>INPUT</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0" colspan="2">
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Images</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_42">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Pre-Fire </string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_20">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1303,7 +1316,7 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="2">
+         <item>
           <widget class="QComboBox" name="comboBox_prefire">
            <property name="enabled">
             <bool>true</bool>
@@ -1316,33 +1329,51 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_42">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Pre-Fire</string>
-           </property>
-          </widget>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Pre"/>
          </item>
-         <item row="1" column="3">
-          <widget class="QLineEdit" name="lineEdit_Post"/>
-         </item>
-         <item row="0" column="4">
+         <item>
           <widget class="QToolButton" name="toolButton_browse_prefire">
            <property name="text">
             <string>   Browse   </string>
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QLineEdit" name="lineEdit_Pre"/>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Post-Fire</string>
+           </property>
+          </widget>
          </item>
-         <item row="1" column="2">
+         <item>
+          <spacer name="horizontalSpacer_22">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QComboBox" name="comboBox_postfire">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1352,29 +1383,35 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="4">
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Post"/>
+         </item>
+         <item>
           <widget class="QToolButton" name="toolButton_browse_postfire">
            <property name="text">
             <string>   Browse   </string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" rowspan="2">
-          <widget class="QLabel" name="label_5">
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Post-Fire</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
-       <item row="4" column="0">
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <layout class="QGridLayout" name="gridLayout_5">
          <item row="0" column="0">
           <layout class="QGridLayout" name="gridLayout_14">
@@ -1786,6 +1823,7 @@
              <property name="font">
               <font>
                <pointsize>9</pointsize>
+               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1814,7 +1852,7 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0" colspan="2">
+       <item>
         <widget class="QPushButton" name="pushButton_input_reset">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1830,35 +1868,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Images</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <spacer name="verticalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_Masking">
@@ -1870,6 +1879,7 @@
         <widget class="QLabel" name="labelMaskClassesPreFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1907,6 +1917,7 @@
         <widget class="QLabel" name="labelMaskClassesPostFire">
          <property name="font">
           <font>
+           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -1926,6 +1937,7 @@
         <widget class="QLabel" name="labelOutputPreFire">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2000,6 +2012,7 @@
         <widget class="QCheckBox" name="checkBoxDisplayInQGIS">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2050,6 +2063,7 @@
         <widget class="QCheckBox" name="checkBox_MD_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2071,6 +2085,7 @@
         <widget class="QCheckBox" name="checkBox_Feature_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2093,6 +2108,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2111,6 +2127,7 @@
          </property>
          <property name="font">
           <font>
+           <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
            <underline>false</underline>
@@ -2128,8 +2145,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>960</width>
-            <height>282</height>
+            <width>988</width>
+            <height>318</height>
            </rect>
           </property>
           <attribute name="label">
@@ -2329,6 +2346,7 @@
                </property>
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -2686,6 +2704,7 @@
               <widget class="QLabel" name="label_54">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2854,8 +2873,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>512</width>
-            <height>413</height>
+            <width>459</width>
+            <height>352</height>
            </rect>
           </property>
           <attribute name="label">
@@ -3350,6 +3369,7 @@
               <widget class="QLabel" name="label_102">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4066,6 +4086,7 @@
               <widget class="QLabel" name="label_101">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4100,8 +4121,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>517</width>
-            <height>385</height>
+            <width>463</width>
+            <height>328</height>
            </rect>
           </property>
           <attribute name="label">
@@ -4651,6 +4672,7 @@
               <widget class="QLabel" name="label_93">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4862,6 +4884,7 @@
               <widget class="QLabel" name="label_92">
                <property name="font">
                 <font>
+                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -5376,6 +5399,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -5391,6 +5415,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -5490,6 +5515,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5662,6 +5688,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5688,6 +5715,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5958,6 +5986,7 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6012,6 +6041,7 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
+           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -6031,6 +6061,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6217,6 +6248,7 @@
         <widget class="QCheckBox" name="checkBox_OWA_display">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6273,6 +6305,7 @@
          <property name="font">
           <font>
            <pointsize>8</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>
@@ -6295,6 +6328,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6348,6 +6382,7 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6367,7 +6402,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>38</width>
              <height>20</height>
             </size>
            </property>
@@ -6410,6 +6445,7 @@
           <widget class="QLabel" name="label_43">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6448,6 +6484,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6611,6 +6648,7 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6631,6 +6669,7 @@
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6744,6 +6783,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_86">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6759,6 +6799,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6772,6 +6813,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6782,6 +6824,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6799,6 +6842,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6812,6 +6856,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6822,6 +6867,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6837,6 +6883,7 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6899,6 +6946,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -7341,6 +7389,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_65">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
              <underline>false</underline>
             </font>
@@ -7354,6 +7403,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_66">
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7523,6 +7573,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_87">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7626,6 +7677,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_144">
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7651,6 +7703,7 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7672,6 +7725,7 @@ font-weight: bold;
           <widget class="QLabel" name="label_145">
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7707,6 +7761,7 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7744,6 +7799,7 @@ font-weight: bold;
         <widget class="QLabel" name="label_88">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7759,6 +7815,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7769,6 +7826,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7788,6 +7846,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7801,6 +7860,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7814,6 +7874,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7830,6 +7891,7 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7845,6 +7907,7 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7866,6 +7929,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>8</pointsize>
+                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -7933,6 +7997,7 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -7966,6 +8031,29 @@ font-weight: bold;
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Ok|QDialogButtonBox::YesToAll</set>
+     </property>
     </widget>
    </item>
   </layout>
