@@ -869,6 +869,18 @@ class BAD:
             QMessageBox.warning(self.dlg, "Not valid AOI", f"Please check the inserted coordinates and input a valid area of interest\n\nError: {e}")
             self.hide_progress_bar()
             return
+        #Check if the BBOX respect the 25x25 km contrains of the sentinel hub download
+
+        BBOX = [float(West), float(South), float(East), float(North)]
+        _,BBOX=transform_bbox_to_utm(BBOX)
+        utm_w=BBOX[0]
+        utm_s=BBOX[1]
+        utm_e=BBOX[2]
+        utm_n=BBOX[3]
+        if abs(utm_n-utm_s)>=25000:
+            QMessageBox.warning(self.dlg, f"Not valid AOI", f"The selected AOI seems to have a height of {abs(utm_n-utm_s):.1f} m, which is greater than the 25000 m limit allowed by the download.\n The preview should work, but be aware that the download will most likely fail, reduce the height of the AOI to prevent this. ")
+        if abs(utm_w-utm_e)>=25000:
+            QMessageBox.warning(self.dlg, f"Not valid AOI", f"The selected AOI seems to have a width of {abs(utm_w-utm_e):.1f} m, which is greater than the 25000 m limit allowed by the download.\n The preview should work, but be aware that the download will most likely fail, reduce the width of the AOI to prevent this. ")
 
         Start_date=self.dlg.dateEdit_Start_pre.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_pre.date().toString("yyyy-MM-dd")
@@ -936,18 +948,25 @@ class BAD:
                 raise ValueError("Latitude must be between -90° and 90°")
             if not (-180 <= float(West) <= 180 and -180 <= float(East) <= 180):
                 raise ValueError("Longitude must be between -180° and 180°")
-            
+    
             self.aoi = f"POLYGON(({West} {South}, {East} {South}, {East} {North}, {West} {North}, {West} {South}))"
             aoi_pol = wkt.loads(self.aoi)
-
-            if not aoi_pol.is_valid or aoi_pol.area == 0:
-                raise ValueError("Polygon invalid or empty")
-
-        except (WKTReadingError, ValueError, Exception) as e:
-            QMessageBox.warning(self.dlg, "Not valid AOI",
-                                f"Please check the inserted coordinates and input a valid area of interest\n\nError: {e}")
+        except Exception as e:
+            QMessageBox.warning(self.dlg, "Not valid AOI", f"Please check the inserted coordinates and input a valid area of interest\n\nError: {e}")
             self.hide_progress_bar()
             return
+
+        BBOX = [float(West), float(South), float(East), float(North)]
+        _,BBOX=transform_bbox_to_utm(BBOX)
+        utm_w=BBOX[0]
+        utm_s=BBOX[1]
+        utm_e=BBOX[2]
+        utm_n=BBOX[3]
+        if abs(utm_n-utm_s)>=25000:
+            QMessageBox.warning(self.dlg, f"Not valid AOI", f"The selected AOI seems to have a height of {abs(utm_n-utm_s):.1f} m, which is greater than the 25000 m limit allowed by the download.\n The preview should work, but be aware that the download will most likely fail. \nReduce the height of the AOI to prevent this. ")
+        if abs(utm_w-utm_e)>=25000:
+            QMessageBox.warning(self.dlg, f"Not valid AOI", f"The selected AOI seems to have a width of {abs(utm_w-utm_e):.1f} m, which is greater than the 25000 m limit allowed by the download.\n The preview should work, but be aware that the download will most likely fail. \nReduce the width of the AOI to prevent this. ")
+
 
         Start_date=self.dlg.dateEdit_Start_post.date().toString("yyyy-MM-dd")
         End_date=self.dlg.dateEdit_End_post.date().toString("yyyy-MM-dd")
@@ -1045,25 +1064,29 @@ class BAD:
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True, self.dlg.ChoicheMosaicking_pre)
-        self.update_progress(100)
+        res=Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_pre, True, self.dlg.ChoicheMosaicking_pre)
+        if res==1:
+            self.update_progress(100)
 
-        if self.dlg.checkBox_FI_display.isChecked():
-                self.display_in_qgis(output_name)
-                self.dlg.lineEdit_Pre.setVisible(False)
-                self.dlg.comboBox_prefire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                self.dlg.comboBox_prefire.setCurrentIndex(1)
-        self.dlg.pre_fire_path = output_name
-        self.dlg.enableRunALL()
-        self.hide_progress_bar()
-        end = time.process_time()
-        print("Process end")
-        print('Computational time Download Pre-fire [s]: ',(end - start),"start=", start,"end=",end) 
-        print('\n')
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+            if self.dlg.checkBox_FI_display.isChecked():
+                    self.display_in_qgis(output_name)
+                    self.dlg.lineEdit_Pre.setVisible(False)
+                    self.dlg.comboBox_prefire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                    self.dlg.comboBox_prefire.setCurrentIndex(1)
+            self.dlg.pre_fire_path = output_name
+            self.dlg.enableRunALL()
+            self.hide_progress_bar()
+            end = time.process_time()
+            print("Process end")
+            print('Computational time Download Pre-fire [s]: ',(end - start),"start=", start,"end=",end) 
+            print('\n')
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
+        else:
+            QMessageBox.warning(self.dlg, "An error occurred during the download request", f"Error (Sentinel Hub): {json.dumps(res, indent=2)}")
+            self.hide_progress_bar()
 
 # The process is executed when the button "Download Post-fire" is clicked 
     def download_sentinel_post(self):
@@ -1113,25 +1136,29 @@ class BAD:
         username = self.dlg.lineEdit_User.text()
         password = self.dlg.lineEdit_Password.text()
         self.update_progress(15)
-        Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False,self.dlg.ChoicheMosaicking_post)
-        self.update_progress(100)
+        res=Downloadsh(BBOX,date,cloud,output_name,username,password, self.dlg.last_post,False,self.dlg.ChoicheMosaicking_post)
+        if res==1:
+            self.update_progress(100)
 
-        if self.dlg.checkBox_FI_display.isChecked():
-                self.display_in_qgis(output_name)
-                self.dlg.lineEdit_Post.setVisible(False)
-                self.dlg.comboBox_postfire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
-                self.dlg.comboBox_postfire.setCurrentIndex(1)
-        self.dlg.post_fire_path = output_name
-        self.dlg.enableRunALL()
-        self.hide_progress_bar()
-        end = time.process_time()
-        print("Process end")
-        print('Computational time Download Post-fire [s]: ',(end - start),"start=", start,"end=",end) 
-        print('\n')
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+            if self.dlg.checkBox_FI_display.isChecked():
+                    self.display_in_qgis(output_name)
+                    self.dlg.lineEdit_Post.setVisible(False)
+                    self.dlg.comboBox_postfire.insertItems(1, [os.path.splitext(os.path.basename(output_name))[0]])
+                    self.dlg.comboBox_postfire.setCurrentIndex(1)
+            self.dlg.post_fire_path = output_name
+            self.dlg.enableRunALL()
+            self.hide_progress_bar()
+            end = time.process_time()
+            print("Process end")
+            print('Computational time Download Post-fire [s]: ',(end - start),"start=", start,"end=",end) 
+            print('\n')
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
+        else:
+            QMessageBox.warning(self.dlg, "An error occurred during the download request", f"Error (Sentinel Hub): {json.dumps(res, indent=2)}")
+            self.hide_progress_bar()
 
 ###################################################################################################     
 ###################################################################################################
@@ -3061,6 +3088,8 @@ class BAD:
             self.dlg.progressBar.setValue(0)
             self.dlg.pre_fire_path = None
             self.dlg.post_fire_path = None
+            self.ChoicheMosaicking_pre=None
+            self.ChoicheMosaicking_post=None
             self.MD_path=None
             self.Grow_file=None
             self.Seed_file=None

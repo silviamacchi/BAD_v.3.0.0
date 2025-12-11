@@ -386,8 +386,10 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre,ChoiceMo
             try:
                 error_details = response.json()
                 print(f"Error (Sentinel Hub): {json.dumps(error_details, indent=2)}")
+                return error_details
             except Exception:
                 print("No details about the error.")
+                return e
 
         except requests.exceptions.RequestException as e:
             print(f"Connection error: {e}")
@@ -414,15 +416,17 @@ def Downloadsh(BBOX,date,cloud,output_name,username,password,choice,pre,ChoiceMo
                 try:
                     error_details = response.json()
                     print(f"Error (Sentinel Hub): {json.dumps(error_details, indent=2)}")
+                    return error_details
                 except Exception:
                     print("No details about the error.")
+                    return e
 
             except requests.exceptions.RequestException as e:
                 print(f"Connection error: {e}")
         create_composite(list_outputs, output_name, ChoiceMosaicking, pre)
         for file in list_outputs:
             os.remove(file)
-    return None
+    return 1
 class ReadingData:
     def __init__(self,First_path,Second_path):
 
