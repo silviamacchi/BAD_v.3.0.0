@@ -154,12 +154,11 @@
      </property>
      <property name="font">
       <font>
-       <weight>50</weight>
        <bold>false</bold>
       </font>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -173,7 +172,6 @@
         <widget class="QFrame" name="frame_4">
          <property name="font">
           <font>
-           <weight>50</weight>
            <bold>false</bold>
            <strikeout>false</strikeout>
           </font>
@@ -204,8 +202,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>957</width>
-               <height>1806</height>
+               <width>936</width>
+               <height>1464</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_25">
@@ -223,7 +221,7 @@
                  <enum>QFrame::NoFrame</enum>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burned Area Detection (BAD) plugin offers the possibility&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to detect Burned Area starting from Sentinel 2 images.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In order to achieve the goal it is possible to use the following &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;FETCH IMAGES&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user has the possibility to select an AOI layer, date-period,&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;cloud coverage and then visualize and download the Sentinel2 images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;obtained from the Copernicus dataspace.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The output can be input of the pre-processing (suggested option) or input tab.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;PRE-PROCESSING&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user inserts two multi-band rasters for masking out using SCL.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The user have to select the classess which have to be masked out from SCL BAND.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The output of this tab are prefire masked and postfire masked rasters &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;These output rasters are used as the input for the BAD.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;INPUT&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user inserts Output of PRE-PROCESSING as inputs: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;pre-fire (before the event), post-fire (after-the event).&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Then the user selects which bands are present in &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;her/his input and the position of those bands.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;FEATURE &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects which features consider: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;post and delta (post-pre), and the parameters (K and x0) &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;of the Membership Function (MF) in order to compute the &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Membership Degree (MD). &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: Features raster and MD raster.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;OWA&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects which Ordered Weight Average &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;operator to use in order to integrate all the information that &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;comes from MD raster. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: OWA rasters.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;REGION GROWING&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects the threshold for the Seed and &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Grow layer in order to apply the Region Growing (RG). &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The inputs of the RG do not necessarily have to be &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;computed with the BAD plugin, in this case the user &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;must use the INPUT window to insert his/her Layer.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;And the user can preview the Seed/Grow layer using &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;the preview window.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output of the tab is: Binary Burned Map raster&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;RG VALIDATION&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This tab allows the user to compare the burn &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;classifications from Region Growing againts a reference &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;dataset. It can generate and visualize an agreement map to &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;highlight spatial correspondence between predicted and&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;reference data&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output: Validation Results, Agreement map&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;SEVERITY&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user sets the burn severity level.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burn Severity Map raster&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burn Severity Map for the identified burned pixels raster&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;SEVERITY VALIDATION&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user can validate the Burn severity with the &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Reference file .&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output : BurnSeverity Validation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burned Area Detection (BAD) plugin offers the possibility&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to detect Burned Area starting from Sentinel 2 images.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In order to achieve the goal it is possible to use the following &lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;FETCH IMAGES&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user has the possibility to select an AOI layer, date-period,&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;cloud coverage and then visualize and download the Sentinel2 images&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;obtained from the Copernicus dataspace (max 25km x 25km).&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The output can be input of the input tab.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;INPUT&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user inserts the output of FETCH IMAGES or &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;her/his own raster files as inputs: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;pre-fire (before the event), post-fire (after-the event).&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Then the user selects which bands are present in &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;her/his input and the position of those bands.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;PRE-PROCESSING&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this (optional) tab the user have to select the classess which have to be masked out from SCL BAND.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The output of this tab are prefire masked and postfire masked rasters &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;These output rasters are used as the input for all the following steps&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;FEATURE &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects which features to consider: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;post and delta (post-pre), and the parameters (K and x0) &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;of the Membership Function (MF) in order to compute the &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Membership Degree (MD). &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: Features raster and MD raster.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;OWA&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects which Ordered Weight Average &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;operator to use in order to integrate all the information that &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;comes from MD raster. &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: OWA rasters.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;REGION GROWING&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user selects the threshold for the Seed and &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Grow layer in order to apply the Region Growing (RG). &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The inputs of the RG do not necessarily have to be &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;computed with the BAD plugin, in this case the user &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;must use the INPUT window to insert his/her Layer.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;And the user can preview the Seed/Grow layer using &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;the preview window.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output of the tab is: Binary Burned Map raster&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;RG VALIDATION&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This tab allows the user to compare the burn &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;classifications from Region Growing againts a reference &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;dataset. It can generate and visualize an agreement map to &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;highlight spatial correspondence between predicted and&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;reference data&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output: Validation Results, Agreement map&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;SEVERITY&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user sets the burn severity level.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Outputs of the tab are: &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burn Severity Map raster&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Burn Severity Map for the identified burned pixels raster&lt;/span&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;SEVERITY VALIDATION&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In this tab the user can validate the Burn severity with the &lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Reference file .&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Output : BurnSeverity Validation&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
@@ -268,7 +266,6 @@
         <widget class="QLabel" name="label_38">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -437,7 +434,6 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
-               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -626,7 +622,6 @@
              <property name="font">
               <font>
                <pointsize>6</pointsize>
-               <weight>50</weight>
                <bold>false</bold>
               </font>
              </property>
@@ -829,7 +824,6 @@
           <widget class="QLabel" name="label_305">
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -1115,7 +1109,6 @@
         <widget class="QLabel" name="label_74">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1202,7 +1195,6 @@
          </property>
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1275,7 +1267,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1291,7 +1282,6 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1348,7 +1338,6 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -1823,7 +1812,6 @@
              <property name="font">
               <font>
                <pointsize>9</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -1879,7 +1867,6 @@
         <widget class="QLabel" name="labelMaskClassesPreFire">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -1917,7 +1904,6 @@
         <widget class="QLabel" name="labelMaskClassesPostFire">
          <property name="font">
           <font>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -1937,7 +1923,6 @@
         <widget class="QLabel" name="labelOutputPreFire">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2012,7 +1997,6 @@
         <widget class="QCheckBox" name="checkBoxDisplayInQGIS">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2063,7 +2047,6 @@
         <widget class="QCheckBox" name="checkBox_MD_display">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2085,7 +2068,6 @@
         <widget class="QCheckBox" name="checkBox_Feature_display">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2108,7 +2090,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -2127,7 +2108,6 @@
          </property>
          <property name="font">
           <font>
-           <weight>75</weight>
            <italic>false</italic>
            <bold>true</bold>
            <underline>false</underline>
@@ -2145,8 +2125,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>988</width>
-            <height>318</height>
+            <width>506</width>
+            <height>282</height>
            </rect>
           </property>
           <attribute name="label">
@@ -2346,7 +2326,6 @@
                </property>
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -2704,7 +2683,6 @@
               <widget class="QLabel" name="label_54">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2873,8 +2851,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>459</width>
-            <height>352</height>
+            <width>512</width>
+            <height>413</height>
            </rect>
           </property>
           <attribute name="label">
@@ -3369,7 +3347,6 @@
               <widget class="QLabel" name="label_102">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4086,7 +4063,6 @@
               <widget class="QLabel" name="label_101">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -4121,8 +4097,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>463</width>
-            <height>328</height>
+            <width>517</width>
+            <height>385</height>
            </rect>
           </property>
           <attribute name="label">
@@ -4672,7 +4648,6 @@
               <widget class="QLabel" name="label_93">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4884,7 +4859,6 @@
               <widget class="QLabel" name="label_92">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -5399,7 +5373,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -5415,7 +5388,6 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -5515,7 +5487,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5688,7 +5659,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5715,7 +5685,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -5986,7 +5955,6 @@
            <property name="font">
             <font>
              <pointsize>9</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6041,7 +6009,6 @@
          <property name="font">
           <font>
            <pointsize>10</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -6061,7 +6028,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6248,7 +6214,6 @@
         <widget class="QCheckBox" name="checkBox_OWA_display">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6305,7 +6270,6 @@
          <property name="font">
           <font>
            <pointsize>8</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
            <kerning>true</kerning>
           </font>
@@ -6328,7 +6292,6 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6382,7 +6345,6 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
              <kerning>true</kerning>
             </font>
@@ -6445,7 +6407,6 @@
           <widget class="QLabel" name="label_43">
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6484,7 +6445,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6648,7 +6608,6 @@
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6669,7 +6628,6 @@
            </property>
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -6783,7 +6741,6 @@ font-weight: bold;
         <widget class="QLabel" name="label_86">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6799,7 +6756,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6813,7 +6769,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6824,7 +6779,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6842,7 +6796,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6856,7 +6809,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6867,7 +6819,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -6883,7 +6834,6 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -6946,7 +6896,6 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -7389,7 +7338,6 @@ font-weight: bold;
           <widget class="QLabel" name="label_65">
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
              <underline>false</underline>
             </font>
@@ -7403,7 +7351,6 @@ font-weight: bold;
           <widget class="QLabel" name="label_66">
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7573,7 +7520,6 @@ font-weight: bold;
         <widget class="QLabel" name="label_87">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7677,7 +7623,6 @@ font-weight: bold;
           <widget class="QLabel" name="label_144">
            <property name="font">
             <font>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7703,7 +7648,6 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7725,7 +7669,6 @@ font-weight: bold;
           <widget class="QLabel" name="label_145">
            <property name="font">
             <font>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7761,7 +7704,6 @@ font-weight: bold;
            </property>
            <property name="font">
             <font>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -7799,7 +7741,6 @@ font-weight: bold;
         <widget class="QLabel" name="label_88">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7815,7 +7756,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7826,7 +7766,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7846,7 +7785,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7860,7 +7798,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7874,7 +7811,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7891,7 +7827,6 @@ font-weight: bold;
            <property name="font">
             <font>
              <pointsize>8</pointsize>
-             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -7907,7 +7842,6 @@ font-weight: bold;
          <property name="font">
           <font>
            <pointsize>9</pointsize>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -7929,7 +7863,6 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>8</pointsize>
-                <weight>50</weight>
                 <bold>false</bold>
                </font>
               </property>
@@ -7997,7 +7930,6 @@ font-weight: bold;
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
