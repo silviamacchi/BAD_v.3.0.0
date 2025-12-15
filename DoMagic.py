@@ -172,7 +172,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
             swir_data = output_bands_data[11].astype(np.float32)
             reference_grid = calculate_nbr(swir_data, nir_data)
         scl_data = output_bands_data[12]
-        old_mask_with_clouds = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+        old_mask_with_clouds = (scl_data == 0) |(scl_data == 1) |(scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
     except Exception as e:
         print(f"Fatal error while processing first raster file: {e}")
@@ -193,7 +193,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
                 continue
 
             scl_data = ds.GetRasterBand(13).ReadAsArray()
-            cloud_shadow_mask = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+            cloud_shadow_mask = (scl_data == 0) |(scl_data == 1) |(scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
             if ChoiceMosaicking=="Index":
                 if pre:
                     red_data = ds.GetRasterBand(4).ReadAsArray().astype(np.float32)
@@ -220,7 +220,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
                 output_bands_data[b-1][update_mask] = current_band_data[update_mask]
             ds = None 
             scl_data = output_bands_data[12]
-            old_mask_with_clouds = (scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
+            old_mask_with_clouds = (scl_data == 0) |(scl_data == 1) |(scl_data == 3) | (scl_data == 8) | (scl_data == 9) | (scl_data == 10)
 
         except Exception as e:
             print(f"  Error during the processing of {raster_path}: {e}. Skipping.")
