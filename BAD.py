@@ -877,6 +877,8 @@ class BAD:
         utm_s=BBOX[1]
         utm_e=BBOX[2]
         utm_n=BBOX[3]
+        print(f"HEIGHT{abs(utm_n-utm_s):.1f}")
+        print(f"WIDTH{abs(utm_w-utm_e):.1f}")
         if abs(utm_n-utm_s)>=25000:
             QMessageBox.warning(self.dlg, f"Not valid AOI", f"The selected AOI seems to have a height of {abs(utm_n-utm_s):.1f} m, which is greater than the 25000 m limit allowed by the download.\n The preview should work, but be aware that the download will most likely fail, reduce the height of the AOI to prevent this. ")
         if abs(utm_w-utm_e)>=25000:
@@ -3088,8 +3090,8 @@ class BAD:
             self.dlg.progressBar.setValue(0)
             self.dlg.pre_fire_path = None
             self.dlg.post_fire_path = None
-            self.ChoicheMosaicking_pre=None
-            self.ChoicheMosaicking_post=None
+            self.dlg.ChoicheMosaicking_pre=None
+            self.dlg.ChoicheMosaicking_post=None
             self.MD_path=None
             self.Grow_file=None
             self.Seed_file=None
