@@ -216,6 +216,8 @@ class BAD:
     
     def handle_Run_ALL(self):
         print("Run all started")
+        self.run_masking_pre(True)
+        self.run_masking_post(True)
         self.ComputeFeature(True)
         print("Feature computed")
         self.ComputeMD(True)
@@ -292,10 +294,16 @@ class BAD:
         self.dlg.lineEdit_OutputPostFire.clear()
 
         for index in range(self.dlg.listWidgetClassesPreFire.count()):
-            self.dlg.listWidgetClassesPreFire.item(index).setCheckState(QtCore.Qt.Unchecked)
+            if index in [0,1,5,6,8,9,11]:
+                self.dlg.listWidgetClassesPreFire.item(index).setCheckState(QtCore.Qt.Checked)
+            else:
+                self.dlg.listWidgetClassesPreFire.item(index).setCheckState(QtCore.Qt.Unchecked)
 
         for index in range(self.dlg.listWidgetClassesPostFire.count()):
-            self.dlg.listWidgetClassesPostFire.item(index).setCheckState(QtCore.Qt.Unchecked)
+            if index in [0,1,6,8,9,11]:
+                self.dlg.listWidgetClassesPostFire.item(index).setCheckState(QtCore.Qt.Checked)
+            else:
+                self.dlg.listWidgetClassesPostFire.item(index).setCheckState(QtCore.Qt.Unchecked)
 
         self.dlg.checkBoxDisplayInQGIS.setChecked(True)
         self.dlg.listWidgetClassesPreFire.setCurrentRow(-1)
@@ -1193,17 +1201,23 @@ class BAD:
             "11 - Snow / Ice"
         ]
 
-        for cls in classes:
-            item = QtWidgets.QListWidgetItem(cls)
-            item.setCheckState(QtCore.Qt.Unchecked)
+        for i in range(len(classes)):
+            item = QtWidgets.QListWidgetItem(classes[i])
+            if i in [0,1,5,6,8,9,11]:
+                item.setCheckState(QtCore.Qt.Checked)
+            else:
+                item.setCheckState(QtCore.Qt.Unchecked)
             self.dlg.listWidgetClassesPreFire.addItem(item)
 
-        for cls in classes:
-            item = QtWidgets.QListWidgetItem(cls)
-            item.setCheckState(QtCore.Qt.Unchecked)
+        for i in range(len(classes)):
+            item = QtWidgets.QListWidgetItem(classes[i])
+            if i in [0,1,6,8,9,11]:
+                item.setCheckState(QtCore.Qt.Checked)
+            else:
+                item.setCheckState(QtCore.Qt.Unchecked)
             self.dlg.listWidgetClassesPostFire.addItem(item)
 
-    def run_masking_pre(self):
+    def run_masking_pre(self,flag=False):
 
         pre_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPreFire)
 
@@ -1214,7 +1228,7 @@ class BAD:
             self.output_pre_fire_path=self.dlg.lineEdit_OutputPreFire.text()
             if not self.output_pre_fire_path:
                 self.output_pre_fire_path=os.path.join(os.path.dirname(self.dlg.pre_fire_path.strip()), "Masked_pre_fire.tif")
-            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_input_B13.value()-1, pre_fire_classes, self.output_pre_fire_path)
+            self.mask_raster(self.dlg.pre_fire_path, self.dlg.spinBox_input_B13.value()-1, pre_fire_classes, self.output_pre_fire_path, flag)
             ##This updated the comboBox of the "input tab"
 
             if self.dlg.checkBoxDisplayInQGIS.isChecked():
@@ -1235,7 +1249,7 @@ class BAD:
         except Exception as e:
             QMessageBox.critical(self.dlg, "Error", f"Masking failed: {e}")
 
-    def run_masking_post(self):
+    def run_masking_post(self,flag=False):
         post_fire_classes = self.get_selected_classes(self.dlg.listWidgetClassesPostFire)
 
         try:
@@ -1246,7 +1260,7 @@ class BAD:
             if not self.output_post_fire_path:
                 self.output_post_fire_path=os.path.join(os.path.dirname(self.dlg.post_fire_path.strip()), "Masked_post_fire.tif")
 
-            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_input_B13.value()-1, post_fire_classes, self.output_post_fire_path)
+            self.mask_raster(self.dlg.post_fire_path, self.dlg.spinBox_input_B13.value()-1, post_fire_classes, self.output_post_fire_path, flag)
 
             ##This updated the comboBox of the "input tab"
 
@@ -1277,7 +1291,7 @@ class BAD:
                 selected_classes.append(class_index)
         return selected_classes
 
-    def mask_raster(self, input_path, scl_band_index, mask_classes, output_path):
+    def mask_raster(self, input_path, scl_band_index, mask_classes, output_path, flag=False):
         self.show_progress_bar("Computing Pre-Processing")
         self.update_progress(5)
         start = time.process_time()
@@ -1325,10 +1339,11 @@ class BAD:
         print("Process end")
         print('Computational time Pre-Processing [s]: ',(end - start),"start=", start,"end=",end) 
         print('\n') 
-        self.window = QtWidgets.QDialog()
-        self.ui = Ui_Message()
-        self.ui.setupUi(self.window)
-        self.window.show()
+        if not flag:
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_Message()
+            self.ui.setupUi(self.window)
+            self.window.show()
 
     def save_raster(self, output_path, cols, rows, crs, transform, bands):
         driver = gdal.GetDriverByName("GTiff")
