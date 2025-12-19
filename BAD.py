@@ -268,6 +268,7 @@ class BAD:
         self.dlg.checkBox_Coord_editing.setChecked(True)
         self.dlg.label_CRS.setText(link_4326)
         self.dlg.lineEdit_AOI.setVisible(False)
+        self.dlg.lineEdit_AOI.setText("")
         self.dlg.comboBox_AOI_layer.setVisible(True)
         self.dlg.comboBox_AOI_layer.setCurrentIndex(0)
         self.dlg.lineEdit_FI_result_pre.clear()
