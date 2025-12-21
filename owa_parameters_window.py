@@ -34,21 +34,20 @@ class PlotCanvas(FigureCanvas):
         fig_width_inches = 5
         fig_height_inches = 4
         self.fig, self.ax = plt.subplots(figsize=(fig_width_inches, fig_height_inches))
-        #self.fig, self.ax = plt.subplots()
         super().__init__(self.fig)
         self.setParent(parent)
 
         # Points: P0 (fixed), P1 (mobile), P2 (mobile), P3 (fixed)
         self.p0 = (0, 0)
-        self.p1 = [2, 0]     # mobile in X
-        self.p2 = [6, 1]     # mobile in X
+        self.p1 = [2, 0]     # mobile on X
+        self.p2 = [6, 1]     # mobile on X
         self.p3 = (n_features+1, 1)
 
         self.n_features = n_features
         self.dragging = None
         self.plot()
 
-        # Eventi mouse
+        # Mouse events
         self.mpl_connect('button_press_event', self.on_click)
         self.mpl_connect('motion_notify_event', self.on_drag)
         self.mpl_connect('button_release_event', self.on_release)
@@ -56,10 +55,10 @@ class PlotCanvas(FigureCanvas):
     def plot(self, highlight_index=None):
         self.ax.clear()
         self.fig.subplots_adjust(
-            left=0.15,    # Spazio a sinistra (per etichette Y)
-            right=0.95,  # Spazio a destra
-            bottom=0.23, # Spazio in basso (per etichette X)
-            top=0.85,    # Spazio in alto (per il titolo)
+            left=0.15,    # Left space (for Y labels)
+            right=0.95,   # Right space
+            bottom=0.23,  # Bottom space (for X labels)
+            top=0.85,     # Top space (for title)
             wspace=0.2, 
             hspace=0.2
         )

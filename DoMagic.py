@@ -154,7 +154,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
         projection = ds_first.GetProjection()
         band_count = ds_first.RasterCount
 
-        # Determina il tipo di dati per l'output (es. GDT_UInt16)
+        # Determine the output data type (es. GDT_UInt16)
         output_dtype = ds_first.GetRasterBand(1).DataType
         numpy_dtype = gdal.GetDataTypeName(output_dtype).lower()
         output_bands_data = np.zeros((band_count, y_size, x_size), dtype=np.dtype(numpy_dtype))
@@ -178,7 +178,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
         print(f"Fatal error while processing first raster file: {e}")
         return
 
-    # --- 2. Iterazione sui raster rimanenti ---
+    # --- 2. Iteration on the remaining raster files ---
     for raster_path in raster_file_list[1:]:
         try:
             print(f"Analysis of: {raster_path}")
@@ -205,16 +205,16 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
                     swir_data = ds.GetRasterBand(12).ReadAsArray().astype(np.float32)
                     current_value = calculate_nbr(swir_data, nir_data)
                     update_mask = (((current_value <= reference_grid) & (~cloud_shadow_mask)))|old_mask_with_clouds
-                # Aggiorna il grid al valore massimoNDVI/minimoNBR
+                # Update the grid to the maximum NDVI/minimum NBR
                 reference_grid[update_mask] = current_value[update_mask]
             elif ChoiceMosaicking=="Date":
                 update_mask = old_mask_with_clouds & (~cloud_shadow_mask)
 
-            # Se non ci sono pixel da aggiornare, passa al file successivo
+            # If there are no pixels to update, pass to the next file
             if not np.any(update_mask):
                 ds = None
                 continue
-            # Aggiorna i dati delle bande di output usando la maschera
+            # Update the output band data using the mask
             for b in range(1, band_count + 1):
                 current_band_data = ds.GetRasterBand(b).ReadAsArray()
                 output_bands_data[b-1][update_mask] = current_band_data[update_mask]
@@ -226,7 +226,7 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
             print(f"  Error during the processing of {raster_path}: {e}. Skipping.")
             continue
 
-    # --- 3. Scrittura del file di output ---
+    # --- 3. Writing of the output file ---
     try:
         print(f"\nWriting final raster: {output_file_path}")
         driver = gdal.GetDriverByName("GTiff")
@@ -241,11 +241,11 @@ def create_composite(raster_file_list, output_file_path,ChoiceMosaicking, pre=Tr
 
         for b in range(1, band_count + 1):
             out_band = out_ds.GetRasterBand(b)
-            # Scrivi i dati dall'array NumPy in memoria
+            # Write the data from the NumPy array to memory
             out_band.WriteArray(output_bands_data[b-1])
             out_band.FlushCache()
         
-        out_ds = None # Chiudi e salva definitivamente il file
+        out_ds = None # Close and save the file definitively
         print("Process completed")
 
     except Exception as e:
@@ -477,8 +477,8 @@ class WriteLayer:
     def __init__(self,index,path,Matrix,NameBands,Nband,Xsize,Ysize,filename,gt,proj):
     
         if index==0:
-            # se indice zero significa che l'utente non ha specificato nulla per 
-            # cui devo trasformare il path per salvare il file in formato .tif
+            # if index zero means that the user has not specified anything
+            # so I must transform the path to save the file in .tif format
             array_path=path.split('/')
             array_path[-1]=filename
             splitter="/"
@@ -509,12 +509,12 @@ class WriteLayer:
 class RegionGrowing:
     def __init__(self,Seed_threshold,Grow_threshold,Seed_matrix,Grow_matrix):
 
-        Mask = np.isnan(Seed_matrix)  # True dove ci sono NaN
+        Mask = np.isnan(Seed_matrix)  # True where there are NaN
 
         Seed_binary = np.where(Seed_matrix < Seed_threshold, 0, 1)
         Grow_binary = np.where(Grow_matrix < Grow_threshold, 0, 1)
 
-        # Imposta a NaN dove c'è Mask
+        # Set to NaN where there is Mask
         Seed_binary[Mask] = 999
         Grow_binary[Mask] = 999
 
@@ -536,7 +536,7 @@ class RegionGrowing:
             for j in range(sizeRow):
                 for k in range(sizeColumn):
                                     
-                    #insertion of the neighbors that are not considered yet
+                    # Insertion of the neighbors that are not considered yet
                     
                     if RasterPP[0,j,k]==1:
                                             
@@ -580,7 +580,7 @@ class RegionGrowing:
                         if j<=sizeRow-2 and k<=sizeColumn-2 and RasterPP[0,j+1,k+1]==0 and RasterPP[1,j+1,k+1]==1:
                             RasterPP[0,j+1,k+1]=1
                                                                                           
-            #condition that blocks the while
+            # condition that blocks the while
             N=np.count_nonzero(RasterPP[0])
             
         self.Result_matrix=RasterPP[0]
