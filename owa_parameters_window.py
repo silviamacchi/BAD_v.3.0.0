@@ -73,7 +73,7 @@ class PlotCanvas(FigureCanvas):
         self.ax.plot(x, y, linestyle='-', markersize=8)
         self.ax.set_xlim(0, self.n_features+1)
         self.ax.set_ylim(-0.5, 1.5)
-        self.ax.set_xlabel("n. of features with non-zero evidence, necessary (a) and sufficient (b) ")
+        self.ax.set_xlabel("N. of features with non-zero evidence, necessary (a) and sufficient (b) ")
         self.ax.set_xticks(range(self.n_features + 1))
         self.ax.set_ylabel("Weight")
         self.ax.set_yticks([0, 0.5, 1])
